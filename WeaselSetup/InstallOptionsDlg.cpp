@@ -45,6 +45,15 @@ LRESULT InstallOptionsDialog::OnInitDialog(UINT, WPARAM, LPARAM, BOOL&) {
   if (installed)
     ime_.EnableWindow(FALSE);
 
+    // ✅ 在这里添加禁用逻辑
+  GetDlgItem(IDC_BUTTON_CUSTOM_DIR).EnableWindow(FALSE);//选择-不支持
+  GetDlgItem(IDC_RADIO_CUSTOM_DIR).EnableWindow(FALSE);   //我来指定位置
+  GetDlgItem(IDC_EDIT_DIR).EnableWindow(FALSE);          //输入框
+
+  //默认勾选
+  CheckRadioButton(IDC_RADIO_DEFAULT_DIR, IDC_RADIO_CUSTOM_DIR,
+                   IDC_RADIO_DEFAULT_DIR);
+  
   CenterWindow();
   return 0;
 }

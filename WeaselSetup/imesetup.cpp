@@ -400,7 +400,7 @@ int register_ime(const std::wstring& ime_path,
       if (ret != ERROR_SUCCESS)
         continue;
 
-      // 小狼毫?
+      // 小白T9输入法?
       if (_wcsicmp(imeFile, L"weasel.ime") == 0) {
         DWORD value;
         swscanf_s(subKey, L"%x", &value);

@@ -27,6 +27,11 @@
 #define ID_WEASELTRAY_DISABLE_ASCII     40014
 #define ID_WEASELTRAY_RERUN_SERVICE     40015
 #define ID_WEASELTRAY_LOGDIR            40016
+#define ID_WEASELTRAY_T9KEYBOARD        50001
+#define ID_WEASELTRAY_SETTING           50002
+#define ID_WEASELTRAY_T9SKIN            50003
+#define ID_WEASELTRAY_QUICKPHRASE       50004
+#define ID_WEASELTRAY_NUMKEYBOARD          50005
 
 // Next default values for new objects
 //

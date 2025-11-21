@@ -61,7 +61,7 @@
       <DebugInformationFormat />
       <PreprocessorDefinitions>WIN32;_WINDOWS;STRICT;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(BOOST_ROOT)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;C:\Libraries\boost_1_84_0</AdditionalIncludeDirectories>
       <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -74,7 +74,9 @@
     <ResourceCompile>
       <Culture>0x7804</Culture>
       <AdditionalIncludeDirectories>$(IntDir);$(SolutionDir)\include\wtl</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;VERSION_MAJOR=1;
+VERSION_MINOR=0
+;VERSION_PATCH=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

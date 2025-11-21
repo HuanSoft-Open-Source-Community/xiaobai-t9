@@ -333,10 +333,10 @@ void WeaselTSF::_HandleLangBarMenuSelect(UINT wID) {
       explore(WeaselLogPath().wstring());
       break;
     case ID_WEASELTRAY_WIKI:
-      open(L"https://rime.im/docs/");
+      open(L"https://t9.xiaobai.pro/?p=254");
       break;
     case ID_WEASELTRAY_FORUM:
-      open(L"https://rime.im/discuss/");
+      open(L"http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=iZRDO_bhNFUbE-mOz9txGgSqLk4txNAi&authKey=Z8iFEhYbqTGThLF0xOmqeMCD73gkQUzqCKy7BK%2BBA6Wv1uPL7XgxRoIym3SJqx1x&noverify=0&group_code=387170746");
       break;
     default:
       m_client.TrayCommand(wID);

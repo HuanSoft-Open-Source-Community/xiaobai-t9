@@ -1,0 +1,10 @@
+C:\weasel\t9configui\t9configui\bin\Release\t9configui.exe.config
+C:\weasel\t9configui\t9configui\obj\Release\Interop.IWshRuntimeLibrary.dll
+C:\weasel\t9configui\t9configui\obj\Release\t9configui.csproj.ResolveComReference.cache
+C:\weasel\t9configui\t9configui\obj\Release\t9configui.config.resources
+C:\weasel\t9configui\t9configui\obj\Release\t9configui.Properties.Resources.resources
+C:\weasel\t9configui\t9configui\obj\Release\t9configui.csproj.GenerateResource.Cache
+C:\weasel\t9configui\t9configui\obj\Release\t9configui.TrustInfo.xml
+C:\weasel\t9configui\t9configui\obj\Release\t9configui.exe.manifest
+C:\weasel\t9configui\t9configui\obj\Release\t9configui.exe
+C:\weasel\t9configui\t9configui\obj\Release\t9configui.pdb

@@ -1,9 +1,10 @@
-ï»¿; weasel installation script
+; weasel installation script
 !include FileFunc.nsh
 !include LogicLib.nsh
 !include MUI2.nsh
 !include x64.nsh
 !include winVer.nsh
+!include nsProcess.nsh
 
 Unicode true
 
@@ -11,33 +12,32 @@ Unicode true
 ; General
 
 !ifndef WEASEL_VERSION
-!define WEASEL_VERSION 0.1.0
+!define WEASEL_VERSION 2025.11.21
 !endif
 
 !ifndef WEASEL_BUILD
 !define WEASEL_BUILD 0
 !endif
 
-!define WEASEL_ROOT $INSTDIR\weasel-${WEASEL_VERSION}
+!define WEASEL_ROOT $INSTDIR\xiaobait9-${WEASEL_VERSION}
 !define REG_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\Weasel"
 
 ; The name of the installer
-Name "å°ç‹¼æ¯« ${WEASEL_VERSION}"
+Name "Ğ¡°×T9ÊäÈë·¨ ${WEASEL_VERSION}"
 
 ; The file to write
-OutFile "archives\weasel-${PRODUCT_VERSION}-installer.exe"
+OutFile "archives\xiaobait9-${WEASEL_VERSION}-installer.exe"
 
 VIProductVersion "${WEASEL_VERSION}.${WEASEL_BUILD}"
-VIAddVersionKey /LANG=2052 "ProductName" "å°ç‹¼æ¯«"
-VIAddVersionKey /LANG=2052 "Comments" "Powered by RIME | ä¸­å·éŸ»è¼¸å…¥æ³•å¼•æ“"
-VIAddVersionKey /LANG=2052 "CompanyName" "å¼æ•å ‚"
+VIAddVersionKey /LANG=2052 "ProductName" "Ğ¡°×T9ÊäÈë·¨"
+VIAddVersionKey /LANG=2052 "Comments" "Powered by RIME | ÖĞÖİíİ”Èë·¨ÒıÇæ"
+VIAddVersionKey /LANG=2052 "CompanyName" "xiaobai.pro"
 VIAddVersionKey /LANG=2052 "LegalCopyright" "Copyleft RIME Developers"
-VIAddVersionKey /LANG=2052 "FileDescription" "å°ç‹¼æ¯«è¼¸å…¥æ³•"
+VIAddVersionKey /LANG=2052 "FileDescription" "Ğ¡°×T9ÊäÈë·¨"
 VIAddVersionKey /LANG=2052 "FileVersion" "${WEASEL_VERSION}"
 
 !define MUI_ICON ..\resource\weasel.ico
-SetCompressor /SOLID lzma
-
+SetCompressor lzma
 
 ; Request application privileges for Windows Vista
 RequestExecutionLevel admin
@@ -45,9 +45,7 @@ RequestExecutionLevel admin
 ;--------------------------------
 
 ; Pages
-
 !insertmacro MUI_PAGE_LICENSE "LICENSE.txt"
-!insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
@@ -60,55 +58,64 @@ RequestExecutionLevel admin
 ; Languages
 
 !insertmacro MUI_LANGUAGE "TradChinese"
-LangString DISPLAYNAME ${LANG_TRADCHINESE} "å°ç‹¼æ¯«è¼¸å…¥æ³•"
-LangString LNKFORMANUAL ${LANG_TRADCHINESE} "ã€å°ç‹¼æ¯«ã€‘èªªæ˜æ›¸"
-LangString LNKFORSETTING ${LANG_TRADCHINESE} "ã€å°ç‹¼æ¯«ã€‘è¼¸å…¥æ³•è¨­å®š"
-LangString LNKFORDICT ${LANG_TRADCHINESE} "ã€å°ç‹¼æ¯«ã€‘ç”¨æˆ¶è©å…¸ç®¡ç†"
-LangString LNKFORSYNC ${LANG_TRADCHINESE} "ã€å°ç‹¼æ¯«ã€‘ç”¨æˆ¶è³‡æ–™åŒæ­¥"
-LangString LNKFORDEPLOY ${LANG_TRADCHINESE} "ã€å°ç‹¼æ¯«ã€‘é‡æ–°éƒ¨ç½²"
-LangString LNKFORSERVER ${LANG_TRADCHINESE} "å°ç‹¼æ¯«ç®—æ³•æœå‹™"
-LangString LNKFORUSERFOLDER ${LANG_TRADCHINESE} "ã€å°ç‹¼æ¯«ã€‘ç”¨æˆ¶æ–‡ä»¶å¤¾"
-LangString LNKFORAPPFOLDER ${LANG_TRADCHINESE} "ã€å°ç‹¼æ¯«ã€‘ç¨‹åºæ–‡ä»¶å¤¾"
-LangString LNKFORUPDATER ${LANG_TRADCHINESE} "ã€å°ç‹¼æ¯«ã€‘æª¢æŸ¥æ–°ç‰ˆæœ¬"
-LangString LNKFORSETUP ${LANG_TRADCHINESE} "ã€å°ç‹¼æ¯«ã€‘å®‰è£é¸é …"
-LangString LNKFORUNINSTALL ${LANG_TRADCHINESE} "å¸è¼‰å°ç‹¼æ¯«"
-LangString CONFIRMATION ${LANG_TRADCHINESE} "å®‰è£å‰ï¼Œè«‹å…ˆå¸è¼‰èˆŠç‰ˆæœ¬çš„å°ç‹¼æ¯«ã€‚$\n$\næŒ‰ä¸‹ã€Œç¢ºå®šã€ç§»é™¤èˆŠç‰ˆæœ¬ï¼ŒæŒ‰ä¸‹ã€Œå–æ¶ˆã€æ”¾æ£„æœ¬æ¬¡å®‰è£ã€‚"
-LangString SYSTEMVERSIONNOTOK ${LANG_TRADCHINESE} "æ‚¨çš„ç³»ç»Ÿä¸è¢«æ”¯æŒï¼Œæœ€ä½ç³»çµ±è¦æ±‚:Windows 8.1!"
-LangString AUTOCHKUPDATE ${LANG_TRADCHINESE} "è‡ªå‹•æª¢æŸ¥ç‰ˆæœ¬æ›´æ–°ï¼Ÿ"
+LangString DISPLAYNAME ${LANG_TRADCHINESE} "Ğ¡°×T9ÊäÈë·¨"
+LangString LNKFORMANUAL ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÕfÃ÷•ø"
+LangString LNKFORSETTING ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿İ”Èë·¨ÔO¶¨"
+LangString LNKFORDICT ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÓÃ‘ôÔ~µä¹ÜÀí"
+LangString LNKFORSYNC ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÓÃ‘ôÙYÁÏÍ¬²½"
+LangString LNKFORNUMKEYBOARD ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿æI±PòŒ„Ó"
+LangString LNKFORCONFIG ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿Ï¸½ÚÉèÖÃ"
+LangString LNKFORT9SKIN ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿Æ¤·ô±à¼­Æ÷"
+LangString LNKFORT9keyboard ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿Èí¼üÅÌ"
+LangString LNKFORDEPLOY ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÖØĞÂ²¿Êğ"
+LangString LNKFORSERVER ${LANG_TRADCHINESE} "Ğ¡°×T9ÊäÈë·¨Ëã·¨·ş„Õ"
+LangString LNKFORUSERFOLDER ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÓÃ‘ôÎÄ¼şŠA"
+LangString LNKFORAPPFOLDER ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿³ÌĞòÎÄ¼şŠA"
+LangString LNKFORUPDATER ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿™z²éĞÂ°æ±¾"
+LangString LNKFORSETUP ${LANG_TRADCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿°²Ñbßxí—"
+LangString LNKFORUNINSTALL ${LANG_TRADCHINESE} "Ğ¶İdĞ¡°×T9ÊäÈë·¨"
+LangString CONFIRMATION ${LANG_TRADCHINESE} "°²ÑbÇ°£¬ÕˆÏÈĞ¶İdÅf°æ±¾µÄĞ¡°×T9ÊäÈë·¨¡£$\n$\n°´ÏÂ¡¸´_¶¨¡¹ÒÆ³ıÅf°æ±¾£¬°´ÏÂ¡¸È¡Ïû¡¹·Å—‰±¾´Î°²Ñb¡£"
+LangString SYSTEMVERSIONNOTOK ${LANG_TRADCHINESE} "ÄúµÄÏµÍ³²»±»Ö§³Ö£¬×îµÍÏµ½yÒªÇó:Windows 8.1!"
 
 !insertmacro MUI_LANGUAGE "SimpChinese"
-LangString DISPLAYNAME ${LANG_SIMPCHINESE} "å°ç‹¼æ¯«è¾“å…¥æ³•"
-LangString LNKFORMANUAL ${LANG_SIMPCHINESE} "ã€å°ç‹¼æ¯«ã€‘è¯´æ˜ä¹¦"
-LangString LNKFORSETTING ${LANG_SIMPCHINESE} "ã€å°ç‹¼æ¯«ã€‘è¾“å…¥æ³•è®¾å®š"
-LangString LNKFORDICT ${LANG_SIMPCHINESE} "ã€å°ç‹¼æ¯«ã€‘ç”¨æˆ·è¯å…¸ç®¡ç†"
-LangString LNKFORSYNC ${LANG_SIMPCHINESE} "ã€å°ç‹¼æ¯«ã€‘ç”¨æˆ·èµ„æ–™åŒæ­¥"
-LangString LNKFORDEPLOY ${LANG_SIMPCHINESE} "ã€å°ç‹¼æ¯«ã€‘é‡æ–°éƒ¨ç½²"
-LangString LNKFORSERVER ${LANG_SIMPCHINESE} "å°ç‹¼æ¯«ç®—æ³•æœåŠ¡"
-LangString LNKFORUSERFOLDER ${LANG_SIMPCHINESE} "ã€å°ç‹¼æ¯«ã€‘ç”¨æˆ·æ–‡ä»¶å¤¹"
-LangString LNKFORAPPFOLDER ${LANG_SIMPCHINESE} "ã€å°ç‹¼æ¯«ã€‘ç¨‹åºæ–‡ä»¶å¤¹"
-LangString LNKFORUPDATER ${LANG_SIMPCHINESE} "ã€å°ç‹¼æ¯«ã€‘æ£€æŸ¥æ–°ç‰ˆæœ¬"
-LangString LNKFORSETUP ${LANG_SIMPCHINESE} "ã€å°ç‹¼æ¯«ã€‘å®‰è£…é€‰é¡¹"
-LangString LNKFORUNINSTALL ${LANG_SIMPCHINESE} "å¸è½½å°ç‹¼æ¯«"
-LangString CONFIRMATION ${LANG_SIMPCHINESE} 'å®‰è£…å‰ï¼Œè¯·å…ˆå¸è½½æ—§ç‰ˆæœ¬çš„å°ç‹¼æ¯«ã€‚$\n$\nç‚¹å‡» "ç¡®å®š" ç§»é™¤æ—§ç‰ˆæœ¬ï¼Œæˆ–ç‚¹å‡» "å–æ¶ˆ" æ”¾å¼ƒæœ¬æ¬¡å®‰è£…ã€‚'
-LangString SYSTEMVERSIONNOTOK ${LANG_SIMPCHINESE} "æ‚¨çš„ç³»çµ±ä¸è¢«æ”¯æŒï¼Œæœ€ä½ç³»ç»Ÿè¦æ±‚:Windows 8.1!"
-LangString AUTOCHKUPDATE ${LANG_SIMPCHINESE} "è‡ªåŠ¨æ£€æŸ¥ç‰ˆæœ¬æ›´æ–°ï¼Ÿ"
+LangString DISPLAYNAME ${LANG_SIMPCHINESE} "Ğ¡°×T9ÊäÈë·¨"
+LangString LNKFORMANUAL ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ËµÃ÷Êé"
+LangString LNKFORSETTING ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÊäÈë·¨Éè¶¨"
+LangString LNKFORDICT ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÓÃ»§´Êµä¹ÜÀí"
+LangString LNKFORSYNC ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÓÃ»§×ÊÁÏÍ¬²½"
+LangString LNKFORNUMKEYBOARD ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿¼üÅÌÇı¶¯"
+LangString LNKFORCONFIG ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿Ï¸½ÚÉèÖÃ"
+LangString LNKFORT9SKIN ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿Æ¤·ô±à¼­Æ÷"
+LangString LNKFORT9keyboard ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿Èí¼üÅÌ"
+LangString LNKFORDEPLOY ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÖØĞÂ²¿Êğ"
+LangString LNKFORSERVER ${LANG_SIMPCHINESE} "Ğ¡°×T9ÊäÈë·¨Ëã·¨·şÎñ"
+LangString LNKFORUSERFOLDER ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿ÓÃ»§ÎÄ¼ş¼Ğ"
+LangString LNKFORAPPFOLDER ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿³ÌĞòÎÄ¼ş¼Ğ"
+LangString LNKFORUPDATER ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿¼ì²éĞÂ°æ±¾"
+LangString LNKFORSETUP ${LANG_SIMPCHINESE} "¡¾Ğ¡°×T9ÊäÈë·¨¡¿°²×°Ñ¡Ïî"
+LangString LNKFORUNINSTALL ${LANG_SIMPCHINESE} "Ğ¶ÔØĞ¡°×T9ÊäÈë·¨"
+LangString CONFIRMATION ${LANG_SIMPCHINESE} '°²×°Ç°£¬ÇëÏÈĞ¶ÔØ¾É°æ±¾µÄĞ¡°×T9ÊäÈë·¨¡£$\n$\nµã»÷ "È·¶¨" ÒÆ³ı¾É°æ±¾£¬»òµã»÷ "È¡Ïû" ·ÅÆú±¾´Î°²×°¡£'
+LangString SYSTEMVERSIONNOTOK ${LANG_SIMPCHINESE} "ÄúµÄÏµ½y²»±»Ö§³Ö£¬×îµÍÏµÍ³ÒªÇó:Windows 8.1!"
 
 !insertmacro MUI_LANGUAGE "English"
-LangString DISPLAYNAME ${LANG_ENGLISH} "Weasel"
-LangString LNKFORMANUAL ${LANG_ENGLISH} "Weasel Manual"
-LangString LNKFORSETTING ${LANG_ENGLISH} "Weasel Settings"
-LangString LNKFORDICT ${LANG_ENGLISH} "Weasel Dictionary Manager"
-LangString LNKFORSYNC ${LANG_ENGLISH} "Weasel Sync User Profile"
-LangString LNKFORDEPLOY ${LANG_ENGLISH} "Weasel Deploy"
-LangString LNKFORSERVER ${LANG_ENGLISH} "Weasel Server"
-LangString LNKFORUSERFOLDER ${LANG_ENGLISH} "Weasel User Folder"
-LangString LNKFORAPPFOLDER ${LANG_ENGLISH} "Weasel App Folder"
-LangString LNKFORUPDATER ${LANG_ENGLISH} "Weasel Check for Updates"
-LangString LNKFORSETUP ${LANG_ENGLISH} "Weasel Installation Preference"
-LangString LNKFORUNINSTALL ${LANG_ENGLISH} "Uninstall Weasel"
+LangString DISPLAYNAME ${LANG_ENGLISH} "xiaobaiT9"
+LangString LNKFORMANUAL ${LANG_ENGLISH} "[xiaobaiT9] Manual"
+LangString LNKFORSETTING ${LANG_ENGLISH} "[xiaobaiT9] Settings"
+LangString LNKFORDICT ${LANG_ENGLISH} "[xiaobaiT9] Dictionary Manager"
+LangString LNKFORSYNC ${LANG_ENGLISH} "[xiaobaiT9] Sync User Profile"
+LangString LNKFORNUMKEYBOARD ${LANG_ENGLISH} "[xiaobaiT9] Keyboard driver"
+LangString LNKFORCONFIG ${LANG_ENGLISH} "[xiaobaiT9] Config"
+LangString LNKFORT9SKIN ${LANG_ENGLISH} "[xiaobaiT9] T9 Skin"
+LangString LNKFORT9keyboard ${LANG_ENGLISH} "[xiaobaiT9] T9 keyboard"
+LangString LNKFORDEPLOY ${LANG_ENGLISH} "[xiaobaiT9] Deploy"
+LangString LNKFORSERVER ${LANG_ENGLISH} "xiaobaiT9 Server"
+LangString LNKFORUSERFOLDER ${LANG_ENGLISH} "[xiaobaiT9] User Folder"
+LangString LNKFORAPPFOLDER ${LANG_ENGLISH} "[xiaobaiT9] App Folder"
+LangString LNKFORUPDATER ${LANG_ENGLISH} "[xiaobaiT9] Check for Updates"
+LangString LNKFORSETUP ${LANG_ENGLISH} "[xiaobaiT9] Installation Preference"
+LangString LNKFORUNINSTALL ${LANG_ENGLISH} "Uninstall xiaobaiT9"
 LangString CONFIRMATION ${LANG_ENGLISH} "Before installation, please uninstall the old version of Weasel.$\n$\nPress 'OK' to remove the old version, or 'Cancel' to abort installation."
 LangString SYSTEMVERSIONNOTOK ${LANG_ENGLISH} "Your system not supported, minimium system required: Windows 8.1!"
-LangString AUTOCHKUPDATE ${LANG_ENGLISH} "Automatically check for updates?"
 
 ;--------------------------------
 
@@ -117,34 +124,20 @@ Function .onInit
   ${IfNot} ${AtLeastWin8.1}
     IfSilent toquit
     MessageBox MB_OK '$(SYSTEMVERSIONNOTOK)'
-toquit:
+  toquit:
     Quit
   ${EndIf}
 
-  ReadRegStr $R0 HKLM "Software\Rime\Weasel" "InstallDir"
-  StrCmp $R0 "" 0 skip
-  ; The default installation directory
-  ; install x64 build for NativeARM64_WINDOWS11 and NativeAMD64_WINDOWS11
-  ${If} ${AtLeastWin11} ; Windows 11 and above
-    ${If} ${IsNativeARM64}
-      StrCpy $INSTDIR "$PROGRAMFILES64\Rime"
-    ${ElseIf} ${IsNativeAMD64}
-      StrCpy $INSTDIR "$PROGRAMFILES64\Rime"
-    ${Else}
-      StrCpy $INSTDIR "$PROGRAMFILES\Rime"
-    ${Endif}
-  ; install x64 build for NativeAMD64_BELLOW_WINDOWS11
-  ${Else} ; Windows 10 or bellow
-    ${If} ${IsNativeAMD64}
-      StrCpy $INSTDIR "$PROGRAMFILES64\Rime"
-    ${Else}
-      StrCpy $INSTDIR "$PROGRAMFILES\Rime"
-    ${Endif}
-  ${Endif}
-skip:
-  ReadRegStr $R0 HKLM \
-  "Software\Microsoft\Windows\CurrentVersion\Uninstall\Weasel" \
-  "UninstallString"
+  ; Ç¿ÖÆÉèÖÃ°²×°Ä¿Â¼£¬¸ù¾İÏµÍ³¼Ü¹¹ºÍ Windows °æ±¾
+  ${If} ${IsNativeARM64}
+    StrCpy $INSTDIR "$PROGRAMFILES64\Rime"
+  ${ElseIf} ${IsNativeAMD64}
+    StrCpy $INSTDIR "$PROGRAMFILES64\Rime"
+  ${Else}
+    StrCpy $INSTDIR "$PROGRAMFILES\Rime"
+  ${EndIf}
+
+  ReadRegStr $R0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Weasel" "UninstallString"
   StrCmp $R0 "" done
 
   StrCpy $0 "Upgrade"
@@ -153,8 +146,16 @@ skip:
   Abort
 
 uninst:
+
+  nsExec::ExecToLog 'taskkill /F /IM numkeyboard.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9keyboard.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9configui.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9skin.exe'
+  nsExec::ExecToLog 'taskkill /F /IM update.exe'
+  Sleep 500
+
   ; Backup data directory from previous installation, user files may exist
-  ReadRegStr $R1 HKLM SOFTWARE\Rime\Weasel "WeaselRoot"
+  ReadRegStr $R1 HKLM "Software\Rime\Weasel" "WeaselRoot"
   StrCmp $R1 "" call_uninstaller
   IfFileExists $R1\data\*.* 0 call_uninstaller
   CreateDirectory $TEMP\weasel-backup
@@ -164,29 +165,29 @@ call_uninstaller:
   ExecWait '"$R1\WeaselServer.exe" /quit'
   ExecWait '"$R1\WeaselSetup.exe" /u'
   ; Remove registry keys
-  DeleteRegKey HKLM SOFTWARE\Rime
+  DeleteRegKey HKLM "Software\Rime"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Weasel"
   ; don't redirect on 64 bit system for auto run setting
   ${If} ${IsNativeARM64}
     SetRegView 64
   ${ElseIf} ${IsNativeAMD64}
     SetRegView 64
-  ${Endif}
+  ${EndIf}
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "WeaselServer"
   ; recover back to 32bit view
   SetRegView 32
   ; Remove files and uninstaller
-  Delete  "$R1\data\opencc\*.*"
-  Delete  "$R1\data\preview\*.*"
-  Delete  "$R1\data\*.*"
-  Delete  "$R1\*.*"
-  RMDir   "$R1\data\opencc"
-  RMDir   "$R1\data\preview"
-  RMDir   "$R1\data"
-  RMDir   "$R1"
+  Delete "$R1\data\opencc\*.*"
+  Delete "$R1\data\preview\*.*"
+  Delete "$R1\data\*.*"
+  Delete "$R1\*.*"
+  RMDir "$R1\data\opencc"
+  RMDir "$R1\data\preview"
+  RMDir "$R1\data"
+  RMDir "$R1"
   SetShellVarContext all
-  Delete  "$SMPROGRAMS\$(DISPLAYNAME)\*.*"
-  RMDir  "$SMPROGRAMS\$(DISPLAYNAME)"
+  Delete "$SMPROGRAMS\$(DISPLAYNAME)\*.*"
+  RMDir "$SMPROGRAMS\$(DISPLAYNAME)"
   ; Prompt reboot
   SetRebootFlag true
   Sleep 800
@@ -203,9 +204,16 @@ Section "Weasel"
 
   SectionIn RO
 
+
+  nsExec::ExecToLog 'taskkill /F /IM numkeyboard.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9keyboard.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9configui.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9skin.exe'
+  nsExec::ExecToLog 'taskkill /F /IM update.exe'
+  Sleep 500
+  
+  
   ; Write the new installation path into the registry
-  ; redirect on 64 bit system
-  ; HKLM SOFTWARE\WOW6432Node\Rime\Weasel "InstallDir" "$INSTDIR"
   WriteRegStr HKLM SOFTWARE\Rime\Weasel "InstallDir" "$INSTDIR"
 
   ; Reset INSTDIR for the new version
@@ -224,6 +232,14 @@ Section "Weasel"
   RMDir /r $TEMP\weasel-backup
 
 program_files:
+  File "update.exe"
+  File "Newtonsoft.Json.xml"
+  File "Newtonsoft.Json.dll"
+  File "numkeyboard.exe"
+  File "t9keyboard.exe"
+  File "t9configui.exe"
+  File "t9skin.exe"
+  File "Cyotek.Windows.Forms.ColorPicker.dll"
   File "LICENSE.txt"
   File "README.txt"
   File "7-zip-license.txt"
@@ -240,52 +256,14 @@ program_files:
   ${If} ${RunningX64}
     File "weaselx64.dll"
   ${EndIf}
-  ${If} ${IsNativeARM64}
-    File /nonfatal "weaselARM.dll"
-    File /nonfatal "weaselARM64.dll"
-    File /nonfatal "weaselARM64X.dll"
-  ${EndIf}
   File "weasel.ime"
   ${If} ${RunningX64}
     File "weaselx64.ime"
   ${EndIf}
-  ${If} ${IsNativeARM64}
-    File /nonfatal "weaselARM.ime"
-    File /nonfatal "weaselARM64.ime"
-    File /nonfatal "weaselARM64X.ime"
-  ${EndIf}
-  ; install x64 build for NativeARM64_WINDOWS11 and NativeAMD64_WINDOWS11
-  ${If} ${AtLeastWin11} ; Windows 11 and above
-    ${If} ${IsNativeARM64}
-      File "WeaselDeployer.exe"
-      File "WeaselServer.exe"
-      File "rime.dll"
-      File "WinSparkle.dll"
-    ${ElseIf} ${IsNativeAMD64}
-      File "WeaselDeployer.exe"
-      File "WeaselServer.exe"
-      File "rime.dll"
-      File "WinSparkle.dll"
-    ${Else}
-      File "Win32\WeaselDeployer.exe"
-      File "Win32\WeaselServer.exe"
-      File "Win32\rime.dll"
-      File "Win32\WinSparkle.dll"
-    ${Endif}
-  ; install x64 build for NativeAMD64_BELLOW_WINDOWS11
-  ${Else} ; Windows 10 or bellow
-    ${If} ${IsNativeAMD64}
-      File "WeaselDeployer.exe"
-      File "WeaselServer.exe"
-      File "rime.dll"
-      File "WinSparkle.dll"
-    ${Else}
-      File "Win32\WeaselDeployer.exe"
-      File "Win32\WeaselServer.exe"
-      File "Win32\rime.dll"
-      File "Win32\WinSparkle.dll"
-    ${Endif}
-  ${Endif}
+  File "Win32\WeaselDeployer.exe"
+  File "Win32\WeaselServer.exe"
+  File "Win32\rime.dll"
+  File "Win32\WinSparkle.dll"
 
   File "WeaselSetup.exe"
   ; shared data files
@@ -294,6 +272,14 @@ program_files:
   File /nonfatal "data\*.txt"
   File /nonfatal "data\*.gram"
   ; opencc data files
+  SetOutPath $INSTDIR\data\dicts
+  File "data\dicts\*.yaml"
+
+  SetOutPath $APPDATA\Rime
+  File "*.lua"
+  File "data\weasel.custom.yaml"
+  SetOutPath $APPDATA\Rime\opencc
+  File "data\opencc\emoji*"
   SetOutPath $INSTDIR\data\opencc
   File "data\opencc\*.json"
   File "data\opencc\*.ocd*"
@@ -321,9 +307,9 @@ program_files:
   WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayIcon" '"$INSTDIR\WeaselServer.exe"'
   WriteRegStr HKLM "${REG_UNINST_KEY}" "DisplayVersion" "${WEASEL_VERSION}.${WEASEL_BUILD}"
   WriteRegStr HKLM "${REG_UNINST_KEY}" "UninstallString" '"$INSTDIR\uninstall.exe"'
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "Publisher" "å¼æ•å ‚"
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "URLInfoAbout" "https://rime.im/"
-  WriteRegStr HKLM "${REG_UNINST_KEY}" "HelpLink" "https://rime.im/docs/"
+  WriteRegStr HKLM "${REG_UNINST_KEY}" "Publisher" "Ğ¡°×T9ÊäÈë·¨"
+  WriteRegStr HKLM "${REG_UNINST_KEY}" "URLInfoAbout" "https://xiaobai.pro/"
+  WriteRegStr HKLM "${REG_UNINST_KEY}" "HelpLink" "https://t9.xiaobai.pro/?p=254"
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoModify" 1
   WriteRegDWORD HKLM "${REG_UNINST_KEY}" "NoRepair" 1
   WriteUninstaller "$INSTDIR\uninstall.exe"
@@ -342,21 +328,14 @@ program_files:
     SetRegView 64
   ${ElseIf} ${IsNativeAMD64}
     SetRegView 64
-  ${Endif}
+  ${EndIf}
   ; Write autorun key
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "WeaselServer" "$INSTDIR\WeaselServer.exe"
   ; Start WeaselServer
   Exec "$INSTDIR\WeaselServer.exe"
 
-  ; option CheckForUpdates
-  IfSilent DisableAutoCheckUpdate
-  MessageBox MB_YESNO|MB_ICONINFORMATION "$(AUTOCHKUPDATE)" IDYES EnableAutoCheckUpdate
-  DisableAutoCheckUpdate:
+  ; option CheckForUpdates (disabled by default)
   WriteRegStr HKCU "Software\Rime\Weasel\Updates" "CheckForUpdates" "0"
-  GoTo end
-  EnableAutoCheckUpdate:
-  WriteRegStr HKCU "Software\Rime\Weasel\Updates" "CheckForUpdates" "1"
-  end:
 
   ; Prompt reboot
   StrCmp $0 "Upgrade" 0 +2
@@ -374,6 +353,10 @@ Section "Start Menu Shortcuts"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSYNC).lnk" "$INSTDIR\WeaselDeployer.exe" "/sync" "$SYSDIR\shell32.dll" 26
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORDEPLOY).lnk" "$INSTDIR\WeaselDeployer.exe" "/deploy" "$SYSDIR\shell32.dll" 144
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSERVER).lnk" "$INSTDIR\WeaselServer.exe" "" "$INSTDIR\WeaselServer.exe" 0
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORNUMKEYBOARD).lnk" "$INSTDIR\numkeyboard.exe" "" "$INSTDIR\numkeyboard.exe"
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORCONFIG).lnk" "$INSTDIR\t9configui.exe" "" "$INSTDIR\t9configui.exe"
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORT9SKIN).lnk" "$INSTDIR\t9skin.exe" "" "$INSTDIR\t9skin.exe"
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORt9keyboard).lnk" "$INSTDIR\t9keyboard.exe" "" "$INSTDIR\t9keyboard.exe"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUSERFOLDER).lnk" "$INSTDIR\WeaselServer.exe" "/userdir" "$SYSDIR\shell32.dll" 126
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORAPPFOLDER).lnk" "$INSTDIR\WeaselServer.exe" "/weaseldir" "$SYSDIR\shell32.dll" 19
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUPDATER).lnk" "$INSTDIR\WeaselServer.exe" "/update" "$SYSDIR\shell32.dll" 13
@@ -392,6 +375,12 @@ Section "Uninstall"
 
   ExecWait '"$INSTDIR\WeaselSetup.exe" /u'
 
+  nsExec::ExecToLog 'taskkill /F /IM numkeyboard.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9keyboard.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9configui.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9skin.exe'
+  nsExec::ExecToLog 'taskkill /F /IM update.exe'
+
   ; Remove registry keys
   DeleteRegKey HKLM SOFTWARE\Rime
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Weasel"
@@ -400,22 +389,22 @@ Section "Uninstall"
     SetRegView 64
   ${ElseIf} ${IsNativeAMD64}
     SetRegView 64
-  ${Endif}
+  ${EndIf}
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "WeaselServer"
 
   ; Remove files and uninstaller
   SetOutPath $TEMP
-  Delete  "$INSTDIR\data\opencc\*.*"
-  Delete  "$INSTDIR\data\preview\*.*"
-  Delete  "$INSTDIR\data\*.*"
-  Delete  "$INSTDIR\*.*"
-  RMDir  "$INSTDIR\data\opencc"
-  RMDir  "$INSTDIR\data\preview"
-  RMDir  "$INSTDIR\data"
-  RMDir  "$INSTDIR"
+  Delete "$INSTDIR\data\opencc\*.*"
+  Delete "$INSTDIR\data\preview\*.*"
+  Delete "$INSTDIR\data\*.*"
+  Delete "$INSTDIR\*.*"
+  RMDir "$INSTDIR\data\opencc"
+  RMDir "$INSTDIR\data\preview"
+  RMDir "$INSTDIR\data"
+  RMDir "$INSTDIR"
   SetShellVarContext all
-  Delete  "$SMPROGRAMS\$(DISPLAYNAME)\*.*"
-  RMDir  "$SMPROGRAMS\$(DISPLAYNAME)"
+  Delete "$SMPROGRAMS\$(DISPLAYNAME)\*.*"
+  RMDir "$SMPROGRAMS\$(DISPLAYNAME)"
 
   ; Prompt reboot
   SetRebootFlag true

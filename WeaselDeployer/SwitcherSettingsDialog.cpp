@@ -169,7 +169,7 @@ LRESULT SwitcherSettingsDialog::OnOK(WORD, WORD code, HWND, BOOL&) {
       }
     }
     if (count == 0) {
-      // MessageBox(_T("至少要選用一項吧。"), _T("小狼毫不是這般用法"), MB_OK |
+      // MessageBox(_T("至少要選用一項吧。"), _T("小白T9输入法不是這般用法"), MB_OK |
       // MB_ICONEXCLAMATION);
       MSG_BY_IDS(IDS_STR_ERR_AT_LEAST_ONE_SEL, IDS_STR_NOT_REGULAR,
                  MB_OK | MB_ICONEXCLAMATION);

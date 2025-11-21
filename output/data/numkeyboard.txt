@@ -1,0 +1,4 @@
+LaunchMailKey=打开我的电脑
+LaunchApp2Key=打开计算器
+BrowserHomeKey=ESC
+TabKey=Shift

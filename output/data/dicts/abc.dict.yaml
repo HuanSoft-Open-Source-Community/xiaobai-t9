@@ -1,0 +1,65 @@
+# Rime dictionary
+# encoding: utf-8
+#
+# https://github.com/iDvel/rime-settings/
+#
+
+---
+name: abc
+version: "2021-04-29"
+sort: by_weight
+vocabulary: essay-zh-hans
+...
+
+a	77a1
+A	77a1
+b	77b2
+B	77b2
+c	77c3
+C	77c3
+d	77d1
+D	77d1
+e	77e2
+E	77e2
+f	77f3
+F	77f3
+g	77g1
+G	77g1
+h	77h2
+H	77h2
+i	77i3
+I	77i3
+j	77j1
+J	77j1
+k	77k2
+K	77k2
+l	77l3
+L	77l3
+m	77m1
+M	77m1
+n	77n2
+N	77n2
+o	77o3
+O	77o3
+p	77p1
+P	77p1
+q	77q2
+Q	77q2
+r	77r3
+R	77r3
+s	77s4
+S	77s4
+t	77t1
+T	77t1
+u	77u2
+U	77u2
+v	77v3
+V	77v3
+w	77w1
+W	77w1
+x	77x2
+X	77x2
+y	77y3
+Y	77y3
+z	77z4
+Z	77z4

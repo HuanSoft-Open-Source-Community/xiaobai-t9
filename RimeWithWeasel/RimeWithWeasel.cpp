@@ -163,7 +163,7 @@ void RimeWithWeaselHandler::Initialize() {
   if (rime_api->config_open("weasel", &config)) {
     if (m_ui) {
       _UpdateUIStyle(&config, m_ui, true);
-      _UpdateShowNotifications(&config, true);
+      //_UpdateShowNotifications(&config, true);
       m_current_dark_mode = IsUserDarkMode();
       if (m_current_dark_mode) {
         const int BUF_SIZE = 255;
@@ -1096,36 +1096,14 @@ void _RimeGetIntStr(RimeConfig* config,
 
 void RimeWithWeaselHandler::_UpdateShowNotifications(RimeConfig* config,
                                                      bool initialize) {
-  Bool show_notifications = true;
-  RimeConfigIterator iter;
-  if (initialize)
-    m_show_notifications_base.clear();
+  // 强制禁用所有通知
   m_show_notifications.clear();
-
-  if (rime_api->config_get_bool(config, "show_notifications",
-                                &show_notifications)) {
-    // config read as bool, for gloal all on or off
-    if (show_notifications)
-      m_show_notifications["always"] = true;
-    if (initialize)
-      m_show_notifications_base = m_show_notifications;
-  } else if (rime_api->config_begin_list(&iter, config, "show_notifications")) {
-    // config read as list, list item should be option name in schema
-    // or key word 'schema' for schema switching tip
-    while (rime_api->config_next(&iter)) {
-      char buffer[256] = {0};
-      if (rime_api->config_get_string(config, iter.path, buffer, 256))
-        m_show_notifications[std::string(buffer)] = true;
-    }
-    if (initialize)
-      m_show_notifications_base = m_show_notifications;
-    rime_api->config_end(&iter);
-  } else {
-    // not configured, or incorrect type
-    if (initialize)
-      m_show_notifications_base["always"] = true;
-    m_show_notifications = m_show_notifications_base;
+  if (initialize) {
+    m_show_notifications_base.clear();
   }
+
+  // 不再读取或处理 show_notifications 配置
+  // 确保通知始终为空，不触发任何通知
 }
 
 // update ui's style parameters, ui has been check before referenced

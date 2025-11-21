@@ -1,0 +1,13 @@
+C:\Users\xiaobai\source\repos\update\update\obj\Debug\update.csproj.AssemblyReference.cache
+C:\Users\xiaobai\source\repos\update\update\obj\Debug\XiaobaiT9Updater.UpdateForm.resources
+C:\Users\xiaobai\source\repos\update\update\obj\Debug\update.Properties.Resources.resources
+C:\Users\xiaobai\source\repos\update\update\obj\Debug\update.csproj.GenerateResource.cache
+C:\Users\xiaobai\source\repos\update\update\obj\Debug\update.csproj.CoreCompileInputs.cache
+C:\Users\xiaobai\source\repos\update\update\bin\Debug\update.exe.config
+C:\Users\xiaobai\source\repos\update\update\bin\Debug\update.exe
+C:\Users\xiaobai\source\repos\update\update\bin\Debug\update.pdb
+C:\Users\xiaobai\source\repos\update\update\bin\Debug\Newtonsoft.Json.dll
+C:\Users\xiaobai\source\repos\update\update\bin\Debug\Newtonsoft.Json.xml
+C:\Users\xiaobai\source\repos\update\update\obj\Debug\update.csproj.CopyComplete
+C:\Users\xiaobai\source\repos\update\update\obj\Debug\update.exe
+C:\Users\xiaobai\source\repos\update\update\obj\Debug\update.pdb

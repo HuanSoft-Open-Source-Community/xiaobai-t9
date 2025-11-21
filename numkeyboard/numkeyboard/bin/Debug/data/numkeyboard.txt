@@ -1,0 +1,6 @@
+LaunchMailKey=粘贴
+LaunchApp2Key=全选
+BrowserHomeKey=剪切
+TabKey=复制
+Single0Key=空格
+Triple0Key=空格
