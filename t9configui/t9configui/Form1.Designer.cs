@@ -32,17 +32,17 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(config));
             this.快捷方式文件指向的路径 = new System.Windows.Forms.TextBox();
             this.快捷方式文件指向的目标目录 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.bmts = new System.Windows.Forms.Label();
+            this.bmts1 = new System.Windows.Forms.Button();
+            this.bmts2 = new System.Windows.Forms.Button();
+            this.hxfx = new System.Windows.Forms.Label();
+            this.hxfx2 = new System.Windows.Forms.Button();
+            this.hxfx1 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button6 = new System.Windows.Forms.Button();
+            this.hxsl = new System.Windows.Forms.Label();
+            this.hxsl1 = new System.Windows.Forms.ComboBox();
+            this.hxsl2 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -102,33 +102,47 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
+            this.hxdx = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
-            this.button29 = new System.Windows.Forms.Button();
-            this.候选大小 = new System.Windows.Forms.TextBox();
+            this.hxdx2 = new System.Windows.Forms.Button();
+            this.hxdx1 = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.button30 = new System.Windows.Forms.Button();
-            this.button31 = new System.Windows.Forms.Button();
-            this.label31 = new System.Windows.Forms.Label();
-            this.button32 = new System.Windows.Forms.Button();
-            this.button33 = new System.Windows.Forms.Button();
-            this.label30 = new System.Windows.Forms.Label();
-            this.button34 = new System.Windows.Forms.Button();
-            this.button51 = new System.Windows.Forms.Button();
-            this.label32 = new System.Windows.Forms.Label();
-            this.button52 = new System.Windows.Forms.Button();
-            this.button53 = new System.Windows.Forms.Button();
-            this.label33 = new System.Windows.Forms.Label();
-            this.button54 = new System.Windows.Forms.Button();
-            this.button55 = new System.Windows.Forms.Button();
-            this.label34 = new System.Windows.Forms.Label();
+            this.qjgn2 = new System.Windows.Forms.Button();
+            this.qjgn1 = new System.Windows.Forms.Button();
+            this.qjgn = new System.Windows.Forms.Label();
+            this.fxjgn2 = new System.Windows.Forms.Button();
+            this.fxjgn1 = new System.Windows.Forms.Button();
+            this.fxjgn = new System.Windows.Forms.Label();
+            this.ywz2 = new System.Windows.Forms.Button();
+            this.ywz1 = new System.Windows.Forms.Button();
+            this.ywz = new System.Windows.Forms.Label();
+            this.emoji2 = new System.Windows.Forms.Button();
+            this.emoji1 = new System.Windows.Forms.Button();
+            this.emoji = new System.Windows.Forms.Label();
+            this.dymhx2 = new System.Windows.Forms.Button();
+            this.dymhx1 = new System.Windows.Forms.Button();
+            this.dymhx = new System.Windows.Forms.Label();
             this.候选大小tip = new System.Windows.Forms.ToolTip(this.components);
             this.多一码候选tip = new System.Windows.Forms.ToolTip(this.components);
+            this.cszlx2 = new System.Windows.Forms.Button();
+            this.cszlx1 = new System.Windows.Forms.Button();
+            this.cszlx = new System.Windows.Forms.Label();
+            this.bmzs2 = new System.Windows.Forms.Button();
+            this.bmzs1 = new System.Windows.Forms.Button();
+            this.bmzs = new System.Windows.Forms.Label();
+            this.adPanel = new System.Windows.Forms.Panel();
+            this.qrPdd = new System.Windows.Forms.PictureBox();
+            this.qrAlipay = new System.Windows.Forms.PictureBox();
+            this.qrWechat = new System.Windows.Forms.PictureBox();
+            this.adPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.qrPdd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrAlipay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrWechat)).BeginInit();
             this.SuspendLayout();
             // 
             // 快捷方式文件指向的路径
             // 
-            this.快捷方式文件指向的路径.Location = new System.Drawing.Point(381, 517);
+            this.快捷方式文件指向的路径.Location = new System.Drawing.Point(381, 551);
             this.快捷方式文件指向的路径.Margin = new System.Windows.Forms.Padding(2);
             this.快捷方式文件指向的路径.Name = "快捷方式文件指向的路径";
             this.快捷方式文件指向的路径.Size = new System.Drawing.Size(249, 21);
@@ -137,80 +151,80 @@
             // 
             // 快捷方式文件指向的目标目录
             // 
-            this.快捷方式文件指向的目标目录.Location = new System.Drawing.Point(381, 542);
+            this.快捷方式文件指向的目标目录.Location = new System.Drawing.Point(381, 576);
             this.快捷方式文件指向的目标目录.Margin = new System.Windows.Forms.Padding(2);
             this.快捷方式文件指向的目标目录.Name = "快捷方式文件指向的目标目录";
             this.快捷方式文件指向的目标目录.Size = new System.Drawing.Size(249, 21);
             this.快捷方式文件指向的目标目录.TabIndex = 1;
             this.快捷方式文件指向的目标目录.Visible = false;
             // 
-            // label1
+            // bmts
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 22);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "编码提示：";
+            this.bmts.AutoSize = true;
+            this.bmts.Location = new System.Drawing.Point(29, 22);
+            this.bmts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.bmts.Name = "bmts";
+            this.bmts.Size = new System.Drawing.Size(65, 12);
+            this.bmts.TabIndex = 2;
+            this.bmts.Text = "编码提示：";
             // 
-            // button1
+            // bmts1
             // 
-            this.button1.Location = new System.Drawing.Point(110, 15);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(55, 24);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "开启";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            this.bmts1.Location = new System.Drawing.Point(110, 15);
+            this.bmts1.Margin = new System.Windows.Forms.Padding(2);
+            this.bmts1.Name = "bmts1";
+            this.bmts1.Size = new System.Drawing.Size(55, 24);
+            this.bmts1.TabIndex = 3;
+            this.bmts1.Text = "开启";
+            this.bmts1.UseVisualStyleBackColor = true;
+            this.bmts1.Click += new System.EventHandler(this.Button1_Click);
             // 
-            // button2
+            // bmts2
             // 
-            this.button2.Location = new System.Drawing.Point(190, 15);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(55, 24);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "关闭";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.bmts2.Location = new System.Drawing.Point(190, 15);
+            this.bmts2.Margin = new System.Windows.Forms.Padding(2);
+            this.bmts2.Name = "bmts2";
+            this.bmts2.Size = new System.Drawing.Size(55, 24);
+            this.bmts2.TabIndex = 4;
+            this.bmts2.Text = "关闭";
+            this.bmts2.UseVisualStyleBackColor = true;
+            this.bmts2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // label2
+            // hxfx
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(336, 21);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 12);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "候选样式：";
+            this.hxfx.AutoSize = true;
+            this.hxfx.Location = new System.Drawing.Point(336, 21);
+            this.hxfx.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.hxfx.Name = "hxfx";
+            this.hxfx.Size = new System.Drawing.Size(65, 12);
+            this.hxfx.TabIndex = 5;
+            this.hxfx.Text = "候选方向：";
             // 
-            // button4
+            // hxfx2
             // 
-            this.button4.Location = new System.Drawing.Point(497, 15);
-            this.button4.Margin = new System.Windows.Forms.Padding(2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(55, 24);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "竖排";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.hxfx2.Location = new System.Drawing.Point(497, 15);
+            this.hxfx2.Margin = new System.Windows.Forms.Padding(2);
+            this.hxfx2.Name = "hxfx2";
+            this.hxfx2.Size = new System.Drawing.Size(55, 24);
+            this.hxfx2.TabIndex = 7;
+            this.hxfx2.Text = "竖排";
+            this.hxfx2.UseVisualStyleBackColor = true;
+            this.hxfx2.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button3
+            // hxfx1
             // 
-            this.button3.Location = new System.Drawing.Point(417, 16);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(55, 24);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "横排";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.hxfx1.Location = new System.Drawing.Point(417, 16);
+            this.hxfx1.Margin = new System.Windows.Forms.Padding(2);
+            this.hxfx1.Name = "hxfx1";
+            this.hxfx1.Size = new System.Drawing.Size(55, 24);
+            this.hxfx1.TabIndex = 6;
+            this.hxfx1.Text = "横排";
+            this.hxfx1.UseVisualStyleBackColor = true;
+            this.hxfx1.Click += new System.EventHandler(this.button3_Click);
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(149, 580);
+            this.button5.Location = new System.Drawing.Point(149, 614);
             this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(55, 24);
@@ -223,7 +237,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 587);
+            this.label3.Location = new System.Drawing.Point(12, 621);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(137, 12);
@@ -231,21 +245,21 @@
             this.label3.Text = "如果不起作用，先点一下";
             this.label3.Visible = false;
             // 
-            // label4
+            // hxsl
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(336, 53);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 12);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "候选数量：";
+            this.hxsl.AutoSize = true;
+            this.hxsl.Location = new System.Drawing.Point(336, 53);
+            this.hxsl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.hxsl.Name = "hxsl";
+            this.hxsl.Size = new System.Drawing.Size(65, 12);
+            this.hxsl.TabIndex = 10;
+            this.hxsl.Text = "候选数量：";
             // 
-            // comboBox1
+            // hxsl1
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.hxsl1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.hxsl1.FormattingEnabled = true;
+            this.hxsl1.Items.AddRange(new object[] {
             "3",
             "4",
             "5",
@@ -253,27 +267,27 @@
             "7",
             "8",
             "9"});
-            this.comboBox1.Location = new System.Drawing.Point(417, 49);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(56, 20);
-            this.comboBox1.TabIndex = 11;
+            this.hxsl1.Location = new System.Drawing.Point(417, 49);
+            this.hxsl1.Margin = new System.Windows.Forms.Padding(2);
+            this.hxsl1.Name = "hxsl1";
+            this.hxsl1.Size = new System.Drawing.Size(56, 20);
+            this.hxsl1.TabIndex = 11;
             // 
-            // button6
+            // hxsl2
             // 
-            this.button6.Location = new System.Drawing.Point(497, 47);
-            this.button6.Margin = new System.Windows.Forms.Padding(2);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(55, 24);
-            this.button6.TabIndex = 12;
-            this.button6.Text = "确认";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.hxsl2.Location = new System.Drawing.Point(497, 47);
+            this.hxsl2.Margin = new System.Windows.Forms.Padding(2);
+            this.hxsl2.Name = "hxsl2";
+            this.hxsl2.Size = new System.Drawing.Size(55, 24);
+            this.hxsl2.TabIndex = 12;
+            this.hxsl2.Text = "确认";
+            this.hxsl2.UseVisualStyleBackColor = true;
+            this.hxsl2.Click += new System.EventHandler(this.button6_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(29, 213);
+            this.label5.Location = new System.Drawing.Point(29, 247);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
@@ -283,7 +297,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(208, 587);
+            this.label6.Location = new System.Drawing.Point(208, 621);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(89, 12);
@@ -294,7 +308,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(29, 246);
+            this.label7.Location = new System.Drawing.Point(29, 280);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(131, 12);
@@ -304,7 +318,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(29, 277);
+            this.label8.Location = new System.Drawing.Point(29, 311);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(131, 12);
@@ -314,7 +328,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(29, 338);
+            this.label9.Location = new System.Drawing.Point(29, 372);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(41, 12);
@@ -324,7 +338,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(29, 307);
+            this.label10.Location = new System.Drawing.Point(29, 341);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(41, 12);
@@ -334,7 +348,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(29, 459);
+            this.label11.Location = new System.Drawing.Point(29, 493);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(53, 12);
@@ -344,7 +358,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(29, 429);
+            this.label12.Location = new System.Drawing.Point(29, 463);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(41, 12);
@@ -354,7 +368,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(29, 398);
+            this.label13.Location = new System.Drawing.Point(29, 432);
             this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(149, 12);
@@ -364,7 +378,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(29, 368);
+            this.label14.Location = new System.Drawing.Point(29, 402);
             this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(41, 12);
@@ -374,7 +388,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(29, 550);
+            this.label15.Location = new System.Drawing.Point(29, 584);
             this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(59, 12);
@@ -384,7 +398,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(29, 520);
+            this.label16.Location = new System.Drawing.Point(29, 554);
             this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(137, 12);
@@ -394,7 +408,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(29, 490);
+            this.label17.Location = new System.Drawing.Point(29, 524);
             this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(77, 12);
@@ -403,7 +417,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(242, 241);
+            this.button7.Location = new System.Drawing.Point(242, 275);
             this.button7.Margin = new System.Windows.Forms.Padding(2);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(55, 24);
@@ -414,7 +428,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(182, 241);
+            this.button8.Location = new System.Drawing.Point(182, 275);
             this.button8.Margin = new System.Windows.Forms.Padding(2);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(55, 24);
@@ -425,7 +439,7 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(242, 271);
+            this.button9.Location = new System.Drawing.Point(242, 305);
             this.button9.Margin = new System.Windows.Forms.Padding(2);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(55, 24);
@@ -436,7 +450,7 @@
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(182, 271);
+            this.button10.Location = new System.Drawing.Point(182, 305);
             this.button10.Margin = new System.Windows.Forms.Padding(2);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(55, 24);
@@ -447,7 +461,7 @@
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(242, 332);
+            this.button11.Location = new System.Drawing.Point(242, 366);
             this.button11.Margin = new System.Windows.Forms.Padding(2);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(55, 24);
@@ -458,7 +472,7 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(182, 332);
+            this.button12.Location = new System.Drawing.Point(182, 366);
             this.button12.Margin = new System.Windows.Forms.Padding(2);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(55, 24);
@@ -469,7 +483,7 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(242, 302);
+            this.button13.Location = new System.Drawing.Point(242, 336);
             this.button13.Margin = new System.Windows.Forms.Padding(2);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(55, 24);
@@ -480,7 +494,7 @@
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(182, 302);
+            this.button14.Location = new System.Drawing.Point(182, 336);
             this.button14.Margin = new System.Windows.Forms.Padding(2);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(55, 24);
@@ -491,7 +505,7 @@
             // 
             // button15
             // 
-            this.button15.Location = new System.Drawing.Point(242, 454);
+            this.button15.Location = new System.Drawing.Point(242, 488);
             this.button15.Margin = new System.Windows.Forms.Padding(2);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(55, 24);
@@ -502,7 +516,7 @@
             // 
             // button16
             // 
-            this.button16.Location = new System.Drawing.Point(182, 454);
+            this.button16.Location = new System.Drawing.Point(182, 488);
             this.button16.Margin = new System.Windows.Forms.Padding(2);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(55, 24);
@@ -513,7 +527,7 @@
             // 
             // button17
             // 
-            this.button17.Location = new System.Drawing.Point(242, 423);
+            this.button17.Location = new System.Drawing.Point(242, 457);
             this.button17.Margin = new System.Windows.Forms.Padding(2);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(55, 24);
@@ -524,7 +538,7 @@
             // 
             // button18
             // 
-            this.button18.Location = new System.Drawing.Point(182, 423);
+            this.button18.Location = new System.Drawing.Point(182, 457);
             this.button18.Margin = new System.Windows.Forms.Padding(2);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(55, 24);
@@ -535,7 +549,7 @@
             // 
             // button19
             // 
-            this.button19.Location = new System.Drawing.Point(242, 393);
+            this.button19.Location = new System.Drawing.Point(242, 427);
             this.button19.Margin = new System.Windows.Forms.Padding(2);
             this.button19.Name = "button19";
             this.button19.Size = new System.Drawing.Size(55, 24);
@@ -546,7 +560,7 @@
             // 
             // button20
             // 
-            this.button20.Location = new System.Drawing.Point(182, 393);
+            this.button20.Location = new System.Drawing.Point(182, 427);
             this.button20.Margin = new System.Windows.Forms.Padding(2);
             this.button20.Name = "button20";
             this.button20.Size = new System.Drawing.Size(55, 24);
@@ -557,7 +571,7 @@
             // 
             // button21
             // 
-            this.button21.Location = new System.Drawing.Point(242, 362);
+            this.button21.Location = new System.Drawing.Point(242, 396);
             this.button21.Margin = new System.Windows.Forms.Padding(2);
             this.button21.Name = "button21";
             this.button21.Size = new System.Drawing.Size(55, 24);
@@ -568,7 +582,7 @@
             // 
             // button22
             // 
-            this.button22.Location = new System.Drawing.Point(182, 362);
+            this.button22.Location = new System.Drawing.Point(182, 396);
             this.button22.Margin = new System.Windows.Forms.Padding(2);
             this.button22.Name = "button22";
             this.button22.Size = new System.Drawing.Size(55, 24);
@@ -579,7 +593,7 @@
             // 
             // button23
             // 
-            this.button23.Location = new System.Drawing.Point(242, 545);
+            this.button23.Location = new System.Drawing.Point(242, 579);
             this.button23.Margin = new System.Windows.Forms.Padding(2);
             this.button23.Name = "button23";
             this.button23.Size = new System.Drawing.Size(55, 24);
@@ -590,7 +604,7 @@
             // 
             // button24
             // 
-            this.button24.Location = new System.Drawing.Point(182, 545);
+            this.button24.Location = new System.Drawing.Point(182, 579);
             this.button24.Margin = new System.Windows.Forms.Padding(2);
             this.button24.Name = "button24";
             this.button24.Size = new System.Drawing.Size(55, 24);
@@ -601,7 +615,7 @@
             // 
             // button25
             // 
-            this.button25.Location = new System.Drawing.Point(242, 514);
+            this.button25.Location = new System.Drawing.Point(242, 548);
             this.button25.Margin = new System.Windows.Forms.Padding(2);
             this.button25.Name = "button25";
             this.button25.Size = new System.Drawing.Size(55, 24);
@@ -612,7 +626,7 @@
             // 
             // button26
             // 
-            this.button26.Location = new System.Drawing.Point(182, 514);
+            this.button26.Location = new System.Drawing.Point(182, 548);
             this.button26.Margin = new System.Windows.Forms.Padding(2);
             this.button26.Name = "button26";
             this.button26.Size = new System.Drawing.Size(55, 24);
@@ -623,7 +637,7 @@
             // 
             // button27
             // 
-            this.button27.Location = new System.Drawing.Point(242, 484);
+            this.button27.Location = new System.Drawing.Point(242, 518);
             this.button27.Margin = new System.Windows.Forms.Padding(2);
             this.button27.Name = "button27";
             this.button27.Size = new System.Drawing.Size(55, 24);
@@ -634,7 +648,7 @@
             // 
             // button28
             // 
-            this.button28.Location = new System.Drawing.Point(182, 484);
+            this.button28.Location = new System.Drawing.Point(182, 518);
             this.button28.Margin = new System.Windows.Forms.Padding(2);
             this.button28.Name = "button28";
             this.button28.Size = new System.Drawing.Size(55, 24);
@@ -645,7 +659,7 @@
             // 
             // button35
             // 
-            this.button35.Location = new System.Drawing.Point(555, 453);
+            this.button35.Location = new System.Drawing.Point(555, 487);
             this.button35.Margin = new System.Windows.Forms.Padding(2);
             this.button35.Name = "button35";
             this.button35.Size = new System.Drawing.Size(55, 24);
@@ -656,7 +670,7 @@
             // 
             // button36
             // 
-            this.button36.Location = new System.Drawing.Point(496, 453);
+            this.button36.Location = new System.Drawing.Point(496, 487);
             this.button36.Margin = new System.Windows.Forms.Padding(2);
             this.button36.Name = "button36";
             this.button36.Size = new System.Drawing.Size(55, 24);
@@ -667,7 +681,7 @@
             // 
             // button37
             // 
-            this.button37.Location = new System.Drawing.Point(555, 422);
+            this.button37.Location = new System.Drawing.Point(555, 456);
             this.button37.Margin = new System.Windows.Forms.Padding(2);
             this.button37.Name = "button37";
             this.button37.Size = new System.Drawing.Size(55, 24);
@@ -678,7 +692,7 @@
             // 
             // button38
             // 
-            this.button38.Location = new System.Drawing.Point(496, 422);
+            this.button38.Location = new System.Drawing.Point(496, 456);
             this.button38.Margin = new System.Windows.Forms.Padding(2);
             this.button38.Name = "button38";
             this.button38.Size = new System.Drawing.Size(55, 24);
@@ -689,7 +703,7 @@
             // 
             // button39
             // 
-            this.button39.Location = new System.Drawing.Point(555, 392);
+            this.button39.Location = new System.Drawing.Point(555, 426);
             this.button39.Margin = new System.Windows.Forms.Padding(2);
             this.button39.Name = "button39";
             this.button39.Size = new System.Drawing.Size(55, 24);
@@ -700,7 +714,7 @@
             // 
             // button40
             // 
-            this.button40.Location = new System.Drawing.Point(496, 392);
+            this.button40.Location = new System.Drawing.Point(496, 426);
             this.button40.Margin = new System.Windows.Forms.Padding(2);
             this.button40.Name = "button40";
             this.button40.Size = new System.Drawing.Size(55, 24);
@@ -711,7 +725,7 @@
             // 
             // button41
             // 
-            this.button41.Location = new System.Drawing.Point(555, 362);
+            this.button41.Location = new System.Drawing.Point(555, 396);
             this.button41.Margin = new System.Windows.Forms.Padding(2);
             this.button41.Name = "button41";
             this.button41.Size = new System.Drawing.Size(55, 24);
@@ -722,7 +736,7 @@
             // 
             // button42
             // 
-            this.button42.Location = new System.Drawing.Point(496, 362);
+            this.button42.Location = new System.Drawing.Point(496, 396);
             this.button42.Margin = new System.Windows.Forms.Padding(2);
             this.button42.Name = "button42";
             this.button42.Size = new System.Drawing.Size(55, 24);
@@ -733,7 +747,7 @@
             // 
             // button43
             // 
-            this.button43.Location = new System.Drawing.Point(555, 331);
+            this.button43.Location = new System.Drawing.Point(555, 365);
             this.button43.Margin = new System.Windows.Forms.Padding(2);
             this.button43.Name = "button43";
             this.button43.Size = new System.Drawing.Size(55, 24);
@@ -744,7 +758,7 @@
             // 
             // button44
             // 
-            this.button44.Location = new System.Drawing.Point(496, 331);
+            this.button44.Location = new System.Drawing.Point(496, 365);
             this.button44.Margin = new System.Windows.Forms.Padding(2);
             this.button44.Name = "button44";
             this.button44.Size = new System.Drawing.Size(55, 24);
@@ -755,7 +769,7 @@
             // 
             // button45
             // 
-            this.button45.Location = new System.Drawing.Point(555, 301);
+            this.button45.Location = new System.Drawing.Point(555, 335);
             this.button45.Margin = new System.Windows.Forms.Padding(2);
             this.button45.Name = "button45";
             this.button45.Size = new System.Drawing.Size(55, 24);
@@ -766,7 +780,7 @@
             // 
             // button46
             // 
-            this.button46.Location = new System.Drawing.Point(496, 301);
+            this.button46.Location = new System.Drawing.Point(496, 335);
             this.button46.Margin = new System.Windows.Forms.Padding(2);
             this.button46.Name = "button46";
             this.button46.Size = new System.Drawing.Size(55, 24);
@@ -777,7 +791,7 @@
             // 
             // button47
             // 
-            this.button47.Location = new System.Drawing.Point(555, 270);
+            this.button47.Location = new System.Drawing.Point(555, 304);
             this.button47.Margin = new System.Windows.Forms.Padding(2);
             this.button47.Name = "button47";
             this.button47.Size = new System.Drawing.Size(55, 24);
@@ -788,7 +802,7 @@
             // 
             // button48
             // 
-            this.button48.Location = new System.Drawing.Point(496, 270);
+            this.button48.Location = new System.Drawing.Point(496, 304);
             this.button48.Margin = new System.Windows.Forms.Padding(2);
             this.button48.Name = "button48";
             this.button48.Size = new System.Drawing.Size(55, 24);
@@ -799,7 +813,7 @@
             // 
             // button49
             // 
-            this.button49.Location = new System.Drawing.Point(555, 240);
+            this.button49.Location = new System.Drawing.Point(555, 274);
             this.button49.Margin = new System.Windows.Forms.Padding(2);
             this.button49.Name = "button49";
             this.button49.Size = new System.Drawing.Size(55, 24);
@@ -810,7 +824,7 @@
             // 
             // button50
             // 
-            this.button50.Location = new System.Drawing.Point(496, 240);
+            this.button50.Location = new System.Drawing.Point(496, 274);
             this.button50.Margin = new System.Windows.Forms.Padding(2);
             this.button50.Name = "button50";
             this.button50.Size = new System.Drawing.Size(55, 24);
@@ -822,7 +836,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(343, 458);
+            this.label21.Location = new System.Drawing.Point(343, 492);
             this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(71, 12);
@@ -832,7 +846,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(343, 428);
+            this.label22.Location = new System.Drawing.Point(343, 462);
             this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(71, 12);
@@ -842,7 +856,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(342, 398);
+            this.label23.Location = new System.Drawing.Point(342, 432);
             this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(59, 12);
@@ -852,7 +866,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(342, 367);
+            this.label24.Location = new System.Drawing.Point(342, 401);
             this.label24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(65, 12);
@@ -862,7 +876,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(343, 337);
+            this.label25.Location = new System.Drawing.Point(343, 371);
             this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(65, 12);
@@ -872,7 +886,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(343, 306);
+            this.label26.Location = new System.Drawing.Point(343, 340);
             this.label26.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(125, 12);
@@ -882,7 +896,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(342, 276);
+            this.label27.Location = new System.Drawing.Point(342, 310);
             this.label27.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(125, 12);
@@ -892,258 +906,386 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(342, 246);
+            this.label28.Location = new System.Drawing.Point(342, 280);
             this.label28.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(71, 12);
             this.label28.TabIndex = 48;
             this.label28.Text = "meng = mong";
             // 
-            // label18
+            // hxdx
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(29, 53);
-            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(65, 12);
-            this.label18.TabIndex = 75;
-            this.label18.Text = "候选大小：";
-            this.label18.MouseEnter += new System.EventHandler(this.label18_MouseEnter);
+            this.hxdx.AutoSize = true;
+            this.hxdx.Location = new System.Drawing.Point(29, 53);
+            this.hxdx.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.hxdx.Name = "hxdx";
+            this.hxdx.Size = new System.Drawing.Size(65, 12);
+            this.hxdx.TabIndex = 75;
+            this.hxdx.Text = "候选大小：";
+            this.hxdx.MouseEnter += new System.EventHandler(this.label18_MouseEnter);
             // 
             // label19
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label19.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label19.Location = new System.Drawing.Point(29, 179);
+            this.label19.Location = new System.Drawing.Point(29, 213);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(581, 12);
             this.label19.TabIndex = 80;
             this.label19.Text = "                                                                                 " +
     "               ";
             // 
-            // button29
+            // hxdx2
             // 
-            this.button29.Location = new System.Drawing.Point(190, 47);
-            this.button29.Margin = new System.Windows.Forms.Padding(2);
-            this.button29.Name = "button29";
-            this.button29.Size = new System.Drawing.Size(55, 24);
-            this.button29.TabIndex = 81;
-            this.button29.Text = "确认";
-            this.button29.UseVisualStyleBackColor = true;
-            this.button29.Click += new System.EventHandler(this.button29_Click);
-            this.button29.MouseEnter += new System.EventHandler(this.button29_MouseEnter);
+            this.hxdx2.Location = new System.Drawing.Point(190, 47);
+            this.hxdx2.Margin = new System.Windows.Forms.Padding(2);
+            this.hxdx2.Name = "hxdx2";
+            this.hxdx2.Size = new System.Drawing.Size(55, 24);
+            this.hxdx2.TabIndex = 81;
+            this.hxdx2.Text = "确认";
+            this.hxdx2.UseVisualStyleBackColor = true;
+            this.hxdx2.Click += new System.EventHandler(this.button29_Click);
+            this.hxdx2.MouseEnter += new System.EventHandler(this.button29_MouseEnter);
             // 
-            // 候选大小
+            // hxdx1
             // 
-            this.候选大小.Location = new System.Drawing.Point(110, 49);
-            this.候选大小.Name = "候选大小";
-            this.候选大小.Size = new System.Drawing.Size(55, 21);
-            this.候选大小.TabIndex = 82;
-            this.候选大小.Text = "14";
+            this.hxdx1.Location = new System.Drawing.Point(110, 49);
+            this.hxdx1.Name = "hxdx1";
+            this.hxdx1.Size = new System.Drawing.Size(55, 21);
+            this.hxdx1.TabIndex = 82;
+            this.hxdx1.Text = "14";
             // 
             // label29
             // 
             this.label29.AutoSize = true;
             this.label29.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label29.Location = new System.Drawing.Point(240, 612);
+            this.label29.Location = new System.Drawing.Point(240, 646);
             this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(161, 12);
             this.label29.TabIndex = 84;
             this.label29.Text = "所有设置点击按钮后即时生效";
             // 
-            // button30
+            // qjgn2
             // 
-            this.button30.Location = new System.Drawing.Point(191, 80);
-            this.button30.Margin = new System.Windows.Forms.Padding(2);
-            this.button30.Name = "button30";
-            this.button30.Size = new System.Drawing.Size(55, 24);
-            this.button30.TabIndex = 88;
-            this.button30.Text = "筛选";
-            this.button30.UseVisualStyleBackColor = true;
-            this.button30.Click += new System.EventHandler(this.button30_Click);
+            this.qjgn2.Location = new System.Drawing.Point(191, 80);
+            this.qjgn2.Margin = new System.Windows.Forms.Padding(2);
+            this.qjgn2.Name = "qjgn2";
+            this.qjgn2.Size = new System.Drawing.Size(55, 24);
+            this.qjgn2.TabIndex = 88;
+            this.qjgn2.Text = "筛选";
+            this.qjgn2.UseVisualStyleBackColor = true;
+            this.qjgn2.Click += new System.EventHandler(this.button30_Click);
             // 
-            // button31
+            // qjgn1
             // 
-            this.button31.Location = new System.Drawing.Point(111, 80);
-            this.button31.Margin = new System.Windows.Forms.Padding(2);
-            this.button31.Name = "button31";
-            this.button31.Size = new System.Drawing.Size(55, 24);
-            this.button31.TabIndex = 87;
-            this.button31.Text = "分隔";
-            this.button31.UseVisualStyleBackColor = true;
-            this.button31.Click += new System.EventHandler(this.button31_Click);
+            this.qjgn1.Location = new System.Drawing.Point(111, 80);
+            this.qjgn1.Margin = new System.Windows.Forms.Padding(2);
+            this.qjgn1.Name = "qjgn1";
+            this.qjgn1.Size = new System.Drawing.Size(55, 24);
+            this.qjgn1.TabIndex = 87;
+            this.qjgn1.Text = "分隔";
+            this.qjgn1.UseVisualStyleBackColor = true;
+            this.qjgn1.Click += new System.EventHandler(this.button31_Click);
             // 
-            // label31
+            // qjgn
             // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(30, 87);
-            this.label31.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(65, 12);
-            this.label31.TabIndex = 86;
-            this.label31.Text = "7 键功能：";
+            this.qjgn.AutoSize = true;
+            this.qjgn.Location = new System.Drawing.Point(30, 87);
+            this.qjgn.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.qjgn.Name = "qjgn";
+            this.qjgn.Size = new System.Drawing.Size(65, 12);
+            this.qjgn.TabIndex = 86;
+            this.qjgn.Text = "7 键功能：";
             // 
-            // button32
+            // fxjgn2
             // 
-            this.button32.Location = new System.Drawing.Point(487, 80);
-            this.button32.Margin = new System.Windows.Forms.Padding(2);
-            this.button32.Name = "button32";
-            this.button32.Size = new System.Drawing.Size(65, 24);
-            this.button32.TabIndex = 91;
-            this.button32.Text = "控制光标";
-            this.button32.UseVisualStyleBackColor = true;
-            this.button32.Click += new System.EventHandler(this.button32_Click_1);
+            this.fxjgn2.Location = new System.Drawing.Point(487, 80);
+            this.fxjgn2.Margin = new System.Windows.Forms.Padding(2);
+            this.fxjgn2.Name = "fxjgn2";
+            this.fxjgn2.Size = new System.Drawing.Size(65, 24);
+            this.fxjgn2.TabIndex = 91;
+            this.fxjgn2.Text = "控制光标";
+            this.fxjgn2.UseVisualStyleBackColor = true;
+            this.fxjgn2.Click += new System.EventHandler(this.button32_Click_1);
             // 
-            // button33
+            // fxjgn1
             // 
-            this.button33.Location = new System.Drawing.Point(418, 80);
-            this.button33.Margin = new System.Windows.Forms.Padding(2);
-            this.button33.Name = "button33";
-            this.button33.Size = new System.Drawing.Size(55, 24);
-            this.button33.TabIndex = 90;
-            this.button33.Text = "翻页";
-            this.button33.UseVisualStyleBackColor = true;
-            this.button33.Click += new System.EventHandler(this.button33_Click);
+            this.fxjgn1.Location = new System.Drawing.Point(418, 80);
+            this.fxjgn1.Margin = new System.Windows.Forms.Padding(2);
+            this.fxjgn1.Name = "fxjgn1";
+            this.fxjgn1.Size = new System.Drawing.Size(55, 24);
+            this.fxjgn1.TabIndex = 90;
+            this.fxjgn1.Text = "翻页";
+            this.fxjgn1.UseVisualStyleBackColor = true;
+            this.fxjgn1.Click += new System.EventHandler(this.button33_Click);
             // 
-            // label30
+            // fxjgn
             // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(337, 87);
-            this.label30.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(77, 12);
-            this.label30.TabIndex = 89;
-            this.label30.Text = "方向键功能：";
+            this.fxjgn.AutoSize = true;
+            this.fxjgn.Location = new System.Drawing.Point(337, 87);
+            this.fxjgn.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.fxjgn.Name = "fxjgn";
+            this.fxjgn.Size = new System.Drawing.Size(77, 12);
+            this.fxjgn.TabIndex = 89;
+            this.fxjgn.Text = "方向键功能：";
             // 
-            // button34
+            // ywz2
             // 
-            this.button34.Location = new System.Drawing.Point(191, 111);
-            this.button34.Margin = new System.Windows.Forms.Padding(2);
-            this.button34.Name = "button34";
-            this.button34.Size = new System.Drawing.Size(55, 24);
-            this.button34.TabIndex = 94;
-            this.button34.Text = "关闭";
-            this.button34.UseVisualStyleBackColor = true;
-            this.button34.Click += new System.EventHandler(this.button34_Click);
+            this.ywz2.Location = new System.Drawing.Point(191, 111);
+            this.ywz2.Margin = new System.Windows.Forms.Padding(2);
+            this.ywz2.Name = "ywz2";
+            this.ywz2.Size = new System.Drawing.Size(55, 24);
+            this.ywz2.TabIndex = 94;
+            this.ywz2.Text = "关闭";
+            this.ywz2.UseVisualStyleBackColor = true;
+            this.ywz2.Click += new System.EventHandler(this.button34_Click);
             // 
-            // button51
+            // ywz1
             // 
-            this.button51.Location = new System.Drawing.Point(111, 111);
-            this.button51.Margin = new System.Windows.Forms.Padding(2);
-            this.button51.Name = "button51";
-            this.button51.Size = new System.Drawing.Size(55, 24);
-            this.button51.TabIndex = 93;
-            this.button51.Text = "开启";
-            this.button51.UseVisualStyleBackColor = true;
-            this.button51.Click += new System.EventHandler(this.button51_Click);
+            this.ywz1.Location = new System.Drawing.Point(111, 111);
+            this.ywz1.Margin = new System.Windows.Forms.Padding(2);
+            this.ywz1.Name = "ywz1";
+            this.ywz1.Size = new System.Drawing.Size(55, 24);
+            this.ywz1.TabIndex = 93;
+            this.ywz1.Text = "开启";
+            this.ywz1.UseVisualStyleBackColor = true;
+            this.ywz1.Click += new System.EventHandler(this.button51_Click);
             // 
-            // label32
+            // ywz
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(30, 118);
-            this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(53, 12);
-            this.label32.TabIndex = 92;
-            this.label32.Text = "颜文字：";
+            this.ywz.AutoSize = true;
+            this.ywz.Location = new System.Drawing.Point(30, 118);
+            this.ywz.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.ywz.Name = "ywz";
+            this.ywz.Size = new System.Drawing.Size(53, 12);
+            this.ywz.TabIndex = 92;
+            this.ywz.Text = "颜文字：";
             // 
-            // button52
+            // emoji2
             // 
-            this.button52.Location = new System.Drawing.Point(498, 112);
-            this.button52.Margin = new System.Windows.Forms.Padding(2);
-            this.button52.Name = "button52";
-            this.button52.Size = new System.Drawing.Size(55, 24);
-            this.button52.TabIndex = 97;
-            this.button52.Text = "关闭";
-            this.button52.UseVisualStyleBackColor = true;
-            this.button52.Click += new System.EventHandler(this.button52_Click);
+            this.emoji2.Location = new System.Drawing.Point(498, 112);
+            this.emoji2.Margin = new System.Windows.Forms.Padding(2);
+            this.emoji2.Name = "emoji2";
+            this.emoji2.Size = new System.Drawing.Size(55, 24);
+            this.emoji2.TabIndex = 97;
+            this.emoji2.Text = "关闭";
+            this.emoji2.UseVisualStyleBackColor = true;
+            this.emoji2.Click += new System.EventHandler(this.button52_Click);
             // 
-            // button53
+            // emoji1
             // 
-            this.button53.Location = new System.Drawing.Point(418, 112);
-            this.button53.Margin = new System.Windows.Forms.Padding(2);
-            this.button53.Name = "button53";
-            this.button53.Size = new System.Drawing.Size(55, 24);
-            this.button53.TabIndex = 96;
-            this.button53.Text = "开启";
-            this.button53.UseVisualStyleBackColor = true;
-            this.button53.Click += new System.EventHandler(this.button53_Click);
+            this.emoji1.Location = new System.Drawing.Point(418, 112);
+            this.emoji1.Margin = new System.Windows.Forms.Padding(2);
+            this.emoji1.Name = "emoji1";
+            this.emoji1.Size = new System.Drawing.Size(55, 24);
+            this.emoji1.TabIndex = 96;
+            this.emoji1.Text = "开启";
+            this.emoji1.UseVisualStyleBackColor = true;
+            this.emoji1.Click += new System.EventHandler(this.button53_Click);
             // 
-            // label33
+            // emoji
             // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(337, 119);
-            this.label33.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(47, 12);
-            this.label33.TabIndex = 95;
-            this.label33.Text = "emoji：";
+            this.emoji.AutoSize = true;
+            this.emoji.Location = new System.Drawing.Point(337, 119);
+            this.emoji.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.emoji.Name = "emoji";
+            this.emoji.Size = new System.Drawing.Size(47, 12);
+            this.emoji.TabIndex = 95;
+            this.emoji.Text = "emoji：";
             // 
-            // button54
+            // dymhx2
             // 
-            this.button54.Location = new System.Drawing.Point(190, 144);
-            this.button54.Margin = new System.Windows.Forms.Padding(2);
-            this.button54.Name = "button54";
-            this.button54.Size = new System.Drawing.Size(55, 24);
-            this.button54.TabIndex = 100;
-            this.button54.Text = "关闭";
-            this.button54.UseVisualStyleBackColor = true;
-            this.button54.Click += new System.EventHandler(this.button54_Click);
+            this.dymhx2.Location = new System.Drawing.Point(190, 144);
+            this.dymhx2.Margin = new System.Windows.Forms.Padding(2);
+            this.dymhx2.Name = "dymhx2";
+            this.dymhx2.Size = new System.Drawing.Size(55, 24);
+            this.dymhx2.TabIndex = 100;
+            this.dymhx2.Text = "关闭";
+            this.dymhx2.UseVisualStyleBackColor = true;
+            this.dymhx2.Click += new System.EventHandler(this.button54_Click);
             // 
-            // button55
+            // dymhx1
             // 
-            this.button55.Location = new System.Drawing.Point(110, 144);
-            this.button55.Margin = new System.Windows.Forms.Padding(2);
-            this.button55.Name = "button55";
-            this.button55.Size = new System.Drawing.Size(55, 24);
-            this.button55.TabIndex = 99;
-            this.button55.Text = "开启";
-            this.button55.UseVisualStyleBackColor = true;
-            this.button55.Click += new System.EventHandler(this.button55_Click);
-            this.button55.MouseEnter += new System.EventHandler(this.button55_MouseEnter);
+            this.dymhx1.Location = new System.Drawing.Point(110, 144);
+            this.dymhx1.Margin = new System.Windows.Forms.Padding(2);
+            this.dymhx1.Name = "dymhx1";
+            this.dymhx1.Size = new System.Drawing.Size(55, 24);
+            this.dymhx1.TabIndex = 99;
+            this.dymhx1.Text = "开启";
+            this.dymhx1.UseVisualStyleBackColor = true;
+            this.dymhx1.Click += new System.EventHandler(this.button55_Click);
+            this.dymhx1.MouseEnter += new System.EventHandler(this.button55_MouseEnter);
             // 
-            // label34
+            // dymhx
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(29, 151);
-            this.label34.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(77, 12);
-            this.label34.TabIndex = 98;
-            this.label34.Text = "多一码候选：";
-            this.label34.MouseEnter += new System.EventHandler(this.label34_MouseEnter);
+            this.dymhx.AutoSize = true;
+            this.dymhx.Location = new System.Drawing.Point(29, 151);
+            this.dymhx.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.dymhx.Name = "dymhx";
+            this.dymhx.Size = new System.Drawing.Size(77, 12);
+            this.dymhx.TabIndex = 98;
+            this.dymhx.Text = "多一码候选：";
+            this.dymhx.MouseEnter += new System.EventHandler(this.label34_MouseEnter);
             // 
             // 候选大小tip
             // 
             this.候选大小tip.Tag = "";
             // 
+            // cszlx2
+            // 
+            this.cszlx2.Location = new System.Drawing.Point(498, 144);
+            this.cszlx2.Margin = new System.Windows.Forms.Padding(2);
+            this.cszlx2.Name = "cszlx2";
+            this.cszlx2.Size = new System.Drawing.Size(55, 24);
+            this.cszlx2.TabIndex = 103;
+            this.cszlx2.Text = "关闭";
+            this.cszlx2.UseVisualStyleBackColor = true;
+            this.cszlx2.Click += new System.EventHandler(this.button56_Click);
+            // 
+            // cszlx1
+            // 
+            this.cszlx1.Location = new System.Drawing.Point(418, 144);
+            this.cszlx1.Margin = new System.Windows.Forms.Padding(2);
+            this.cszlx1.Name = "cszlx1";
+            this.cszlx1.Size = new System.Drawing.Size(55, 24);
+            this.cszlx1.TabIndex = 102;
+            this.cszlx1.Text = "开启";
+            this.cszlx1.UseVisualStyleBackColor = true;
+            this.cszlx1.Click += new System.EventHandler(this.button57_Click);
+            // 
+            // cszlx
+            // 
+            this.cszlx.AutoSize = true;
+            this.cszlx.Location = new System.Drawing.Point(337, 151);
+            this.cszlx.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.cszlx.Name = "cszlx";
+            this.cszlx.Size = new System.Drawing.Size(77, 12);
+            this.cszlx.TabIndex = 101;
+            this.cszlx.Text = "超四字联想：";
+            // 
+            // bmzs2
+            // 
+            this.bmzs2.Location = new System.Drawing.Point(191, 177);
+            this.bmzs2.Margin = new System.Windows.Forms.Padding(2);
+            this.bmzs2.Name = "bmzs2";
+            this.bmzs2.Size = new System.Drawing.Size(55, 24);
+            this.bmzs2.TabIndex = 106;
+            this.bmzs2.Text = "拼音";
+            this.bmzs2.UseVisualStyleBackColor = true;
+            this.bmzs2.Click += new System.EventHandler(this.hxzs2_Click);
+            // 
+            // bmzs1
+            // 
+            this.bmzs1.Location = new System.Drawing.Point(111, 177);
+            this.bmzs1.Margin = new System.Windows.Forms.Padding(2);
+            this.bmzs1.Name = "bmzs1";
+            this.bmzs1.Size = new System.Drawing.Size(55, 24);
+            this.bmzs1.TabIndex = 105;
+            this.bmzs1.Text = "数字";
+            this.bmzs1.UseVisualStyleBackColor = true;
+            this.bmzs1.Click += new System.EventHandler(this.hxzs1_Click);
+            // 
+            // bmzs
+            // 
+            this.bmzs.AutoSize = true;
+            this.bmzs.Location = new System.Drawing.Point(30, 184);
+            this.bmzs.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.bmzs.Name = "bmzs";
+            this.bmzs.Size = new System.Drawing.Size(65, 12);
+            this.bmzs.TabIndex = 104;
+            this.bmzs.Text = "编码展示：";
+            // 
+            // adPanel
+            // 
+            this.adPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.adPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.adPanel.Controls.Add(this.qrPdd);
+            this.adPanel.Controls.Add(this.qrAlipay);
+            this.adPanel.Controls.Add(this.qrWechat);
+            this.adPanel.Location = new System.Drawing.Point(645, 12);
+            this.adPanel.Name = "adPanel";
+            this.adPanel.Size = new System.Drawing.Size(190, 660);
+            this.adPanel.TabIndex = 200;
+            this.adPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.adPanel_Paint);
+            this.btnToggleAd = new System.Windows.Forms.Button();
+            this.btnToggleAd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(200)))));
+            this.btnToggleAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnToggleAd.FlatAppearance.BorderSize = 0;
+            this.btnToggleAd.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnToggleAd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(100)))), ((int)(((byte)(50)))));
+            this.btnToggleAd.Location = new System.Drawing.Point(625, 300);
+            this.btnToggleAd.Name = "btnToggleAd";
+            this.btnToggleAd.Size = new System.Drawing.Size(20, 60);
+            this.btnToggleAd.TabIndex = 201;
+            this.btnToggleAd.Text = "<";
+            this.btnToggleAd.UseVisualStyleBackColor = false;
+            this.btnToggleAd.Click += new System.EventHandler(this.btnToggleAd_Click);
+            this.Controls.Add(this.btnToggleAd);
+            // 
+            // qrPdd
+            // 
+            this.qrPdd.Image = global::t9configui.Properties.Resources._1781684592078_d;
+            this.qrPdd.Location = new System.Drawing.Point(38, 460);
+            this.qrPdd.Name = "qrPdd";
+            this.qrPdd.Size = new System.Drawing.Size(110, 110);
+            this.qrPdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qrPdd.TabIndex = 0;
+            this.qrPdd.TabStop = false;
+            // 
+            // qrAlipay
+            // 
+            this.qrAlipay.Image = global::t9configui.Properties.Resources._0beffad9_8150_4b9c_849a_7960866759b1;
+            this.qrAlipay.Location = new System.Drawing.Point(38, 240);
+            this.qrAlipay.Name = "qrAlipay";
+            this.qrAlipay.Size = new System.Drawing.Size(110, 110);
+            this.qrAlipay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qrAlipay.TabIndex = 1;
+            this.qrAlipay.TabStop = false;
+            // 
+            // qrWechat
+            // 
+            this.qrWechat.Image = global::t9configui.Properties.Resources.dc09882c_1165_40a0_b42b_913b121e6299;
+            this.qrWechat.Location = new System.Drawing.Point(38, 30);
+            this.qrWechat.Name = "qrWechat";
+            this.qrWechat.Size = new System.Drawing.Size(110, 110);
+            this.qrWechat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qrWechat.TabIndex = 2;
+            this.qrWechat.TabStop = false;
+            // 
             // config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(641, 642);
-            this.Controls.Add(this.button54);
-            this.Controls.Add(this.button55);
-            this.Controls.Add(this.label34);
-            this.Controls.Add(this.button52);
-            this.Controls.Add(this.button53);
-            this.Controls.Add(this.label33);
-            this.Controls.Add(this.button34);
-            this.Controls.Add(this.button51);
-            this.Controls.Add(this.label32);
-            this.Controls.Add(this.button32);
-            this.Controls.Add(this.button33);
-            this.Controls.Add(this.label30);
-            this.Controls.Add(this.button30);
-            this.Controls.Add(this.button31);
-            this.Controls.Add(this.label31);
+            this.ClientSize = new System.Drawing.Size(845, 687);
+            this.Controls.Add(this.adPanel);
+            this.Controls.Add(this.bmzs2);
+            this.Controls.Add(this.bmzs1);
+            this.Controls.Add(this.bmzs);
+            this.Controls.Add(this.cszlx2);
+            this.Controls.Add(this.cszlx1);
+            this.Controls.Add(this.cszlx);
+            this.Controls.Add(this.dymhx2);
+            this.Controls.Add(this.dymhx1);
+            this.Controls.Add(this.dymhx);
+            this.Controls.Add(this.emoji2);
+            this.Controls.Add(this.emoji1);
+            this.Controls.Add(this.emoji);
+            this.Controls.Add(this.ywz2);
+            this.Controls.Add(this.ywz1);
+            this.Controls.Add(this.ywz);
+            this.Controls.Add(this.fxjgn2);
+            this.Controls.Add(this.fxjgn1);
+            this.Controls.Add(this.fxjgn);
+            this.Controls.Add(this.qjgn2);
+            this.Controls.Add(this.qjgn1);
+            this.Controls.Add(this.qjgn);
             this.Controls.Add(this.label29);
-            this.Controls.Add(this.候选大小);
-            this.Controls.Add(this.button29);
+            this.Controls.Add(this.hxdx1);
+            this.Controls.Add(this.hxdx2);
             this.Controls.Add(this.label19);
-            this.Controls.Add(this.label18);
+            this.Controls.Add(this.hxdx);
             this.Controls.Add(this.button35);
             this.Controls.Add(this.button36);
             this.Controls.Add(this.button37);
@@ -1203,17 +1345,17 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.hxsl2);
+            this.Controls.Add(this.hxsl1);
+            this.Controls.Add(this.hxsl);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.hxfx2);
+            this.Controls.Add(this.hxfx1);
+            this.Controls.Add(this.hxfx);
+            this.Controls.Add(this.bmts2);
+            this.Controls.Add(this.bmts1);
+            this.Controls.Add(this.bmts);
             this.Controls.Add(this.快捷方式文件指向的目标目录);
             this.Controls.Add(this.快捷方式文件指向的路径);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -1223,6 +1365,10 @@
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "小白T9输入法细节设置";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.adPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.qrPdd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrAlipay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrWechat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1232,17 +1378,17 @@
 
         private System.Windows.Forms.TextBox 快捷方式文件指向的路径;
         private System.Windows.Forms.TextBox 快捷方式文件指向的目标目录;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label bmts;
+        private System.Windows.Forms.Button bmts1;
+        private System.Windows.Forms.Button bmts2;
+        private System.Windows.Forms.Label hxfx;
+        private System.Windows.Forms.Button hxfx2;
+        private System.Windows.Forms.Button hxfx1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Label hxsl;
+        private System.Windows.Forms.ComboBox hxsl1;
+        private System.Windows.Forms.Button hxsl2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
@@ -1302,28 +1448,39 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label hxdx;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Button button29;
-        private System.Windows.Forms.TextBox 候选大小;
+        private System.Windows.Forms.Button hxdx2;
+        private System.Windows.Forms.TextBox hxdx1;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Button button30;
-        private System.Windows.Forms.Button button31;
-        private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Button button32;
-        private System.Windows.Forms.Button button33;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.Button button34;
-        private System.Windows.Forms.Button button51;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.Button button52;
-        private System.Windows.Forms.Button button53;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.Button button54;
-        private System.Windows.Forms.Button button55;
-        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Button qjgn2;
+        private System.Windows.Forms.Button qjgn1;
+        private System.Windows.Forms.Label qjgn;
+        private System.Windows.Forms.Button fxjgn2;
+        private System.Windows.Forms.Button fxjgn1;
+        private System.Windows.Forms.Label fxjgn;
+        private System.Windows.Forms.Button ywz2;
+        private System.Windows.Forms.Button ywz1;
+        private System.Windows.Forms.Label ywz;
+        private System.Windows.Forms.Button emoji2;
+        private System.Windows.Forms.Button emoji1;
+        private System.Windows.Forms.Label emoji;
+        private System.Windows.Forms.Button dymhx2;
+        private System.Windows.Forms.Button dymhx1;
+        private System.Windows.Forms.Label dymhx;
         private System.Windows.Forms.ToolTip 候选大小tip;
         private System.Windows.Forms.ToolTip 多一码候选tip;
+        private System.Windows.Forms.Button cszlx2;
+        private System.Windows.Forms.Button cszlx1;
+        private System.Windows.Forms.Label cszlx;
+        private System.Windows.Forms.Button bmzs2;
+        private System.Windows.Forms.Button bmzs1;
+        private System.Windows.Forms.Label bmzs;
+        private System.Windows.Forms.Button btnToggleAd;
+        private System.Windows.Forms.Panel adPanel;
+        private System.Windows.Forms.PictureBox qrWechat;
+        private System.Windows.Forms.PictureBox qrAlipay;
+        private System.Windows.Forms.PictureBox qrPdd;
     }
 }
 

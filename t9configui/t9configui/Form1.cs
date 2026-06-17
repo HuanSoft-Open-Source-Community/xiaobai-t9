@@ -21,10 +21,13 @@ namespace t9configui
             InitializeComponent();
         }
 
+        private bool _adCollapsed = false;
+        private readonly string _adStateFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "t9config_ad_state.txt");
+
         private static string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox1.Text = "9";
+            hxsl1.Text = "9";
             //快捷方式文件的路径 = @"d:\Test.lnk";
             if (System.IO.File.Exists("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\小白T9输入法\\【小白T9输入法】重新部署.lnk"))
             {
@@ -35,6 +38,15 @@ namespace t9configui
                // return 当前快捷方式文件IWshShortcut类.TargetPath;
             }
 
+
+            string appDir = AppDomain.CurrentDomain.BaseDirectory;
+            try { string p = Path.Combine(appDir, "wechat_qr.png"); if (System.IO.File.Exists(p)) qrWechat.Image = Image.FromFile(p); } catch { }
+            try { string p = Path.Combine(appDir, "alipay_qr.png"); if (System.IO.File.Exists(p)) qrAlipay.Image = Image.FromFile(p); } catch { }
+            try { string p = Path.Combine(appDir, "pdd_qrcode.png"); if (System.IO.File.Exists(p)) qrPdd.Image = Image.FromFile(p); } catch { }
+
+            // Restore ad panel state
+            try { if (System.IO.File.Exists(_adStateFile) && System.IO.File.ReadAllText(_adStateFile).Trim() == "1") _adCollapsed = true; } catch { }
+            ApplyAdState();
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -123,7 +135,7 @@ namespace t9configui
             stream.Close();
 
             StreamWriter sw = new StreamWriter(appdata + @"\Rime\default.custom.yaml", true, Encoding.GetEncoding("UTF-8"));
-            sw.WriteLine("customization:\n  distribution_code_name: Weasel\n  distribution_version: 0.14.3\n  generator: \"Rime::SwitcherSettings\"\n  modified_time: \"Fri Aug  7 15:00:14 2020\"\n  rime_version: 1.5.3\npatch:\n  menu/page_size: "+ comboBox1.Text +"\n  schema_list:\n    - {schema: xiaobai_simp}");
+            sw.WriteLine("customization:\n  distribution_code_name: Weasel\n  distribution_version: 0.14.3\n  generator: \"Rime::SwitcherSettings\"\n  modified_time: \"Fri Aug  7 15:00:14 2020\"\n  rime_version: 1.5.3\npatch:\n  menu/page_size: "+ hxsl1.Text +"\n  schema_list:\n    - {schema: xiaobai_simp}");
             sw.Flush();
             sw.Close();
             Process.Start("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\小白T9输入法\\【小白T9输入法】重新部署.lnk");
@@ -1027,7 +1039,7 @@ namespace t9configui
             if (System.IO.File.Exists(strFilePath))
             {
                 string strContent = System.IO.File.ReadAllText(strFilePath);
-                strContent = Regex.Replace(strContent, "  font_point: .*\r\n", "  font_point: "+候选大小.Text+"\r\n");
+                strContent = Regex.Replace(strContent, "  font_point: .*\r\n", "  font_point: "+hxdx1.Text+"\r\n");
                 System.IO.File.WriteAllText(strFilePath, strContent);
             }
             Process.Start("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\小白T9输入法\\【小白T9输入法】重新部署.lnk");
@@ -1313,6 +1325,176 @@ namespace t9configui
         private void button55_MouseEnter(object sender, EventArgs e)
         {
             多一码候选tip.Show("没特殊要求不建议开启", (Button)sender);
+        }
+
+        private void button57_Click(object sender, EventArgs e)
+        {// 注意：如果是针对特定方案，建议修改 xiaobai_simp.custom.yaml；如果是全局，则修改 default.custom.yaml
+            string text = string.Empty;
+            using (FileStream fs = new FileStream(快捷方式文件指向的目标目录.Text + "\\data\\xiaobai_simp.schema.yaml", FileMode.Open, FileAccess.Read))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    text = sr.ReadToEnd();
+                    text = text.Replace(@"  enable_completion: false", @"  enable_completion: true");
+                }
+            }
+
+            using (FileStream fs = new FileStream(快捷方式文件指向的目标目录.Text + "\\data\\xiaobai_simp.schema.yaml", FileMode.Create, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.Write(text);
+                }
+            }
+
+            Process.Start("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\小白T9输入法\\【小白T9输入法】重新部署.lnk");
+        }
+
+        private void button56_Click(object sender, EventArgs e)
+        {
+            string text = string.Empty;
+            using (FileStream fs = new FileStream(快捷方式文件指向的目标目录.Text + "\\data\\xiaobai_simp.schema.yaml", FileMode.Open, FileAccess.Read))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    text = sr.ReadToEnd();
+                    text = text.Replace(@"  enable_completion: true", @"  enable_completion: false");
+                }
+            }
+
+            using (FileStream fs = new FileStream(快捷方式文件指向的目标目录.Text + "\\data\\xiaobai_simp.schema.yaml", FileMode.Create, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.Write(text);
+                }
+            }
+
+            Process.Start("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\小白T9输入法\\【小白T9输入法】重新部署.lnk");
+        }
+
+        private void hxzs1_Click(object sender, EventArgs e)
+        {
+            string text = string.Empty;
+            string filePath = 快捷方式文件指向的目标目录.Text + "\\data\\xiaobai_simp.schema.yaml";
+
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    text = sr.ReadToEnd();
+
+                    // 🎯 【核心修复】：匹配行首任意组合的空格和#号，一律替换为规范的带#号注释
+                    text = Regex.Replace(text,
+                        @"^[ \t#]*-\s*lua_filter@\*t9_preedit",
+                        @"    #- lua_filter@*t9_preedit",
+                        RegexOptions.Multiline);
+                }
+            }
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.Write(text);
+                }
+            }
+
+            Process.Start("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\小白T9输入法\\【小白T9输入法】重新部署.lnk");
+        }
+
+        private void hxzs2_Click(object sender, EventArgs e)
+        {
+            string text = string.Empty;
+            string filePath = 快捷方式文件指向的目标目录.Text + "\\data\\xiaobai_simp.schema.yaml";
+
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    text = sr.ReadToEnd();
+
+                    // 🎯 【核心修复】：匹配行首任意组合的空格和#号，一律替换为干净放行的核心代码
+                    text = Regex.Replace(text,
+                        @"^[ \t#]*-\s*lua_filter@\*t9_preedit",
+                        @"    - lua_filter@*t9_preedit",
+                        RegexOptions.Multiline);
+                }
+            }
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.Write(text);
+                }
+            }
+
+            Process.Start("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\小白T9输入法\\【小白T9输入法】重新部署.lnk");
+        }
+
+        private void adPanel_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            using (var tf = new Font("Microsoft YaHei UI", 11F, FontStyle.Bold))
+            using (var tb = new SolidBrush(Color.FromArgb(200, 80, 40)))
+            {
+                var w = g.MeasureString("支持小白", tf).Width;
+                g.DrawString("支持小白", tf, tb, (190 - w) / 2, 8);
+            }
+            using (var lf = new Font("Microsoft YaHei UI", 8.5F, FontStyle.Bold))
+            using (var sf = new Font("Microsoft YaHei UI", 7.5F))
+            using (var gb = new SolidBrush(Color.FromArgb(80, 80, 80)))
+            using (var db = new SolidBrush(Color.FromArgb(50, 50, 50)))
+            using (var rb = new SolidBrush(Color.FromArgb(210, 50, 20)))
+            using (var pen = new Pen(Color.FromArgb(230, 210, 190), 1))
+            {
+                var w1 = g.MeasureString("微信打赏", lf).Width;
+                g.DrawString("微信打赏", lf, db, (190 - w1) / 2, 148);
+                var w1d = g.MeasureString("感谢支持小白输入法", sf).Width;
+                g.DrawString("感谢支持小白输入法", sf, gb, (190 - w1d) / 2, 168);
+                g.DrawLine(pen, 20, 200, 170, 200);
+                var w2 = g.MeasureString("支付宝打赏", lf).Width;
+                g.DrawString("支付宝打赏", lf, db, (190 - w2) / 2, 358);
+                var w2d = g.MeasureString("感谢支持小白输入法", sf).Width;
+                g.DrawString("感谢支持小白输入法", sf, gb, (190 - w2d) / 2, 378);
+                g.DrawLine(pen, 20, 418, 170, 418);
+                var w3 = g.MeasureString("拼多多店铺", lf).Width;
+                g.DrawString("拼多多店铺", lf, db, (190 - w3) / 2, 578);
+                var w3a = g.MeasureString("捐助98元可赠送", sf).Width;
+                g.DrawString("捐助98元可赠送", sf, gb, (190 - w3a) / 2, 598);
+                var w3b = g.MeasureString("小白T9无线键盘一台!", sf).Width;
+                g.DrawString("小白T9无线键盘一台!", sf, rb, (190 - w3b) / 2, 614);
+            }
+        }
+
+
+        private void btnToggleAd_Click(object sender, EventArgs e)
+        {
+            _adCollapsed = !_adCollapsed;
+            ApplyAdState();
+            try { System.IO.File.WriteAllText(_adStateFile, _adCollapsed ? "1" : "0"); } catch { }
+        }
+
+        private void ApplyAdState()
+        {
+            if (_adCollapsed)
+            {
+                adPanel.Visible = false;
+                btnToggleAd.Text = ">";
+                btnToggleAd.Location = new System.Drawing.Point(625, 300);
+                this.ClientSize = new System.Drawing.Size(645, 687);
+            }
+            else
+            {
+                adPanel.Visible = true;
+                btnToggleAd.Text = "<";
+                btnToggleAd.Location = new System.Drawing.Point(625, 300);
+                this.ClientSize = new System.Drawing.Size(845, 687);
+            }
         }
     }
 }
