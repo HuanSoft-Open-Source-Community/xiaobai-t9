@@ -8,28 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Collections.Specialized;
-using System.Text.RegularExpressions;
-
-
-
-
-
 
 namespace t9keyboard
 {
-
-
-
-
-
-
-
-
-
     public partial class Form2 : Form
     {
-        
         public Form2()
         {
             InitializeComponent();
@@ -40,21 +23,19 @@ namespace t9keyboard
             this.BackColor = Color.White;
             this.TransparencyKey = Color.White;
 
-            keyboard f1 = new keyboard();
-            f1.Show();
+            // 启动时显示键盘
+            ShowKeyboard();
+
+            // 显示帮助
             help f2 = new help();
-            f2.Show();
-            f2.yes.PerformClick();
+            //f2.Show();
+            // f2.yes.PerformClick(); // 建议把这行逻辑放在help窗体内部处理，或者确保yes按钮存在
         }
 
+        // 窗口拖动相关变量
+        private Point offset;
 
-
-
-        float X;
-        float Y;
-
-
-
+        // 窗口样式重写 (保持不变)
         private const int WS_EX_TOOLWINDOW = 0x00000080;
         private const int WS_EX_NOACTIVATE = 0x08000000;
         protected override CreateParams CreateParams
@@ -68,134 +49,108 @@ namespace t9keyboard
             }
         }
 
-
-
-
-        private Point offset;
-
         private void button1_MouseDown(object sender, MouseEventArgs e)
         {
-
             if (e.Button == MouseButtons.Left)
             {
-  //              MessageBox.Show("left");
+                Point cur = this.PointToScreen(e.Location);
+                offset = new Point(cur.X - this.Left, cur.Y - this.Top);
             }
-            else
+            else if (e.Button == MouseButtons.Right)
             {
-                //               MessageBox.Show("right");
                 contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
             }
-            //右键
-
-            if (MouseButtons.Left != e.Button) return;
-            Point cur = this.PointToScreen(e.Location);
-            offset = new Point(cur.X - this.Left, cur.Y - this.Top);
-
-
-
-
         }
 
         private void button1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (MouseButtons.Left != e.Button) return;
+            if (e.Button != MouseButtons.Left) return;
             Point cur = MousePosition;
             this.Location = new Point(cur.X - offset.X, cur.Y - offset.Y);
         }
-        int i = 3;
+
+        // 用一个布尔值记录键盘显示状态，比 int i 更加准确
+        bool isKeyboardVisible = true;
+
         private void button1_Click(object sender, EventArgs e)
         {
-          
-
+            // 核心修改：双击逻辑判定
             if (timer1.Enabled)
+            {
+                // --- 这里是双击事件 ---
+                timer1.Enabled = false;
+                timer1.Tag = null; // 【关键修复】重置Tag，防止下次判定错误
 
+                if (isKeyboardVisible)
                 {
-
-                    timer1.Enabled = false;
-
-                //以下为双击事件内容
-
-                if (i % 2 == 1)
-                {
-                  //  MessageBox.Show((i%2).ToString());
-                    //                    Form f1 = new keyboard();
-                    foreach (Form form in Application.OpenForms)
-                    {
-                        if (form.GetType() == typeof(keyboard))
-                        {
-                            keyboard f1 = new keyboard();
-                            f1 = (keyboard)form;
-                            f1.hide();
-                        }
-                        if (form.GetType() == typeof(numboard))
-                        {
-                            numboard f2 = new numboard();
-                            f2 = (numboard)form;
-                            f2.hide();
-                        }
-                        if (form.GetType() == typeof(enboard))
-                        {
-                            enboard f3 = new enboard();
-                            f3 = (enboard)form;
-                            f3.hide();
-                        }
-                    }
-                    i++;
+                    HideKeyboard(); // 隐藏
                 }
                 else
                 {
-                 //               MessageBox.Show((i % 2).ToString());
-                    keyboard f1 = new keyboard();
-                    f1.Show();
-                    i++;
+                    ShowKeyboard(); // 显示
                 }
-
-                //双击事件结束z
-
+                // 切换状态
+                isKeyboardVisible = !isKeyboardVisible;
             }
-
-                else
-
-                {
-
-                    timer1.Enabled = true;
-
-                }
-
-            
+            else
+            {
+                // --- 这里是第一次点击 ---
+                timer1.Enabled = true;
+                timer1.Tag = DateTime.Now; // 立即记录时间
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (timer1.Tag == "")
-
+            // 检查是否超时 (0.4秒作为双击间隔比较合适，0.5秒略长)
+            if (timer1.Tag != null)
             {
+                DateTime startTime = (DateTime)timer1.Tag;
+                if ((DateTime.Now - startTime).TotalMilliseconds > 400)
+                {
+                    // --- 这里是单击事件（超时未双击） ---
+                    timer1.Enabled = false;
+                    timer1.Tag = null;
 
-                timer1.Tag = DateTime.Now.ToString();
+                    // 如果你需要单击做点什么，写在这里
+                    // Console.WriteLine("单击触发");
+                }
+            }
+        }
 
+        // 封装：隐藏键盘逻辑
+        private void HideKeyboard()
+        {
+            foreach (Form form in Application.OpenForms)
+            {
+                // 隐藏指定类型的窗体，而不是关闭
+                if (form is keyboard || form is numboard || form is enboard)
+                {
+                    form.Hide();
+                }
+            }
+        }
+
+        // 封装：显示键盘逻辑
+        private void ShowKeyboard()
+        {
+            // 防止重复创建：先找有没有已经打开但隐藏的键盘
+            bool found = false;
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form is keyboard)
+                {
+                    form.Show();
+                    found = true;
+                    // 也可以顺便把关联的 numboard/enboard 处理一下，视你具体需求而定
+                }
             }
 
-            else
-
+            // 如果没找到任何键盘窗体，才创建新的
+            if (!found)
             {
-
-                if ((DateTime.Now - Convert.ToDateTime(timer1.Tag)).TotalSeconds > 0.5)
-
-                {
-
-                    timer1.Tag = "";
-
-                    timer1.Enabled = false;
-
-                    //以下为单击事件内容
-
-
-
-
-                    //单击事件结束
-
-                }
-
+                keyboard f1 = new keyboard();
+                f1.Show();
             }
         }
 
@@ -206,40 +161,20 @@ namespace t9keyboard
 
         private void 帮助与设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // 遍历所有打开的窗体，检查是否已经有一个 help 窗体
             foreach (Form form in Application.OpenForms)
             {
                 if (form is help)
                 {
-                    // 如果找到了现有的 help 窗体，恢复显示并激活它
                     form.Show();
-                    form.WindowState = FormWindowState.Normal; // 确保窗体状态为正常
-                    form.BringToFront(); // 将窗体置于前台
-                    form.Activate(); // 激活窗体
+                    form.WindowState = FormWindowState.Normal;
+                    form.BringToFront();
+                    form.Activate();
                     return;
                 }
             }
-
-            // 如果没有找到现有的 help 窗体，就创建一个新的 help 窗体
             help f1 = new help();
             f1.Show();
-
-            // 设置新的 help 窗体的位置与当前窗体的位置相同
-            f1.Location = this.Location;
+            f1.Location = new Point(this.Location.X + 60, this.Location.Y); // 稍微错开一点位置
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

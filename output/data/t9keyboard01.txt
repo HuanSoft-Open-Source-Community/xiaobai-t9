@@ -15,4 +15,6 @@ num2t=
 num3t=
 num0t=
 numlock=True
-kjj=Alt + Ctrl + G
+space0=False
+decimaltoback=False
+kjj=Ctrl + H

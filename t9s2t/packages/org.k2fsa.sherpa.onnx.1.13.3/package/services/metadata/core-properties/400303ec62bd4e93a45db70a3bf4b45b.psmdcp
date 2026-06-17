@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<coreProperties xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.openxmlformats.org/package/2006/metadata/core-properties">
+  <dc:creator>The Next-gen Kaldi development team</dc:creator>
+  <dc:description>sherpa-onnx is an open-source real-time speech recognition toolkit developed
+    by the Next-gen Kaldi team. It supports streaming recognition on a variety of
+    platforms such as Android, iOS, Raspberry, Linux, Windows, macOS, etc.
+
+    It does not require Internet connection during recognition.
+
+    See the documentation https://k2-fsa.github.io/sherpa/onnx/index.html
+    for details.</dc:description>
+  <dc:identifier>org.k2fsa.sherpa.onnx</dc:identifier>
+  <version>1.13.3</version>
+  <keywords>speech recognition voice audio stt asr speech-to-text AI offline
+      privacy open-sourced next-gen-kaldi k2 kaldi2 sherpa-onnx</keywords>
+  <lastModifiedBy>NuGet.Packaging, Version=7.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35;.NET 8.0</lastModifiedBy>
+</coreProperties>

@@ -125,7 +125,9 @@ namespace t9keyboard
 
             this.Width = sizex;
             this.Height = sizey;
-
+           // this.one.Click -= new System.EventHandler(this.one_Click); // 彻底移除原有的Click响应
+            this.one.MouseUp -= new System.Windows.Forms.MouseEventHandler(this.one_MouseUp); // 防止重复绑定
+            this.one.MouseUp += new System.Windows.Forms.MouseEventHandler(this.one_MouseUp); // 绑定新的 MouseUp 事件
 
         }
 
@@ -280,10 +282,18 @@ namespace t9keyboard
         //    SendKeys.Send("{MULTIPLY}");
         //}
 
-        private void one_Click(object sender, EventArgs e)
+        private void one_MouseUp(object sender, MouseEventArgs e)
         {
-            SendKeys.Send("{1}");
-//          new SendMsg().SendText("1");
+            // 检查是否是鼠标左键
+            if (e.Button == MouseButtons.Left)
+            {
+                SendKeys.Send("{1}");
+            }
+            // 检查是否是鼠标右键
+            else if (e.Button == MouseButtons.Right)
+            {
+                SendKeys.Send("{ESC}"); // 触发 ESC 键
+            }
         }
 
         private void two_Click(object sender, EventArgs e)

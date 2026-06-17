@@ -22,3 +22,15 @@ C:\weasel\numkeyboard\numkeyboard\obj\Debug\numkeyboard.csproj.GenerateResource.
 C:\weasel\numkeyboard\numkeyboard\obj\Debug\numkeyboard.csproj.CoreCompileInputs.cache
 C:\weasel\numkeyboard\numkeyboard\obj\Debug\numkeyboard.exe
 C:\weasel\numkeyboard\numkeyboard\obj\Debug\numkeyboard.pdb
+Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.csproj.AssemblyReference.cache
+Z:\numkeyboard\numkeyboard\obj\Debug\Interop.IWshRuntimeLibrary.dll
+Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.csproj.ResolveComReference.cache
+Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.exe
+Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.pdb
+Z:\numkeyboard\numkeyboard\bin\Debug\numkeyboard.exe.config
+Z:\numkeyboard\numkeyboard\bin\Debug\numkeyboard.exe
+Z:\numkeyboard\numkeyboard\bin\Debug\numkeyboard.pdb
+Z:\numkeyboard\numkeyboard\obj\Debug\NumKeyboardTray.Form1.resources
+Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.Properties.Resources.resources
+Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.csproj.GenerateResource.cache
+Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.csproj.CoreCompileInputs.cache

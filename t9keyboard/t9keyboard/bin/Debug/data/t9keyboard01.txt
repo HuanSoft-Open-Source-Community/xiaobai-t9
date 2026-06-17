@@ -1,5 +1,5 @@
-numchut=r
-numchengt=t
+numchut=
+numchengt=
 numjiant=
 numjiat=
 numdiant=
@@ -16,3 +16,5 @@ num3t=
 num0t=
 numlock=True
 kjj=Ctrl + H
+space0=False
+decimaltoback=True

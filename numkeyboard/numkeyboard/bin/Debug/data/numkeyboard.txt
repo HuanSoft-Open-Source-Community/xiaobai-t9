@@ -1,6 +1,7 @@
-LaunchMailKey=粘贴
-LaunchApp2Key=全选
-BrowserHomeKey=剪切
-TabKey=复制
-Single0Key=空格
-Triple0Key=空格
+LaunchMailKey=Shift
+LaunchApp2Key=微信截图
+BrowserHomeKey=ESC
+TabKey=Tab
+Single0Key=Ctrl
+Triple0Key=0
+DotKey=.

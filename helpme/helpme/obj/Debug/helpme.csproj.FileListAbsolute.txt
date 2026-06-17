@@ -1,0 +1,10 @@
+C:\weasel\helpme\helpme\bin\Debug\helpme.exe.config
+C:\weasel\helpme\helpme\bin\Debug\helpme.exe
+C:\weasel\helpme\helpme\bin\Debug\helpme.pdb
+C:\weasel\helpme\helpme\obj\Debug\helpme.csproj.AssemblyReference.cache
+C:\weasel\helpme\helpme\obj\Debug\helpme.csproj.CoreCompileInputs.cache
+C:\weasel\helpme\helpme\obj\Debug\helpme.exe
+C:\weasel\helpme\helpme\obj\Debug\helpme.pdb
+C:\weasel\helpme\helpme\obj\Debug\helpme.Form1.resources
+C:\weasel\helpme\helpme\obj\Debug\helpme.Properties.Resources.resources
+C:\weasel\helpme\helpme\obj\Debug\helpme.csproj.GenerateResource.cache

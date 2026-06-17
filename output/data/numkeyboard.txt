@@ -1,4 +1,7 @@
-LaunchMailKey=打开我的电脑
-LaunchApp2Key=打开计算器
+LaunchMailKey=Shift
+LaunchApp2Key=切换鼠标键
 BrowserHomeKey=ESC
-TabKey=Shift
+TabKey=Tab
+Single0Key=Ctrl
+Triple0Key=0
+DotKey=.

@@ -51,15 +51,15 @@ preset_color_schemes:
   xiaobai:
     name: 小白输入法／xiaobai
     text_color: 0xFF000000
-    back_color: 0xFFeceeee
+    back_color: 0xFFDDA0DD
     shadow_color: 0xFF000000
-    border_color: 0xeFF0e0e0
+    border_color: 0xFFF0E0E0
     hilited_text_color: 0xFF000000
-    hilited_back_color: 0xFFd4d4d4
+    hilited_back_color: 0xFFD4D4D4
     hilited_shadow_color: 0xFF000000
-    hilited_candidate_text_color: 0xFFffffff
-    hilited_candidate_back_color: 0xFFfa3a0a
+    hilited_candidate_text_color: 0xFFFFFFFF
+    hilited_candidate_back_color: 0xFFFA3A0A
     hilited_candidate_shadow_color: 0xFF000000
     candidate_text_color: 0xFF000000
-    candidate_back_color: 0xFFeceeee
+    candidate_back_color: 0xFFECEEEE
     candidate_shadow_color: 0xFF000000

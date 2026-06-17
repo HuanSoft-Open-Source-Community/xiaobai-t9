@@ -401,9 +401,8 @@
             this.one.Name = "one";
             this.one.Size = new System.Drawing.Size(37, 37);
             this.one.TabIndex = 22;
-            this.one.Text = "1";
+            this.one.Text = "1\r\nESC";
             this.one.UseVisualStyleBackColor = false;
-            this.one.Click += new System.EventHandler(this.one_Click);
             // 
             // eight
             // 

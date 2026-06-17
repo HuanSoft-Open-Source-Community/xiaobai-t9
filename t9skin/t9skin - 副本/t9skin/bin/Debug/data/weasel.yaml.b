@@ -1,0 +1,48 @@
+# Weasel settings
+# encoding: utf-8
+
+config_version: "0.22"
+
+app_options:
+  cmd.exe:
+    ascii_mode: true
+  conhost.exe:
+    ascii_mode: true
+
+style:
+  color_scheme: aqua
+  font_face: Microsoft YaHei
+  font_point: 14
+  horizontal: false
+  fullscreen: false
+  inline_preedit: false
+  preedit_type: composition
+  display_tray_icon: false
+  label_format: "%s."
+  layout:
+    min_width: 160
+    min_height: 0
+    border_width: 3
+    margin_x: 12
+    margin_y: 12
+    spacing: 10
+    candidate_spacing: 5
+    hilite_spacing: 4
+    hilite_padding: 2
+    round_corner: 4
+
+preset_color_schemes:
+  xiaobai:
+    name: 小白输入法／xiaobai
+    label_color: 0x4F4F4F
+    back_color: 0xeceeee
+    border_color: 0xe0e0e0
+    text_color: 0x000000
+    hilited_text_color: 0x000000
+    hilited_back_color: 0xd4d4d4
+    hilited_candidate_text_color: 0xffffff
+    hilited_candidate_back_color: 0xfa3a0a
+    candidate_text_color: 0x000000
+    comment_text_color: 0x4f4f4f
+    hilited_comment_text_color: 0xfdbdad
+    label_color: 0x4f4f4f
