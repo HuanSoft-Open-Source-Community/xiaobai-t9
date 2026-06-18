@@ -175,11 +175,11 @@ namespace t9s2t.Engines
                 NumThreads = 4,
                 Debug = 0
             };
-            // 端点检测参数
+            // 端点检测参数（缩短静音阈值，让短停顿也能分句）
             config.EnableEndpoint = 1;
-            config.Rule1MinTrailingSilence = 2.4f;  // 长句后 2.4s 静音触发
-            config.Rule2MinTrailingSilence = 1.2f;  // 有识别结果后 1.2s 静音触发
-            config.Rule3MinUtteranceLength = 20.0f;  // 超过 20s 强制分句
+            config.Rule1MinTrailingSilence = 1.5f;  // 长句后 1.5s 静音触发
+            config.Rule2MinTrailingSilence = 0.6f;  // 有识别结果后 0.6s 静音触发
+            config.Rule3MinUtteranceLength = 15.0f;  // 超过 15s 强制分句
 
             _onlineRecognizer = new OnlineRecognizer(config);
             _onlineStream = _onlineRecognizer.CreateStream();

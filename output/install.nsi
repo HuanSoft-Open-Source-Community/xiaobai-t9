@@ -9,7 +9,7 @@ Unicode true
 ;--------------------------------
 ; General
 !ifndef WEASEL_VERSION
-!define WEASEL_VERSION 2026.06.11
+!define WEASEL_VERSION 2026.06.19
 !endif
 !ifndef WEASEL_BUILD
 !define WEASEL_BUILD 0
@@ -79,7 +79,11 @@ LangString LNKFORSETUP ${LANG_SIMPCHINESE} "【小白T9输入法】安装选项"
 LangString LNKFORUNINSTALL ${LANG_SIMPCHINESE} "卸载小白T9输入法"
 LangString CONFIRMATION ${LANG_SIMPCHINESE} '安装前，请先卸载旧版本的小白T9输入法。$\n$\n点击 "确定" 移除旧版本，或点击 "取消" 放弃本次安装。'
 LangString SYSTEMVERSIONNOTOK ${LANG_SIMPCHINESE} "您的系統不被支持，最低系统要求:Windows 8.1!"
+
+
+
 !insertmacro MUI_LANGUAGE "English"
+
 LangString DISPLAYNAME ${LANG_ENGLISH} "xiaobaiT9"
 LangString LNKFORMANUAL ${LANG_ENGLISH} "[xiaobaiT9] Manual"
 LangString LNKFORSETTING ${LANG_ENGLISH} "[xiaobaiT9] Settings"
@@ -98,6 +102,13 @@ LangString LNKFORSETUP ${LANG_ENGLISH} "[xiaobaiT9] Installation Preference"
 LangString LNKFORUNINSTALL ${LANG_ENGLISH} "Uninstall xiaobaiT9"
 LangString CONFIRMATION ${LANG_ENGLISH} "Before installation, please uninstall the old version of Weasel.$\n$\nPress 'OK' to remove the old version, or 'Cancel' to abort installation."
 LangString SYSTEMVERSIONNOTOK ${LANG_ENGLISH} "Your system not supported, minimium system required: Windows 8.1!"
+
+; ==================== t9s2t 快捷方式名称 ====================
+LangString LNKFORT9S2T ${LANG_TRADCHINESE} "【小白T9输入法】语音输入工具"
+LangString LNKFORT9S2T ${LANG_SIMPCHINESE} "【小白T9输入法】语音输入工具"
+LangString LNKFORT9S2T ${LANG_ENGLISH} "[xiaobaiT9] Voice Input Tool"
+; ============================================================
+
 ;--------------------------------
 Function .onInit
   ; if not version >= 8.1, quit and MessageBox(if not silent)
@@ -128,6 +139,7 @@ uninst:
   nsExec::ExecToLog 'taskkill /F /IM t9configui.exe'
   nsExec::ExecToLog 'taskkill /F /IM t9skin.exe'
   nsExec::ExecToLog 'taskkill /F /IM update.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9s2t.exe'
   Sleep 500
   ; Backup data directory from previous installation, user files may exist
   ReadRegStr $R1 HKLM "Software\Rime\Weasel" "WeaselRoot"
@@ -229,11 +241,18 @@ program_files:
   File "Win32\rime.dll"
   File "Win32\WinSparkle.dll"
   File "WeaselSetup.exe"
+
+  ; ==================== 新增：复制 t9s2t 文件夹 ====================
+  SetOutPath $INSTDIR
+  File /r "t9s2t"
+  ; ============================================================
+
   ; shared data files
   SetOutPath $INSTDIR\data
   File "data\*.yaml"
   File /nonfatal "data\*.txt"
   File /nonfatal "data\*.gram"
+
   ; opencc data files
   SetOutPath $INSTDIR\data\dicts
   File "data\dicts\*.yaml"
@@ -347,7 +366,10 @@ Section "Start Menu Shortcuts"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUPDATER).lnk" "$INSTDIR\WeaselServer.exe" "/update" "$SYSDIR\shell32.dll" 13
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSETUP).lnk" "$INSTDIR\WeaselSetup.exe" "" "$SYSDIR\shell32.dll" 162
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUNINSTALL).lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  ; 创建桌面快捷方式
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORT9S2T).lnk" "$INSTDIR\t9s2t\t9s2t.exe" "" "$INSTDIR\t9s2t\t9s2t.exe" 0
+
+
+	; 创建桌面快捷方式
   SetShellVarContext all
   ; 参数说明：快捷方式路径、目标程序、参数、图标资源、图标索引
   CreateShortCut "$DESKTOP\小白T9输入法HelpMe.lnk" "$INSTDIR\helpme.exe" "" "$INSTDIR\helpme.exe" 0
@@ -368,6 +390,7 @@ Section "Uninstall"
   nsExec::ExecToLog 'taskkill /F /IM t9skin.exe'
   nsExec::ExecToLog 'taskkill /F /IM update.exe'
   nsExec::ExecToLog 'taskkill /F /IM WeaselServer.exe'
+  nsExec::ExecToLog 'taskkill /F /IM t9s2t.exe'
   Sleep 1000 ; 稍微增加等待时间，确保进程完全释放文件句柄
 
   ; 卸载时清理“以管理员身份运行”兼容性设置

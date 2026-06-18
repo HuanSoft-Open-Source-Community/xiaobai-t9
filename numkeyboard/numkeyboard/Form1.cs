@@ -218,7 +218,13 @@ namespace NumKeyboardTray
             UnregisterAllHotkeys();
             if (isProgramShiftPressed) keybd_event((byte)Keys.ShiftKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
             if (isProgramCtrlPressed) keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
-            if (isVoiceInputPressed) { keybd_event((byte)Keys.Space, 0, KEYEVENTF_KEYUP, IntPtr.Zero); keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero); isVoiceInputPressed = false; }
+            if (isVoiceInputPressed)
+            {
+                keybd_event(0x44, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
+                keybd_event((byte)Keys.Menu, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
+                keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
+                isVoiceInputPressed = false;
+            }
             if (_hookID != IntPtr.Zero) UnhookWindowsHookEx(_hookID);
             monitorTimer?.Stop();
             notifyIcon?.Dispose();
@@ -296,7 +302,7 @@ namespace NumKeyboardTray
                         {
                             string action = GetKeyMapping("Single0Key");
                             if (action == "Ctrl" && !isProgramCtrlPressed) { keybd_event((byte)Keys.ControlKey, 0, 0, IntPtr.Zero); isProgramCtrlPressed = true; }
-                            else if (action == "语音输入" && !isVoiceInputPressed) { keybd_event((byte)Keys.ControlKey, 0, 0, IntPtr.Zero); keybd_event((byte)Keys.Space, 0, 0, IntPtr.Zero); isVoiceInputPressed = true; }
+                            else if (action == "语音输入" && !isVoiceInputPressed) { keybd_event((byte)Keys.ControlKey, 0, 0, IntPtr.Zero); keybd_event((byte)Keys.Menu, 0, 0, IntPtr.Zero); keybd_event(0x44, 0, 0, IntPtr.Zero); isVoiceInputPressed = true; }
                         }
                         return (IntPtr)1;
                     }
@@ -306,7 +312,7 @@ namespace NumKeyboardTray
                         {
                             string action = GetKeyMapping("Single0Key");
                             if (action == "Ctrl" && isProgramCtrlPressed) { keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero); isProgramCtrlPressed = false; }
-                            else if (action == "语音输入" && isVoiceInputPressed) { keybd_event((byte)Keys.Space, 0, KEYEVENTF_KEYUP, IntPtr.Zero); keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero); isVoiceInputPressed = false; }
+                            else if (action == "语音输入" && isVoiceInputPressed) { keybd_event(0x44, 0, KEYEVENTF_KEYUP, IntPtr.Zero); keybd_event((byte)Keys.Menu, 0, KEYEVENTF_KEYUP, IntPtr.Zero); keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero); isVoiceInputPressed = false; }
                             else if (action != "Ctrl" && action != "Shift" && action != "语音输入" && action != "None" && repeatCount == 1) HandleCustomKeyByType("Single0Key");
                         }
                         if ((DateTime.Now - lastNumPad0Time).TotalMilliseconds >= 50) repeatCount = 0;
@@ -336,8 +342,20 @@ namespace NumKeyboardTray
                             }
                             else if (action == "语音输入")
                             {
-                                if (isDown && !isVoiceInputPressed) { keybd_event((byte)Keys.ControlKey, 0, 0, IntPtr.Zero); keybd_event((byte)Keys.Space, 0, 0, IntPtr.Zero); isVoiceInputPressed = true; }
-                                else if (!isDown && isVoiceInputPressed) { keybd_event((byte)Keys.Space, 0, KEYEVENTF_KEYUP, IntPtr.Zero); keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero); isVoiceInputPressed = false; }
+                                if (isDown && !isVoiceInputPressed)
+                                {
+                                    keybd_event((byte)Keys.ControlKey, 0, 0, IntPtr.Zero);
+                                    keybd_event((byte)Keys.Menu, 0, 0, IntPtr.Zero);      // Alt
+                                    keybd_event(0x44, 0, 0, IntPtr.Zero);                 // D 键
+                                    isVoiceInputPressed = true;
+                                }
+                                else if (!isDown && isVoiceInputPressed)
+                                {
+                                    keybd_event(0x44, 0, KEYEVENTF_KEYUP, IntPtr.Zero);               // D up
+                                    keybd_event((byte)Keys.Menu, 0, KEYEVENTF_KEYUP, IntPtr.Zero);    // Alt up
+                                    keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero); // Ctrl up
+                                    isVoiceInputPressed = false;
+                                }
                             }
                             return (IntPtr)1;
                         }

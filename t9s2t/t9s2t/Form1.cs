@@ -100,8 +100,11 @@ namespace t9s2t
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private const int WM_KEYUP = 0x0101;
-        private const int VK_SPACE = 0x20;
+        private const int WM_SYSKEYDOWN = 0x0104;  // Alt 按住时的 KEYDOWN
+        private const int WM_SYSKEYUP = 0x0105;    // Alt 按住时的 KEYUP
+        private const int VK_D = 0x44;             // D 键（语音触发键）
         private const int VK_CONTROL = 0x11;
+        private const int VK_MENU = 0x12;          // Alt 键
         private const int SW_RESTORE = 9;
         private const int SW_SHOW = 5;
 
@@ -175,7 +178,7 @@ namespace t9s2t
             this.WindowState = FormWindowState.Minimized;
             this.Hide();
             this.ShowInTaskbar = false;
-            trayIcon.ShowBalloonTip(3000, "t9s2t 已就绪", "程序已在后台运行，按 Ctrl+Space 说话", ToolTipIcon.Info);
+            trayIcon.ShowBalloonTip(3000, "t9s2t 已就绪", "程序已在后台运行，按 Ctrl+Alt+D 说话", ToolTipIcon.Info);
 
             // 检查引擎 DLL，设置按钮状态
             UpdateEngineButtonState();
@@ -196,6 +199,10 @@ namespace t9s2t
         private void ForceShowMainWindow()
         {
             if (this.InvokeRequired) { this.Invoke(new Action(ForceShowMainWindow)); return; }
+            // 确保尺寸正确（最小化/隐藏时 ClientSize.Height 可能被置 0）
+            int correctWidth = _adCollapsed ? AdCollapsedWidth : AdExpandedWidth;
+            if (this.ClientSize.Width != correctWidth || this.ClientSize.Height != FormHeight)
+                this.ClientSize = new Size(correctWidth, FormHeight);
             IntPtr foreHandle = GetForegroundWindow();
             uint foreThreadId = GetWindowThreadProcessId(foreHandle, out _);
             uint thisThreadId = GetWindowThreadProcessId(this.Handle, out _);
@@ -304,6 +311,7 @@ namespace t9s2t
         private bool _adCollapsed = false;
         private const int AdExpandedWidth = 900;
         private const int AdCollapsedWidth = 365;
+        private const int FormHeight = 232;  // 与 Designer 中的 ClientSize.Height 保持一致
 
         private void btnToggleAd_Click(object sender, EventArgs e)
         {
@@ -319,14 +327,14 @@ namespace t9s2t
                 adPanel.Visible = false;
                 btnToggleAd.Text = ">";
                 btnToggleAd.Location = new Point(340, 110);
-                this.ClientSize = new Size(AdCollapsedWidth, this.ClientSize.Height);
+                this.ClientSize = new Size(AdCollapsedWidth, FormHeight);
             }
             else
             {
                 adPanel.Visible = true;
                 btnToggleAd.Text = "<";
                 btnToggleAd.Location = new Point(340, 110);
-                this.ClientSize = new Size(AdExpandedWidth, this.ClientSize.Height);
+                this.ClientSize = new Size(AdExpandedWidth, FormHeight);
             }
         }
 
@@ -372,11 +380,36 @@ namespace t9s2t
             if (nCode >= 0)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
-                if (vkCode == VK_SPACE)
+                if (vkCode == VK_D)
                 {
-                    bool isCtrlDown = (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
-                    if (wParam == (IntPtr)WM_KEYDOWN && isCtrlDown && !isRecording) { StartRecording(); return (IntPtr)1; }
-                    else if (wParam == (IntPtr)WM_KEYUP && isRecording) { StopRecording(); return (IntPtr)1; }
+                    // Alt 按住时 Windows 发送 WM_SYSKEYDOWN/WM_SYSKEYUP 而非 WM_KEYDOWN/WM_KEYUP
+                    bool isKeyDown = wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN;
+                    bool isKeyUp   = wParam == (IntPtr)WM_KEYUP   || wParam == (IntPtr)WM_SYSKEYUP;
+
+                    if (isKeyDown)
+                    {
+                        bool isCtrlDown = (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
+                        bool isAltDown  = (GetAsyncKeyState(VK_MENU)    & 0x8000) != 0;
+
+                        if (isCtrlDown && isAltDown && !isRecording)
+                        {
+                            // Ctrl+Alt+D：开始录音，拦截按键
+                            StartRecording();
+                            return (IntPtr)1;
+                        }
+                        if (isRecording)
+                        {
+                            // 录音中：拦截 D 键防止字符输入
+                            return (IntPtr)1;
+                        }
+                        // 非 Ctrl+Alt+D 且非录音中：放行，正常打字
+                    }
+                    else if (isKeyUp && isRecording)
+                    {
+                        // D 键松开：停止录音（不检查修饰键，因为松开顺序不确定）
+                        StopRecording();
+                        return (IntPtr)1;
+                    }
                 }
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
@@ -868,7 +901,7 @@ namespace t9s2t
                 this.Invoke((MethodInvoker)delegate {
                     lblEngine.Text = $"引擎: {engine.EngineName}{streamingHint}";
                     lblEngine.ForeColor = Color.FromArgb(40, 140, 80);
-                    lblStatus.Text = $"✅ {engine.EngineName}{streamingHint} 就绪！按住 Ctrl+Space 说话";
+                    lblStatus.Text = $"✅ {engine.EngineName}{streamingHint} 就绪！按住 Ctrl+Alt+D 说话";
                     lblStatus.ForeColor = Color.FromArgb(40, 53, 147);
                     trayIcon.Text = $"t9s2t ({engine.EngineName})";
                 });
@@ -933,7 +966,7 @@ namespace t9s2t
 
             string modeHint = engine.SupportsStreaming ? " (流式)" : "";
             this.Invoke((MethodInvoker)delegate {
-                lblStatus.Text = $"🎤 {engine.EngineName} 正在录音{modeHint}... (松开空格结束)";
+                lblStatus.Text = $"🎤 {engine.EngineName} 正在录音{modeHint}... (松开 Ctrl+Alt+D 结束)";
                 lblStatus.ForeColor = Color.FromArgb(200, 50, 50);
                 trayIcon.Text = $"🎤 {engine.EngineName} 录音中...";
             });
@@ -961,7 +994,7 @@ namespace t9s2t
             this.Invoke((MethodInvoker)delegate {
                 lblStatus.Text = $"✅ {engine.EngineName} 识别完成，等待下次输入";
                 lblStatus.ForeColor = Color.FromArgb(40, 53, 147);
-                trayIcon.Text = $"t9s2t ({engine.EngineName}) 按住Ctrl+Space";
+                trayIcon.Text = $"t9s2t ({engine.EngineName}) 按住Ctrl+Alt+D";
             });
         }
 

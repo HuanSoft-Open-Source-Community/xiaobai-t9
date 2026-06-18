@@ -63,9 +63,39 @@ namespace t9keyboard.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap _0beffad9_8150_4b9c_849a_7960866759b1 {
+            get {
+                object obj = ResourceManager.GetObject("0beffad9-8150-4b9c-849a-7960866759b1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap _1781684592078_d {
+            get {
+                object obj = ResourceManager.GetObject("1781684592078_d", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap _2323 {
             get {
                 object obj = ResourceManager.GetObject("2323", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap dc09882c_1165_40a0_b42b_913b121e6299 {
+            get {
+                object obj = ResourceManager.GetObject("dc09882c-1165-40a0-b42b-913b121e6299", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

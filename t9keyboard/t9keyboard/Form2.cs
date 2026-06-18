@@ -27,7 +27,7 @@ namespace t9keyboard
             ShowKeyboard();
 
             // 显示帮助
-            help f2 = new help();
+            // help f2 = new help(); // removed to avoid duplicate tray icon
             //f2.Show();
             // f2.yes.PerformClick(); // 建议把这行逻辑放在help窗体内部处理，或者确保yes按钮存在
         }

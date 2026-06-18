@@ -20,6 +20,9 @@ namespace t9keyboard
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
         [DllImport("user32.dll")]
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        private bool _adCollapsed = false;
+        private readonly string _adStateFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "t9keyboard_ad_state.txt");
+
         public help()
         {
             InitializeComponent();
@@ -317,6 +320,19 @@ namespace t9keyboard
             {
                 MessageBox.Show("文件未找到：" + filePath);
             }
+
+            // Load QR images
+            string appDir = AppDomain.CurrentDomain.BaseDirectory;
+            try { string p = Path.Combine(appDir, "wechat_qr.png"); if (System.IO.File.Exists(p)) qrWechat.Image = Image.FromFile(p); } catch { }
+            try { string p = Path.Combine(appDir, "alipay_qr.png"); if (System.IO.File.Exists(p)) qrAlipay.Image = Image.FromFile(p); } catch { }
+            try { string p = Path.Combine(appDir, "pdd_qrcode.png"); if (System.IO.File.Exists(p)) qrPdd.Image = Image.FromFile(p); } catch { }
+
+            // Restore ad panel state
+            try { if (System.IO.File.Exists(_adStateFile) && System.IO.File.ReadAllText(_adStateFile).Trim() == "1") _adCollapsed = true; } catch { }
+            // Wire up ad panel events
+            this.adPanel.Paint += adPanel_Paint;
+            this.btnToggleAd.Click += btnToggleAd_Click;
+            ApplyAdState();
         }
         //写回txt
         private void SaveValuesToFile()
@@ -514,6 +530,75 @@ namespace t9keyboard
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+        }
+
+        private void adPanel_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            using (var tf = new Font("Microsoft YaHei UI", 11F, FontStyle.Bold))
+            using (var tb = new SolidBrush(Color.FromArgb(200, 80, 40)))
+            {
+                var w = g.MeasureString("支持小白", tf).Width;
+                g.DrawString("支持小白", tf, tb, (190 - w) / 2, 4);
+            }
+            using (var lf = new Font("Microsoft YaHei UI", 8.5F, FontStyle.Bold))
+            using (var sf = new Font("Microsoft YaHei UI", 7.5F))
+            using (var gb = new SolidBrush(Color.FromArgb(80, 80, 80)))
+            using (var db = new SolidBrush(Color.FromArgb(50, 50, 50)))
+            using (var rb = new SolidBrush(Color.FromArgb(210, 50, 20)))
+            using (var pen = new Pen(Color.FromArgb(230, 210, 190), 1))
+            {
+                // 微信部分（位置基本不变）
+                var w1 = g.MeasureString("微信打赏", lf).Width;
+                g.DrawString("微信打赏", lf, db, (190 - w1) / 2, 132);
+                var w1d = g.MeasureString("感谢支持小白输入法", sf).Width;
+                g.DrawString("感谢支持小白输入法", sf, gb, (190 - w1d) / 2, 148);
+                g.DrawLine(pen, 20, 140, 170, 140);
+
+                // 支付宝部分（稍微往下挪一点）
+                var w2 = g.MeasureString("支付宝打赏", lf).Width;
+                g.DrawString("支付宝打赏", lf, db, (190 - w2) / 2, 272);
+                var w2d = g.MeasureString("感谢支持小白输入法", sf).Width;
+                g.DrawString("感谢支持小白输入法", sf, gb, (190 - w2d) / 2, 288);
+                g.DrawLine(pen, 20, 280, 170, 280);
+
+                // ==================== 修改后的拼多多部分 ====================
+                var w3 = g.MeasureString("拼多多店铺", lf).Width;
+                g.DrawString("拼多多店铺", lf, db, (190 - w3) / 2, 412);
+
+                string secondLine = "捐助98元获赠小白T9无线键盘一台";
+                var w3d = g.MeasureString(secondLine, sf).Width;
+                g.DrawString(secondLine, sf, gb, (190 - w3d) / 2, 428);   // 第二行
+
+                // 分割线移到文字下方
+                g.DrawLine(pen, 20, 455, 170, 455);
+            }
+        }
+
+        private void btnToggleAd_Click(object sender, EventArgs e)
+        {
+            _adCollapsed = !_adCollapsed;
+            ApplyAdState();
+            try { System.IO.File.WriteAllText(_adStateFile, _adCollapsed ? "1" : "0"); } catch { }
+        }
+
+        private void ApplyAdState()
+        {
+            if (_adCollapsed)
+            {
+                adPanel.Visible = false;
+                btnToggleAd.Text = ">";
+                btnToggleAd.Location = new System.Drawing.Point(734, 180);
+                this.ClientSize = new System.Drawing.Size(754, 436);
+            }
+            else
+            {
+                adPanel.Visible = true;
+                btnToggleAd.Text = "<";
+                btnToggleAd.Location = new System.Drawing.Point(734, 180);
+                this.ClientSize = new System.Drawing.Size(954, 480);
+            }
         }
     }
     public class KeyboardHook : IDisposable
@@ -864,6 +949,8 @@ namespace t9keyboard
         }
         [DllImport("user32.dll")]
         public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, IntPtr dwExtraInfo);
+
+
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]

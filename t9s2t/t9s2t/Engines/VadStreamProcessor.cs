@@ -16,9 +16,9 @@ namespace t9s2t.Engines
         private readonly Action<string> _onPartial; // 部分结果回调（可选）
 
         // 静音检测参数
-        private const int SILENCE_THRESHOLD = 500;       // 静音振幅阈值
-        private const int SILENCE_FRAMES_FOR_SEGMENT = 25; // 连续静音帧数触发分段（约 0.8 秒 @16kHz, 320字节/帧 = 10ms）
-        private const int MIN_SPEECH_FRAMES = 10;         // 最少语音帧数才提交识别（过滤噪音）
+        private const int SILENCE_THRESHOLD = 300;       // 静音振幅阈值（降低以兼容低增益麦克风）
+        private const int SILENCE_FRAMES_FOR_SEGMENT = 15; // 连续静音帧数触发分段（约 0.5 秒）
+        private const int MIN_SPEECH_FRAMES = 5;          // 最少语音帧数才提交识别（过滤噪音）
 
         private int _silenceFrameCount = 0;
         private int _speechFrameCount = 0;
@@ -78,7 +78,7 @@ namespace t9s2t.Engines
                 _segmentBuffer.AddRange(ToArray(buffer, bytes));
 
                 // 每隔一定帧数发送 partial result 反馈
-                if (_onPartial != null && _speechFrameCount % 30 == 0)
+                if (_onPartial != null && _speechFrameCount % 15 == 0)
                 {
                     _onPartial?.Invoke($"正在听... ({_speechFrameCount} 帧)");
                 }

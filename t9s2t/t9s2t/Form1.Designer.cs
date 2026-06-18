@@ -37,10 +37,10 @@
             this.btnDeleteModel = new System.Windows.Forms.Button();
             this.lblEngine = new System.Windows.Forms.Label();
             this.adPanel = new System.Windows.Forms.Panel();
-            this.btnToggleAd = new System.Windows.Forms.Button();
             this.qrPdd = new System.Windows.Forms.PictureBox();
             this.qrAlipay = new System.Windows.Forms.PictureBox();
             this.qrWechat = new System.Windows.Forms.PictureBox();
+            this.btnToggleAd = new System.Windows.Forms.Button();
             this.appIcon = new System.Windows.Forms.PictureBox();
             this.statusPanel.SuspendLayout();
             this.adPanel.SuspendLayout();
@@ -70,7 +70,7 @@
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(268, 26);
             this.lblStatus.TabIndex = 0;
-            this.lblStatus.Text = "准备就绪 | 按 Ctrl+空格 开始语音输入";
+            this.lblStatus.Text = "准备就绪 | 按 Ctrl+Alt+D 开始语音输入";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnDownloadModel
@@ -129,21 +129,6 @@
             this.adPanel.TabIndex = 5;
             this.adPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.adPanel_Paint);
             // 
-            // btnToggleAd
-            // 
-            this.btnToggleAd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
-            this.btnToggleAd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(180)))), ((int)(((byte)(160)))));
-            this.btnToggleAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnToggleAd.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnToggleAd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(100)))), ((int)(((byte)(60)))));
-            this.btnToggleAd.Location = new System.Drawing.Point(340, 110);
-            this.btnToggleAd.Name = "btnToggleAd";
-            this.btnToggleAd.Size = new System.Drawing.Size(22, 50);
-            this.btnToggleAd.TabIndex = 6;
-            this.btnToggleAd.Text = "<";
-            this.btnToggleAd.UseVisualStyleBackColor = false;
-            this.btnToggleAd.Click += new System.EventHandler(this.btnToggleAd_Click);
-            // 
             // qrPdd
             // 
             this.qrPdd.Image = global::t9s2t.Properties.Resources._1781684592078_d;
@@ -174,6 +159,21 @@
             this.qrWechat.TabIndex = 0;
             this.qrWechat.TabStop = false;
             // 
+            // btnToggleAd
+            // 
+            this.btnToggleAd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.btnToggleAd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(180)))), ((int)(((byte)(160)))));
+            this.btnToggleAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnToggleAd.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnToggleAd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(100)))), ((int)(((byte)(60)))));
+            this.btnToggleAd.Location = new System.Drawing.Point(340, 110);
+            this.btnToggleAd.Name = "btnToggleAd";
+            this.btnToggleAd.Size = new System.Drawing.Size(22, 50);
+            this.btnToggleAd.TabIndex = 6;
+            this.btnToggleAd.Text = "<";
+            this.btnToggleAd.UseVisualStyleBackColor = false;
+            this.btnToggleAd.Click += new System.EventHandler(this.btnToggleAd_Click);
+            // 
             // appIcon
             // 
             this.appIcon.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -203,7 +203,7 @@
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "小白T9输入法 - 语音输入助手";
+            this.Text = "小白T9语音输入 - 按住 Ctrl+Alt+D 开始语音输入";
             this.statusPanel.ResumeLayout(false);
             this.adPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.qrPdd)).EndInit();

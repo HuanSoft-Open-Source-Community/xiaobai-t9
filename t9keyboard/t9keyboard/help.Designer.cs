@@ -85,9 +85,18 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.adPanel = new System.Windows.Forms.Panel();
+            this.qrPdd = new System.Windows.Forms.PictureBox();
+            this.qrAlipay = new System.Windows.Forms.PictureBox();
+            this.qrWechat = new System.Windows.Forms.PictureBox();
+            this.btnToggleAd = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.adPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.qrPdd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrAlipay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrWechat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -581,18 +590,6 @@
             this.label9.TabIndex = 75;
             this.label9.Text = "label9";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox1.Image = global::t9keyboard.Properties.Resources.xiaobait9;
-            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(555, 216);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 11;
-            this.pictureBox1.TabStop = false;
-            // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
@@ -613,11 +610,79 @@
             this.checkBox3.Text = ".键为退格";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
+            // adPanel
+            // 
+            this.adPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.adPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.adPanel.Controls.Add(this.qrPdd);
+            this.adPanel.Controls.Add(this.qrAlipay);
+            this.adPanel.Controls.Add(this.qrWechat);
+            this.adPanel.Location = new System.Drawing.Point(754, 0);
+            this.adPanel.Name = "adPanel";
+            this.adPanel.Size = new System.Drawing.Size(190, 520);
+            this.adPanel.TabIndex = 200;
+            // 
+            // qrPdd
+            // 
+            this.qrPdd.Image = global::t9keyboard.Properties.Resources._1781684592078_d;
+            this.qrPdd.Location = new System.Drawing.Point(38, 300);
+            this.qrPdd.Name = "qrPdd";
+            this.qrPdd.Size = new System.Drawing.Size(110, 110);
+            this.qrPdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qrPdd.TabIndex = 0;
+            this.qrPdd.TabStop = false;
+            // 
+            // qrAlipay
+            // 
+            this.qrAlipay.Image = global::t9keyboard.Properties.Resources._0beffad9_8150_4b9c_849a_7960866759b1;
+            this.qrAlipay.Location = new System.Drawing.Point(38, 160);
+            this.qrAlipay.Name = "qrAlipay";
+            this.qrAlipay.Size = new System.Drawing.Size(110, 110);
+            this.qrAlipay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qrAlipay.TabIndex = 1;
+            this.qrAlipay.TabStop = false;
+            // 
+            // qrWechat
+            // 
+            this.qrWechat.Image = global::t9keyboard.Properties.Resources.dc09882c_1165_40a0_b42b_913b121e6299;
+            this.qrWechat.Location = new System.Drawing.Point(38, 20);
+            this.qrWechat.Name = "qrWechat";
+            this.qrWechat.Size = new System.Drawing.Size(110, 110);
+            this.qrWechat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qrWechat.TabIndex = 2;
+            this.qrWechat.TabStop = false;
+            // 
+            // btnToggleAd
+            // 
+            this.btnToggleAd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(200)))));
+            this.btnToggleAd.FlatAppearance.BorderSize = 0;
+            this.btnToggleAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnToggleAd.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnToggleAd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(100)))), ((int)(((byte)(50)))));
+            this.btnToggleAd.Location = new System.Drawing.Point(734, 180);
+            this.btnToggleAd.Name = "btnToggleAd";
+            this.btnToggleAd.Size = new System.Drawing.Size(20, 60);
+            this.btnToggleAd.TabIndex = 201;
+            this.btnToggleAd.Text = "<";
+            this.btnToggleAd.UseVisualStyleBackColor = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.Image = global::t9keyboard.Properties.Resources.xiaobait9;
+            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
+            this.pictureBox1.Location = new System.Drawing.Point(555, 216);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 11;
+            this.pictureBox1.TabStop = false;
+            // 
             // help
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(754, 436);
+            this.ClientSize = new System.Drawing.Size(954, 454);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label9);
@@ -674,12 +739,18 @@
             this.Controls.Add(this.bc2);
             this.Controls.Add(this.bc1);
             this.Controls.Add(this.yes);
+            this.Controls.Add(this.adPanel);
+            this.Controls.Add(this.btnToggleAd);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "help";
             this.ShowIcon = false;
             this.Text = "关于";
             this.Load += new System.EventHandler(this.help_Load);
+            this.adPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.qrPdd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrAlipay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrWechat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -745,5 +816,10 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.Panel adPanel;
+        private System.Windows.Forms.Button btnToggleAd;
+        private System.Windows.Forms.PictureBox qrWechat;
+        private System.Windows.Forms.PictureBox qrAlipay;
+        private System.Windows.Forms.PictureBox qrPdd;
     }
 }
