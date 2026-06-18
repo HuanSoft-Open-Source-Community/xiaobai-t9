@@ -1,120 +1,181 @@
-﻿这是小白T9输入法，基于 rime 小狼毫。我实在懒得写 readme 所以，就这样吧。。。
+# 小白T9输入法
 
+> **可能是 PC 上唯一的小键盘九宫格输入法**
 
-【小狼毫】輸入法
-================
+基于 [Rime / 小狼毫](https://github.com/rime/weasel) 深度定制的 Windows 九宫格输入法，支持小键盘打字、软键盘、语音输入等功能。
 
-基於 中州韻輸入法引擎／Rime Input Method Engine 等開源技術
+官网：https://t9.xiaobai.pro/
 
-式恕堂 版權所無
+QQ 群：387170746
 
-[![Download](https://img.shields.io/github/v/release/rime/weasel)](https://github.com/rime/weasel/releases/latest)
-[![Build status](https://github.com/rime/weasel/actions/workflows/commit-ci.yml/badge.svg)](https://github.com/rime/weasel/actions/workflows/commit-ci.yml)
-[![GitHub Tag](https://img.shields.io/github/tag/rime/weasel.svg)](https://github.com/rime/weasel)
+---
 
-授權條款：GPLv3
+## 功能特性
 
-項目主頁：https://rime.im
+- **小键盘九宫格输入** — 用 NumPad 1-9 数字键拼音打字，位置与手机九宫格一致
+- **T9 软键盘** — 可视化屏幕键盘，支持拖动缩放，适合平板/触屏设备
+- **语音输入** — 按住 `Ctrl+Alt+D` 说话，自动识别转文字（基于 [Sherpa-ONNX](https://github.com/k2-fsa/sherpa-onnx)）
+- **NumLock 关时改键** — NumLock 关闭状态下，小键盘可自定义为各种功能键
+- **细节设置面板** — 可视化配置输入法参数、候选词展示样式等
+- **词库扩展** — 支持自定义词库，兼容 Rime 词库格式
+- **皮肤主题** — 支持自定义输入法外观
 
-您可能還需要 RIME 用於其他操作系統的發行版：
+---
 
-  * ibus-rime、fcitx5-rime 或 fcitx-rime 用於 Linux
-  * 【鼠鬚管】用於 macOS （64位）
+## 操作说明
 
-安裝輸入法
-----------
+### 小键盘输入
 
-本品適用於 Windows 8.1 ~ Windows 11
+| 按键 | 功能 |
+|------|------|
+| NumPad 1-9 | 输入拼音编码（位置同手机九宫格） |
+| `/` `*` | 翻页 |
+| `-` `+` | 翻选 |
+| `0` | 确认选字 |
+| `Ctrl` + NumPad 数字 | 快速选字 |
+| `Enter` | 直接上屏数字 |
+| `.` | 退格 |
+| `7` | 开启标点符号（如 `7douhao` → `，`） |
+| `77` | 开启字母输入（如 `7781` → `a`，`7792` → `e`） |
 
-初次安裝時，安裝程序將顯示「安裝選項」對話框。
+#### 筛选功能
 
-若要將【小狼毫】註冊到繁體中文（臺灣）鍵盤佈局，請在「輸入語言」欄選擇「中文（臺灣）」，再點擊「安裝」按鈕。
+输入编码后按 `7` 开启筛选，依次按 `8` 切换筛选结果：
 
-安裝完成後，仍可由開始菜單打開「安裝選項」更改輸入語言。
+```
+186       → 原始编码
+1867      → 开启筛选
+18678     → pan
+186788    → pao
+1867888   → ran
+18678888  → rao
+...
+```
 
-使用輸入法
-----------
+### 语音输入
 
-選取輸入法指示器菜單裏的【中】字樣圖標，開始用小狼毫寫字。
+按住 `Ctrl+Alt+D` 开始录音，松开自动识别并输入文字。
 
-可通過快捷鍵 <kbd>Ctrl+`</kbd> 或 <kbd>F4</kbd> 呼出方案選單、切換輸入方式。
+### T9 软键盘
 
-定製輸入法
-----------
+- 打开方式：开始菜单 或 右键托盘「中」字 → T9软键盘
+- 拖动边角可放大/缩小
+- 双击悬浮窗可隐藏/显示
+- 部分按键右键有特殊功能（平板上为长按）
+- 右键悬浮窗可设置或退出
 
-通過 開始菜單 » 小狼毫輸入法 訪問設定工具及常用位置。
+### NumPad 改键
 
-用戶詞庫、配置文件位於 `%AppData%\Rime`，可通過菜單中的「用戶文件夾」打開。高水平玩家調教 Rime 輸入法常會用到。
+NumLock 关闭时，小键盘按键可自定义为：
+`ESC`、`Shift`、`Tab`、`Ctrl`、复制、粘贴、剪切、全选、退格、空格、逗号、句号、打开我的电脑/计算器/浏览器/邮件、切换输入法、微信截图、切换鼠标键、语音输入 等。
 
-修改詞庫、配置文件後，須「重新部署」方可生效。
+---
 
-定製 Rime 的方法，請參考 Wiki [《定製指南》](https://github.com/rime/home/wiki/CustomizationGuide)。如需定製 Weasel 獨有的樣式和行為，請參考本倉庫 [Wiki 頁面](https://github.com/rime/weasel/wiki)。
+## 项目结构
 
-致謝
-----
+```
+weasel/
+├── WeaselTSF/            # TSF 输入法框架（C++）— 基于小狼毫
+├── WeaselServer/         # 输入法服务进程（C++）
+├── WeaselUI/             # 候选词 UI 渲染（C++）
+├── WeaselIPC/            # 进程间通信
+├── WeaselIME/            # IME 兼容层
+├── WeaselSetup/          # 安装程序
+├── WeaselDeployer/       # 部署工具
+├── librime/              # Rime 引擎核心（Git submodule）
+│
+├── t9keyboard/           # T9 软键盘（C# WinForms）
+│   └── help.cs           #   设置与改键面板
+│
+├── numkeyboard/          # 小键盘改键驱动（C# WinForms）
+│
+├── t9configui/           # 细节设置面板（C# WinForms）
+│
+├── t9s2t/                # 语音识别（C# WinForms）
+│   └── Engines/          #   识别引擎（Sherpa-ONNX）
+│
+├── ceui/                 # 候选词弹窗（C++）
+├── helpme/               # 一键修复工具（C# WinForms）
+├── t9skin/               # 皮肤工具
+├── resource/             # 图标、图片等资源
+├── output/               # 编译输出 & NSIS 安装脚本
+└── plum/                 # Rime 词库管理工具
+```
 
-### 輸入方案設計：
+### 技术栈
 
-  * 【朙月拼音】系列及【八股文】詞典
-    - 部分數據來源於 CC-CEDICT、Android 拼音、新酷音、opencc 等開源項目
-    - 維護者：佛振、瑾昀
-  * 【注音／地球拼音】
-    - 維護者：佛振、瑾昀
-  * 【倉頡五代】
-    - 發明人：朱邦復先生
-    - 碼表源自 www.chinesecj.com
-    - 構詞碼表作者：惜緣
+| 组件 | 技术 |
+|------|------|
+| 输入法核心 | C++ / Rime (librime) / TSF |
+| 软键盘 / 改键 / 设置 / 语音 | C# / WinForms (.NET Framework) |
+| 语音引擎 | [Sherpa-ONNX](https://github.com/k2-fsa/sherpa-onnx)（本地离线识别） |
+| 候选词弹窗 | C++ (Win32) |
+| 安装程序 | NSIS |
 
-  【五笔】【粵拼】【上海／蘇州吳語】【中古漢語拼音】【國際音標】等衆多方案
-  不再以安裝包預裝形式提供。可由 <https://github.com/rime/plum> 下載安裝。
+---
 
-### 程序設計：
+## 编译
 
-  * [佛振](https://github.com/lotem)
-  * [鄒旭](https://github.com/zouxu09)
-  * [Xiangyan Sun](https://github.com/wishstudio)
-  * [Prcuvu](https://github.com/Prcuvu)
-  * [nameoverflow](https://github.com/nameoverflow)
-  * [fxliang](https://github.com/fxliang)
-  * [Azuk 443](https://github.com/determ1ne)
+### 环境要求
 
-  查看更多 [代碼貢獻者](https://github.com/rime/weasel/graphs/contributors)
+- Visual Studio 2019/2022（含 C++ 桌面开发 & .NET 桌面开发）
+- CMake 3.x（编译 librime）
+- Boost C++ Libraries
 
-### 美術：
+### 编译步骤
 
-  * 圖標設計／[Patricivs](https://github.com/Patricivs)
-  * 配色方案／Aben、P1461、Patricivs、skoj、佛振、五磅兔
+```batch
+# 1. 克隆（含子模块）
+git clone --recursive https://github.com/xiaobai9978/xiaobai-t9.git
 
-### 本品引用了以下開源軟件：
+# 2. 配置环境
+copy env.bat.template env.bat
+# 编辑 env.bat 设置 Boost 路径等
 
-  * [Boost C++ Libraries](http://www.boost.org/) (Boost Software License)
-  * [curl](https://curl.haxx.se/) (MIT/X derivate license)
-  * [google-glog](https://github.com/google/glog) (BSD 3-Clause License)
-  * [Google Test](https://github.com/google/googletest) (BSD 3-Clause License)
-  * [LevelDB](https://github.com/google/leveldb) (BSD 3-Clause License)
-  * [librime](https://github.com/rime/librime) (BSD 3-Clause License)
-  * [marisa-trie](https://github.com/s-yata/marisa-trie) (BSD 2-Clause License, LGPL 2.1)
-  * [OpenCC / 開放中文轉換](https://github.com/BYVoid/OpenCC) (Apache License 2.0)
-  * [plum](https://github.com/rime/plum) (GNU Lesser General Public License v3.0)
-  * [WinSparkle](https://github.com/vslavik/winsparkle) (MIT License)
-  * [yaml-cpp](https://github.com/jbeder/yaml-cpp) (MIT License)
-  * [7-Zip](https://www.7-zip.org) (GNU LGPLv2.1+ with unRAR restriction)
+# 3. 编译
+build.bat
+```
 
-問題與反饋
-----------
+C# 子项目（t9keyboard、numkeyboard、t9configui、t9s2t、helpme）可用 Visual Studio 直接打开 `.sln` 编译。
 
-發現程序有 bug，請到 GitHub 反饋
-<https://github.com/rime/weasel/issues>
+---
 
-歡迎提交 pull request
-<https://github.com/rime/weasel/pulls>
+## 安装
 
-Rime 輸入法（不限於 Windows 平臺）功能、使用方法與配置相關的問題，請反饋到
-<https://github.com/rime/home/issues>
+适用于 **Windows 8.1 ~ Windows 11**。
 
-聯繫方式
---------
+下载最新安装包：https://t9.xiaobai.pro/
 
-技術交流，歡迎光臨 [Rime 代碼之家](https://github.com/rime/home)，或致信 Rime 開發者 <rimeime@gmail.com>
+安装后在输入法列表中选择「小白T9输入法」即可使用。
 
-謝謝！
+### 添加自定义词库
+
+1. 右键托盘图标 → 程序文件夹 → `data/xiaobai.dict.yaml`
+2. 添加词库文件路径（文件名需与 `name` 字段一致，加 `.dict.yaml` 后缀）
+3. 词库格式：
+
+```yaml
+name: my_dict
+version: "1.0"
+sort: by_weight
+词语	ci yu	2000
+```
+
+格式说明：`汉字` + `Tab` + `编码（空格分隔）` + `Tab` + `词频`
+
+---
+
+## 致谢
+
+- [Rime / 中州韵输入法引擎](https://rime.im/) — 提供核心输入法引擎
+- [小狼毫 Weasel](https://github.com/rime/weasel) — 基础框架
+- [Sherpa-ONNX](https://github.com/k2-fsa/sherpa-onnx) — 本地语音识别引擎
+- [NAudio](https://github.com/naudio/NAudio) — 音频采集
+
+## 许可证
+
+基于 [GPLv3](LICENSE.txt) 开源
+
+---
+
+*有问题？来 QQ 群：387170746*
