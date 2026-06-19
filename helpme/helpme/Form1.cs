@@ -193,6 +193,7 @@ namespace helpme
         {
             blinkTimer.Stop();
             arrowOverlay.Visible = false;
+            txtLog.BringToFront(); // 恢复txtLog为z-index=0，让它重新拿到Fill空间
         }
 
         // ================= 业务逻辑 =================
