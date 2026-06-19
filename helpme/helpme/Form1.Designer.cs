@@ -68,7 +68,7 @@
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(503, 268);
+            this.txtLog.Size = new System.Drawing.Size(418, 268);
             this.txtLog.TabIndex = 0;
             // 
             // lblTitle
@@ -103,7 +103,7 @@
             this.lblLogHint.Location = new System.Drawing.Point(20, 20);
             this.lblLogHint.Name = "lblLogHint";
             this.lblLogHint.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.lblLogHint.Size = new System.Drawing.Size(503, 40);
+            this.lblLogHint.Size = new System.Drawing.Size(418, 40);
             this.lblLogHint.TabIndex = 1;
             this.lblLogHint.Text = "[ 实时运行日志 ]";
             // 
@@ -151,7 +151,7 @@
             this.panelRight.Location = new System.Drawing.Point(380, 0);
             this.panelRight.Name = "panelRight";
             this.panelRight.Padding = new System.Windows.Forms.Padding(20);
-            this.panelRight.Size = new System.Drawing.Size(543, 348);
+            this.panelRight.Size = new System.Drawing.Size(458, 348);
             this.panelRight.TabIndex = 0;
             // 
             // adPanel
@@ -184,7 +184,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(923, 348);
+            this.ClientSize = new System.Drawing.Size(838, 348);
             this.Controls.Add(this.adPanel);
             this.Controls.Add(this.panelRight);
             this.Controls.Add(this.panelLeft);

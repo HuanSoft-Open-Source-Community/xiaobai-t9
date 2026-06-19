@@ -72,10 +72,10 @@ namespace helpme
         // ================= 广告面板方法 =================
         private void InitializeAdPanel()
         {
-            string appDir = AppDomain.CurrentDomain.BaseDirectory;
-            try { string p = Path.Combine(appDir, "wechat_qr.png"); if (File.Exists(p)) _imgWechat = Image.FromFile(p); } catch { }
-            try { string p = Path.Combine(appDir, "alipay_qr.png"); if (File.Exists(p)) _imgAlipay = Image.FromFile(p); } catch { }
-            try { string p = Path.Combine(appDir, "pdd_qrcode.png"); if (File.Exists(p)) _imgPdd = Image.FromFile(p); } catch { }
+            var asm = System.Reflection.Assembly.GetExecutingAssembly();
+            try { using (var s = asm.GetManifestResourceStream("helpme.Properties.wechat_qr.png")) { if (s != null) _imgWechat = Image.FromStream(s); } } catch { }
+            try { using (var s = asm.GetManifestResourceStream("helpme.Properties.alipay_qr.png")) { if (s != null) _imgAlipay = Image.FromStream(s); } } catch { }
+            try { using (var s = asm.GetManifestResourceStream("helpme.Properties.pdd_qrcode.png")) { if (s != null) _imgPdd = Image.FromStream(s); } } catch { }
 
             try { if (File.Exists(_adStateFile) && File.ReadAllText(_adStateFile).Trim() == "1") _adCollapsed = true; } catch { }
             ApplyAdState();
