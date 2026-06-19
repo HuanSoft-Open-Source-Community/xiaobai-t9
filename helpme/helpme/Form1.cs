@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -52,6 +52,9 @@ namespace helpme
         private bool _adCollapsed = false;
         private readonly string _adStateFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "helpme_ad_state.txt");
 
+        // 广告面板图片（在Paint中绘制，避免PictureBox遮挡问题）
+        private Image _imgWechat, _imgAlipay, _imgPdd;
+
         public Form1()
         {
             InitializeComponent();
@@ -71,11 +74,11 @@ namespace helpme
         // ================= 广告面板逻辑 =================
         private void InitializeAdPanel()
         {
-            // 从文件加载二维码图片
+            // 从文件加载二维码图片（Paint中DrawImage绘制，无PictureBox遮挡问题）
             string appDir = AppDomain.CurrentDomain.BaseDirectory;
-            try { string p = Path.Combine(appDir, "wechat_qr.png"); if (File.Exists(p)) qrWechat.Image = Image.FromFile(p); } catch { }
-            try { string p = Path.Combine(appDir, "alipay_qr.png"); if (File.Exists(p)) qrAlipay.Image = Image.FromFile(p); } catch { }
-            try { string p = Path.Combine(appDir, "pdd_qrcode.png"); if (File.Exists(p)) qrPdd.Image = Image.FromFile(p); } catch { }
+            try { string p = Path.Combine(appDir, "wechat_qr.png"); if (File.Exists(p)) _imgWechat = Image.FromFile(p); } catch { }
+            try { string p = Path.Combine(appDir, "alipay_qr.png"); if (File.Exists(p)) _imgAlipay = Image.FromFile(p); } catch { }
+            try { string p = Path.Combine(appDir, "pdd_qrcode.png"); if (File.Exists(p)) _imgPdd = Image.FromFile(p); } catch { }
 
             // 恢复广告面板状态（默认展开）
             try { if (File.Exists(_adStateFile) && File.ReadAllText(_adStateFile).Trim() == "1") _adCollapsed = true; } catch { }
@@ -86,14 +89,28 @@ namespace helpme
         {
             var g = e.Graphics;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            int pw = adPanel.ClientSize.Width;
 
             // 标题 "支持小白"
             using (var tf = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold))
             using (var tb = new SolidBrush(Color.FromArgb(200, 80, 40)))
             {
                 var w = g.MeasureString("支持小白", tf).Width;
-                g.DrawString("支持小白", tf, tb, (190 - w) / 2, 3);
+                g.DrawString("支持小白", tf, tb, (pw - w) / 2, 3);
             }
+
+            // 绘制二维码图片（直接在Paint中画，不存在PictureBox遮挡）
+            int imgSize = 80;
+            int imgX = (pw - imgSize) / 2;
+
+            if (_imgWechat != null)
+                g.DrawImage(_imgWechat, imgX, 22, imgSize, imgSize);
+
+            if (_imgAlipay != null)
+                g.DrawImage(_imgAlipay, imgX, 125, imgSize, imgSize);
+
+            if (_imgPdd != null)
+                g.DrawImage(_imgPdd, imgX, 228, imgSize, imgSize);
 
             // 分区文字与分割线
             using (var lf = new Font("Microsoft YaHei UI", 8F, FontStyle.Bold))
@@ -103,21 +120,21 @@ namespace helpme
             using (var rb = new SolidBrush(Color.FromArgb(210, 50, 20)))
             using (var pen = new Pen(Color.FromArgb(230, 210, 190), 1))
             {
-                // 微信打赏（qrWechat: y=22-102，文字在 y=105 下方）
+                // 微信打赏
                 var w1 = g.MeasureString("微信打赏", lf).Width;
-                g.DrawString("微信打赏", lf, db, (190 - w1) / 2, 105);
-                g.DrawLine(pen, 20, 122, 170, 122);
+                g.DrawString("微信打赏", lf, db, (pw - w1) / 2, 105);
+                g.DrawLine(pen, 20, 122, pw - 20, 122);
 
-                // 支付宝打赏（qrAlipay: y=125-205，文字在 y=208 下方）
+                // 支付宝打赏
                 var w2 = g.MeasureString("支付宝打赏", lf).Width;
-                g.DrawString("支付宝打赏", lf, db, (190 - w2) / 2, 208);
-                g.DrawLine(pen, 20, 225, 170, 225);
+                g.DrawString("支付宝打赏", lf, db, (pw - w2) / 2, 208);
+                g.DrawLine(pen, 20, 225, pw - 20, 225);
 
-                // 拼多多店铺（qrPdd: y=228-308，文字在 y=311 下方）
+                // 拼多多店铺
                 var w3 = g.MeasureString("拼多多店铺", lf).Width;
-                g.DrawString("拼多多店铺", lf, db, (190 - w3) / 2, 311);
+                g.DrawString("拼多多店铺", lf, db, (pw - w3) / 2, 311);
                 var w3a = g.MeasureString("捐助98元送键盘", sf).Width;
-                g.DrawString("捐助98元送键盘", sf, rb, (190 - w3a) / 2, 327);
+                g.DrawString("捐助98元送键盘", sf, rb, (pw - w3a) / 2, 327);
             }
         }
 
@@ -134,15 +151,15 @@ namespace helpme
             {
                 adPanel.Visible = false;
                 btnToggleAd.Text = ">";
-                this.ClientSize = new System.Drawing.Size(850, 350);
+                this.ClientSize = new Size(850, 350);
             }
             else
             {
                 adPanel.Visible = true;
                 btnToggleAd.Text = "<";
-                this.ClientSize = new System.Drawing.Size(1040, 350);
+                this.ClientSize = new Size(1040, 350);
             }
-            // 确保按钮始终在最顶层
+            // 确保按钮始终在最顶层（btnToggleAd 无Dock，需要手动置顶）
             btnToggleAd.BringToFront();
         }
 
@@ -160,21 +177,8 @@ namespace helpme
             arrowOverlay.Dock = DockStyle.Fill;
             arrowOverlay.BackColor = Color.Transparent;
             arrowOverlay.Visible = false;
-            this.Controls.Add(arrowOverlay);
+            panelRight.Controls.Add(arrowOverlay);
             arrowOverlay.BringToFront();
-
-            blinkTimer = new System.Windows.Forms.Timer();
-            blinkTimer.Interval = 40;
-            blinkTimer.Tick += (s, e) =>
-            {
-                blinkTickCount++;
-                double rad = (blinkTickCount % 20) / 20.0 * Math.PI * 2;
-                int alpha = (int)(150 + 105 * Math.Sin(rad));
-                arrowOverlay.ArrowAlpha = alpha;
-                arrowOverlay.Invalidate();
-
-                if (blinkTickCount > 250) HideArrow();
-            };
         }
 
         private void ShowArrow()
@@ -363,6 +367,10 @@ namespace helpme
             ResetRunningState();
             ReleaseWinKey();
             blinkTimer?.Stop();
+            // 释放广告图片资源
+            _imgWechat?.Dispose(); _imgWechat = null;
+            _imgAlipay?.Dispose(); _imgAlipay = null;
+            _imgPdd?.Dispose(); _imgPdd = null;
         }
 
         private void CurrentDomain_ProcessExit(object sender, EventArgs e)

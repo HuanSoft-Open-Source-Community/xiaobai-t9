@@ -26,18 +26,11 @@ namespace helpme
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelRight = new System.Windows.Forms.Panel();
             this.adPanel = new System.Windows.Forms.Panel();
-            this.qrPdd = new System.Windows.Forms.PictureBox();
-            this.qrAlipay = new System.Windows.Forms.PictureBox();
-            this.qrWechat = new System.Windows.Forms.PictureBox();
             this.btnToggleAd = new System.Windows.Forms.Button();
             this.panelLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRight.SuspendLayout();
-            this.adPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.qrPdd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.qrAlipay)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.qrWechat)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSwitch
@@ -154,7 +147,7 @@ namespace helpme
             this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
             this.panelRight.Controls.Add(this.txtLog);
             this.panelRight.Controls.Add(this.lblLogHint);
-            this.panelRight.Location = new System.Drawing.Point(380, 0);
+            this.panelRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelRight.Name = "panelRight";
             this.panelRight.Padding = new System.Windows.Forms.Padding(20);
             this.panelRight.Size = new System.Drawing.Size(470, 350);
@@ -164,10 +157,7 @@ namespace helpme
             // 
             this.adPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
             this.adPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.adPanel.Controls.Add(this.qrPdd);
-            this.adPanel.Controls.Add(this.qrAlipay);
-            this.adPanel.Controls.Add(this.qrWechat);
-            this.adPanel.Location = new System.Drawing.Point(850, 0);
+            this.adPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.adPanel.Name = "adPanel";
             this.adPanel.Size = new System.Drawing.Size(190, 350);
             this.adPanel.TabIndex = 200;
@@ -189,45 +179,15 @@ namespace helpme
             this.btnToggleAd.UseVisualStyleBackColor = false;
             this.btnToggleAd.Click += new System.EventHandler(this.btnToggleAd_Click);
             // 
-            // qrPdd
-            // 
-            this.qrPdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
-            this.qrPdd.Location = new System.Drawing.Point(55, 228);
-            this.qrPdd.Name = "qrPdd";
-            this.qrPdd.Size = new System.Drawing.Size(80, 80);
-            this.qrPdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.qrPdd.TabIndex = 2;
-            this.qrPdd.TabStop = false;
-            // 
-            // qrAlipay
-            // 
-            this.qrAlipay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
-            this.qrAlipay.Location = new System.Drawing.Point(55, 125);
-            this.qrAlipay.Name = "qrAlipay";
-            this.qrAlipay.Size = new System.Drawing.Size(80, 80);
-            this.qrAlipay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.qrAlipay.TabIndex = 1;
-            this.qrAlipay.TabStop = false;
-            // 
-            // qrWechat
-            // 
-            this.qrWechat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
-            this.qrWechat.Location = new System.Drawing.Point(55, 22);
-            this.qrWechat.Name = "qrWechat";
-            this.qrWechat.Size = new System.Drawing.Size(80, 80);
-            this.qrWechat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.qrWechat.TabIndex = 0;
-            this.qrWechat.TabStop = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1040, 350);
+            this.Controls.Add(this.panelLeft);
             this.Controls.Add(this.adPanel);
             this.Controls.Add(this.panelRight);
-            this.Controls.Add(this.panelLeft);
             this.Controls.Add(this.btnToggleAd);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -239,10 +199,6 @@ namespace helpme
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelRight.ResumeLayout(false);
             this.panelRight.PerformLayout();
-            this.adPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.qrPdd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.qrAlipay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.qrWechat)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -260,9 +216,6 @@ namespace helpme
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel adPanel;
-        private System.Windows.Forms.PictureBox qrWechat;
-        private System.Windows.Forms.PictureBox qrAlipay;
-        private System.Windows.Forms.PictureBox qrPdd;
         private System.Windows.Forms.Button btnToggleAd;
     }
 }
