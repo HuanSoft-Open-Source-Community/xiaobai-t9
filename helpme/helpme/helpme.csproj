@@ -70,6 +70,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Properties\wechat_qr.png" />
+    <EmbeddedResource Include="Properties\alipay_qr.png" />
+    <EmbeddedResource Include="Properties\pdd_qrcode.png" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
