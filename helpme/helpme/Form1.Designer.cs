@@ -50,7 +50,7 @@
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.textBox1.Font = new System.Drawing.Font("Consolas", 16F);
-            this.textBox1.Location = new System.Drawing.Point(25, 293);
+            this.textBox1.Location = new System.Drawing.Point(25, 291);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(330, 32);
             this.textBox1.TabIndex = 3;
@@ -68,7 +68,7 @@
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(620, 270);
+            this.txtLog.Size = new System.Drawing.Size(503, 268);
             this.txtLog.TabIndex = 0;
             // 
             // lblTitle
@@ -87,7 +87,7 @@
             this.lblInputHint.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblInputHint.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.lblInputHint.ForeColor = System.Drawing.Color.Gray;
-            this.lblInputHint.Location = new System.Drawing.Point(25, 253);
+            this.lblInputHint.Location = new System.Drawing.Point(25, 251);
             this.lblInputHint.Name = "lblInputHint";
             this.lblInputHint.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.lblInputHint.Size = new System.Drawing.Size(330, 40);
@@ -103,7 +103,7 @@
             this.lblLogHint.Location = new System.Drawing.Point(20, 20);
             this.lblLogHint.Name = "lblLogHint";
             this.lblLogHint.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.lblLogHint.Size = new System.Drawing.Size(620, 40);
+            this.lblLogHint.Size = new System.Drawing.Size(503, 40);
             this.lblLogHint.TabIndex = 1;
             this.lblLogHint.Text = "[ 实时运行日志 ]";
             // 
@@ -119,7 +119,7 @@
             this.panelLeft.Location = new System.Drawing.Point(0, 0);
             this.panelLeft.Name = "panelLeft";
             this.panelLeft.Padding = new System.Windows.Forms.Padding(25);
-            this.panelLeft.Size = new System.Drawing.Size(380, 350);
+            this.panelLeft.Size = new System.Drawing.Size(380, 348);
             this.panelLeft.TabIndex = 1;
             // 
             // pictureBox2
@@ -151,15 +151,14 @@
             this.panelRight.Location = new System.Drawing.Point(380, 0);
             this.panelRight.Name = "panelRight";
             this.panelRight.Padding = new System.Windows.Forms.Padding(20);
-            this.panelRight.Size = new System.Drawing.Size(660, 350);
+            this.panelRight.Size = new System.Drawing.Size(543, 348);
             this.panelRight.TabIndex = 0;
             // 
             // adPanel
             // 
             this.adPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
             this.adPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            // 绝对定位，不使用Dock
-            this.adPanel.Location = new System.Drawing.Point(3000, 0); // 初始在屏幕外，InitializeAdPanel按需放回
+            this.adPanel.Location = new System.Drawing.Point(3000, 0);
             this.adPanel.Name = "adPanel";
             this.adPanel.Size = new System.Drawing.Size(190, 350);
             this.adPanel.TabIndex = 200;
@@ -185,7 +184,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(850, 350); // 基础尺寸=收起状态，代码启动时按需加宽
+            this.ClientSize = new System.Drawing.Size(923, 348);
             this.Controls.Add(this.adPanel);
             this.Controls.Add(this.panelRight);
             this.Controls.Add(this.panelLeft);
