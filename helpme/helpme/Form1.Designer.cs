@@ -1,4 +1,4 @@
-namespace helpme
+﻿namespace helpme
 {
     partial class Form1
     {
@@ -68,7 +68,7 @@ namespace helpme
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(430, 270);
+            this.txtLog.Size = new System.Drawing.Size(620, 270);
             this.txtLog.TabIndex = 0;
             // 
             // lblTitle
@@ -103,7 +103,7 @@ namespace helpme
             this.lblLogHint.Location = new System.Drawing.Point(20, 20);
             this.lblLogHint.Name = "lblLogHint";
             this.lblLogHint.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.lblLogHint.Size = new System.Drawing.Size(430, 40);
+            this.lblLogHint.Size = new System.Drawing.Size(620, 40);
             this.lblLogHint.TabIndex = 1;
             this.lblLogHint.Text = "[ 实时运行日志 ]";
             // 
@@ -151,14 +151,15 @@ namespace helpme
             this.panelRight.Location = new System.Drawing.Point(380, 0);
             this.panelRight.Name = "panelRight";
             this.panelRight.Padding = new System.Windows.Forms.Padding(20);
-            this.panelRight.Size = new System.Drawing.Size(470, 350);
+            this.panelRight.Size = new System.Drawing.Size(660, 350);
             this.panelRight.TabIndex = 0;
             // 
             // adPanel
             // 
             this.adPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
             this.adPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.adPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            // 绝对定位，不使用Dock
+            this.adPanel.Location = new System.Drawing.Point(850, 0);
             this.adPanel.Name = "adPanel";
             this.adPanel.Size = new System.Drawing.Size(190, 350);
             this.adPanel.TabIndex = 200;
@@ -167,8 +168,8 @@ namespace helpme
             // btnToggleAd
             // 
             this.btnToggleAd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(200)))));
-            this.btnToggleAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnToggleAd.FlatAppearance.BorderSize = 0;
+            this.btnToggleAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnToggleAd.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnToggleAd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(100)))), ((int)(((byte)(50)))));
             this.btnToggleAd.Location = new System.Drawing.Point(827, 145);
