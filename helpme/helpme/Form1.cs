@@ -131,8 +131,8 @@ namespace helpme
                 if (_imgPdd != null) g.DrawImage(_imgPdd, imgX, y3img, imgSize, imgSize);
                 var w3 = g.MeasureString("拼多多店铺", lf).Width;
                 g.DrawString("拼多多店铺", lf, db, (pw - w3) / 2, y3txt);
-                var w3a = g.MeasureString("捐助98元送键盘", sf).Width;
-                g.DrawString("捐助98元送键盘", sf, rb, (pw - w3a) / 2, y3txt + 16);
+                var w3a = g.MeasureString("捐助98元送小白T9无线键盘一台", sf).Width;
+                g.DrawString("捐助98元送小白T9无线键盘一台", sf, rb, (pw - w3a) / 2, y3txt + 16);
             }
         }
 
@@ -185,25 +185,45 @@ namespace helpme
         }
 
         private void ApplyAdState()
-
         {
-            int h = this.ClientSize.Height; // 始终使用运行时实际高度
+            int h = this.ClientSize.Height;
             int adW = adPanel.Width;
             if (_adCollapsed)
             {
                 adPanel.Location = new Point(3000, 0);
                 btnToggleAd.Text = ">";
                 this.ClientSize = new Size(this.ClientSize.Width - adW, h);
+                if (arrowOverlay != null) arrowOverlay.RightOffset = 0;
             }
             else
             {
                 adPanel.Location = new Point(this.ClientSize.Width, 0);
                 btnToggleAd.Text = "<";
                 this.ClientSize = new Size(this.ClientSize.Width + adW, h);
+                if (arrowOverlay != null) arrowOverlay.RightOffset = adW;
             }
             btnToggleAd.Location = new Point(this.ClientSize.Width - btnToggleAd.Width, btnToggleAd.Location.Y);
             btnToggleAd.BringToFront();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -527,7 +547,7 @@ namespace helpme
     public class ArrowOverlay : Panel
     {
         public int ArrowAlpha { get; set; } = 255;
-
+        public int RightOffset { get; set; } = 0;
         public ArrowOverlay()
         {
             this.DoubleBuffered = true;
@@ -540,11 +560,11 @@ namespace helpme
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            int w = this.Width;
+            int w = this.Width - RightOffset; // 减去广告宽度
             int h = this.Height;
 
             PointF start = new PointF(w * 0.25f, h * 0.25f);
-            PointF end = new PointF(w * 0.85f, h * 0.85f);
+            PointF end = new PointF(w * 0.80f, h * 0.80f);
 
             using (Pen pen = new Pen(Color.FromArgb(ArrowAlpha, 220, 20, 20), 22f))
             {
@@ -557,7 +577,7 @@ namespace helpme
             using (Brush brush = new SolidBrush(Color.FromArgb(ArrowAlpha, 220, 20, 20)))
             {
                 string text = " \n\n右下方请选择！！\n\"小白T9输入法\"！！";
-                g.DrawString(text, font, brush, w * 0.35f, h * 0.50f);
+                g.DrawString(text, font, brush, w * 0.30f, h * 0.50f);
             }
         }
     }
