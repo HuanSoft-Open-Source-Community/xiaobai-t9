@@ -159,7 +159,7 @@
             this.adPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
             this.adPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             // 绝对定位，不使用Dock
-            this.adPanel.Location = new System.Drawing.Point(850, 0);
+            this.adPanel.Location = new System.Drawing.Point(3000, 0); // 初始在屏幕外，InitializeAdPanel按需放回
             this.adPanel.Name = "adPanel";
             this.adPanel.Size = new System.Drawing.Size(190, 350);
             this.adPanel.TabIndex = 200;
@@ -185,7 +185,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1040, 350);
+            this.ClientSize = new System.Drawing.Size(850, 350); // 基础尺寸=收起状态，代码启动时按需加宽
             this.Controls.Add(this.adPanel);
             this.Controls.Add(this.panelRight);
             this.Controls.Add(this.panelLeft);

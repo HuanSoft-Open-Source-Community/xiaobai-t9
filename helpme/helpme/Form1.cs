@@ -132,23 +132,41 @@ namespace helpme
         }
 
         private void ApplyAdState()
+
         {
+            int h = this.ClientSize.Height; // 始终使用运行时实际高度
+            int adW = adPanel.Width;
             if (_adCollapsed)
             {
-                // 收起 = 原始尺寸 850x350
-                adPanel.Visible = false;
+                adPanel.Location = new Point(3000, 0);
                 btnToggleAd.Text = ">";
-                this.ClientSize = new Size(850, 350);
+                this.ClientSize = new Size(this.ClientSize.Width - adW, h);
             }
             else
             {
-                // 展开 = 原始 850 + 广告 190 = 1040x350
-                adPanel.Visible = true;
+                adPanel.Location = new Point(this.ClientSize.Width, 0);
                 btnToggleAd.Text = "<";
-                this.ClientSize = new Size(1040, 350);
+                this.ClientSize = new Size(this.ClientSize.Width + adW, h);
             }
+            btnToggleAd.Location = new Point(this.ClientSize.Width - adW - btnToggleAd.Width, btnToggleAd.Location.Y);
             btnToggleAd.BringToFront();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void InitializeCustomTimer()
         {
