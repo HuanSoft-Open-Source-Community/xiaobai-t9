@@ -86,20 +86,20 @@ namespace helpme
             var g = e.Graphics;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             int pw = adPanel.ClientSize.Width;
-            int imgSize = 80, imgX = (pw - imgSize) / 2;
+            int ph = adPanel.ClientSize.Height;
+
+            // 按比例计算
+            int imgSize = (int)(pw * 0.42);
+            int imgX = (pw - imgSize) / 2;
+            float secH = ph / 3f; // 每个区块高度
 
             // 标题
             using (var tf = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold))
             using (var tb = new SolidBrush(Color.FromArgb(200, 80, 40)))
             {
                 var w = g.MeasureString("支持小白", tf).Width;
-                g.DrawString("支持小白", tf, tb, (pw - w) / 2, 3);
+                g.DrawString("支持小白", tf, tb, (pw - w) / 2, ph * 0.01f);
             }
-
-            // 二维码图片
-            if (_imgWechat != null) g.DrawImage(_imgWechat, imgX, 22, imgSize, imgSize);
-            if (_imgAlipay != null) g.DrawImage(_imgAlipay, imgX, 125, imgSize, imgSize);
-            if (_imgPdd != null) g.DrawImage(_imgPdd, imgX, 228, imgSize, imgSize);
 
             // 文字与分割线
             using (var lf = new Font("Microsoft YaHei UI", 8F, FontStyle.Bold))
@@ -109,20 +109,73 @@ namespace helpme
             using (var rb = new SolidBrush(Color.FromArgb(210, 50, 20)))
             using (var pen = new Pen(Color.FromArgb(230, 210, 190), 1))
             {
+                // 区块1: 微信
+                int y1img = (int)(secH * 0.15f);
+                int y1txt = y1img + imgSize + 2;
+                if (_imgWechat != null) g.DrawImage(_imgWechat, imgX, y1img, imgSize, imgSize);
                 var w1 = g.MeasureString("微信打赏", lf).Width;
-                g.DrawString("微信打赏", lf, db, (pw - w1) / 2, 105);
-                g.DrawLine(pen, 20, 122, pw - 20, 122);
+                g.DrawString("微信打赏", lf, db, (pw - w1) / 2, y1txt);
+                g.DrawLine(pen, pw * 0.1f, secH * 0.97f, pw * 0.9f, secH * 0.97f);
 
+                // 区块2: 支付宝
+                int y2img = (int)(secH + secH * 0.15f);
+                int y2txt = y2img + imgSize + 2;
+                if (_imgAlipay != null) g.DrawImage(_imgAlipay, imgX, y2img, imgSize, imgSize);
                 var w2 = g.MeasureString("支付宝打赏", lf).Width;
-                g.DrawString("支付宝打赏", lf, db, (pw - w2) / 2, 208);
-                g.DrawLine(pen, 20, 225, pw - 20, 225);
+                g.DrawString("支付宝打赏", lf, db, (pw - w2) / 2, y2txt);
+                g.DrawLine(pen, pw * 0.1f, secH * 1.97f, pw * 0.9f, secH * 1.97f);
 
+                // 区块3: 拼多多
+                int y3img = (int)(secH * 2 + secH * 0.1f);
+                int y3txt = y3img + imgSize + 2;
+                if (_imgPdd != null) g.DrawImage(_imgPdd, imgX, y3img, imgSize, imgSize);
                 var w3 = g.MeasureString("拼多多店铺", lf).Width;
-                g.DrawString("拼多多店铺", lf, db, (pw - w3) / 2, 311);
+                g.DrawString("拼多多店铺", lf, db, (pw - w3) / 2, y3txt);
                 var w3a = g.MeasureString("捐助98元送键盘", sf).Width;
-                g.DrawString("捐助98元送键盘", sf, rb, (pw - w3a) / 2, 327);
+                g.DrawString("捐助98元送键盘", sf, rb, (pw - w3a) / 2, y3txt + 16);
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void btnToggleAd_Click(object sender, EventArgs e)
         {
@@ -148,7 +201,7 @@ namespace helpme
                 btnToggleAd.Text = "<";
                 this.ClientSize = new Size(this.ClientSize.Width + adW, h);
             }
-            btnToggleAd.Location = new Point(this.ClientSize.Width - adW - btnToggleAd.Width, btnToggleAd.Location.Y);
+            btnToggleAd.Location = new Point(this.ClientSize.Width - btnToggleAd.Width, btnToggleAd.Location.Y);
             btnToggleAd.BringToFront();
         }
 
