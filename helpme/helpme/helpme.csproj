@@ -84,9 +84,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\dc09882c-1165-40a0-b42b-913b121e6299.png" />
-    <None Include="Resources\0beffad9-8150-4b9c-849a-7960866759b1.png" />
-    <None Include="Resources\1781684592078_d.png" />
     <Content Include="weasel.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

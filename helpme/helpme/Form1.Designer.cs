@@ -26,11 +26,18 @@ namespace helpme
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelRight = new System.Windows.Forms.Panel();
             this.adPanel = new System.Windows.Forms.Panel();
+            this.qrPdd = new System.Windows.Forms.PictureBox();
+            this.qrAlipay = new System.Windows.Forms.PictureBox();
+            this.qrWechat = new System.Windows.Forms.PictureBox();
             this.btnToggleAd = new System.Windows.Forms.Button();
             this.panelLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelRight.SuspendLayout();
+            this.adPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.qrPdd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrAlipay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrWechat)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSwitch
@@ -50,7 +57,7 @@ namespace helpme
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.textBox1.Font = new System.Drawing.Font("Consolas", 16F);
-            this.textBox1.Location = new System.Drawing.Point(25, 293);
+            this.textBox1.Location = new System.Drawing.Point(25, 387);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(330, 32);
             this.textBox1.TabIndex = 3;
@@ -68,7 +75,7 @@ namespace helpme
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(430, 270);
+            this.txtLog.Size = new System.Drawing.Size(430, 364);
             this.txtLog.TabIndex = 0;
             // 
             // lblTitle
@@ -87,7 +94,7 @@ namespace helpme
             this.lblInputHint.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblInputHint.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.lblInputHint.ForeColor = System.Drawing.Color.Gray;
-            this.lblInputHint.Location = new System.Drawing.Point(25, 253);
+            this.lblInputHint.Location = new System.Drawing.Point(25, 347);
             this.lblInputHint.Name = "lblInputHint";
             this.lblInputHint.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.lblInputHint.Size = new System.Drawing.Size(330, 40);
@@ -119,7 +126,7 @@ namespace helpme
             this.panelLeft.Location = new System.Drawing.Point(0, 0);
             this.panelLeft.Name = "panelLeft";
             this.panelLeft.Padding = new System.Windows.Forms.Padding(25);
-            this.panelLeft.Size = new System.Drawing.Size(380, 350);
+            this.panelLeft.Size = new System.Drawing.Size(380, 444);
             this.panelLeft.TabIndex = 1;
             // 
             // pictureBox2
@@ -148,32 +155,65 @@ namespace helpme
             this.panelRight.Controls.Add(this.txtLog);
             this.panelRight.Controls.Add(this.lblLogHint);
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelRight.Location = new System.Drawing.Point(380, 0);
             this.panelRight.Name = "panelRight";
             this.panelRight.Padding = new System.Windows.Forms.Padding(20);
-            this.panelRight.Size = new System.Drawing.Size(470, 350);
+            this.panelRight.Size = new System.Drawing.Size(470, 444);
             this.panelRight.TabIndex = 0;
             // 
             // adPanel
             // 
             this.adPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
             this.adPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.adPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.adPanel.Controls.Add(this.qrPdd);
+            this.adPanel.Controls.Add(this.qrAlipay);
+            this.adPanel.Controls.Add(this.qrWechat);
+            this.adPanel.Location = new System.Drawing.Point(650, 0);
             this.adPanel.Name = "adPanel";
             this.adPanel.Size = new System.Drawing.Size(190, 350);
             this.adPanel.TabIndex = 200;
             this.adPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.adPanel_Paint);
             // 
+            // qrPdd
+            // 
+            this.qrPdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.qrPdd.Location = new System.Drawing.Point(57, 206);
+            this.qrPdd.Name = "qrPdd";
+            this.qrPdd.Size = new System.Drawing.Size(75, 75);
+            this.qrPdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qrPdd.TabIndex = 0;
+            this.qrPdd.TabStop = false;
+            // 
+            // qrAlipay
+            // 
+            this.qrAlipay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.qrAlipay.Location = new System.Drawing.Point(57, 108);
+            this.qrAlipay.Name = "qrAlipay";
+            this.qrAlipay.Size = new System.Drawing.Size(75, 75);
+            this.qrAlipay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qrAlipay.TabIndex = 1;
+            this.qrAlipay.TabStop = false;
+            // 
+            // qrWechat
+            // 
+            this.qrWechat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
+            this.qrWechat.Location = new System.Drawing.Point(57, 10);
+            this.qrWechat.Name = "qrWechat";
+            this.qrWechat.Size = new System.Drawing.Size(75, 75);
+            this.qrWechat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.qrWechat.TabIndex = 2;
+            this.qrWechat.TabStop = false;
+            // 
             // btnToggleAd
             // 
             this.btnToggleAd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(200)))));
+            this.btnToggleAd.FlatAppearance.BorderSize = 0;
             this.btnToggleAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnToggleAd.FlatAppearance.BorderSize = 1;
-            this.btnToggleAd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(100)))), ((int)(((byte)(50)))));
-            this.btnToggleAd.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnToggleAd.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnToggleAd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(100)))), ((int)(((byte)(50)))));
-            this.btnToggleAd.Location = new System.Drawing.Point(827, 145);
+            this.btnToggleAd.Location = new System.Drawing.Point(625, 140);
             this.btnToggleAd.Name = "btnToggleAd";
-            this.btnToggleAd.Size = new System.Drawing.Size(24, 60);
+            this.btnToggleAd.Size = new System.Drawing.Size(20, 60);
             this.btnToggleAd.TabIndex = 201;
             this.btnToggleAd.Text = "<";
             this.btnToggleAd.UseVisualStyleBackColor = false;
@@ -184,21 +224,26 @@ namespace helpme
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1040, 350);
-            this.Controls.Add(this.panelLeft);
+            this.ClientSize = new System.Drawing.Size(850, 444);
+            this.Controls.Add(this.btnToggleAd);
             this.Controls.Add(this.adPanel);
             this.Controls.Add(this.panelRight);
-            this.Controls.Add(this.btnToggleAd);
+            this.Controls.Add(this.panelLeft);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "小白T9输入法 HelpMe v2.1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panelLeft.ResumeLayout(false);
             this.panelLeft.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelRight.ResumeLayout(false);
             this.panelRight.PerformLayout();
+            this.adPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.qrPdd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrAlipay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.qrWechat)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -216,6 +261,9 @@ namespace helpme
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Panel adPanel;
+        private System.Windows.Forms.PictureBox qrWechat;
+        private System.Windows.Forms.PictureBox qrAlipay;
+        private System.Windows.Forms.PictureBox qrPdd;
         private System.Windows.Forms.Button btnToggleAd;
     }
 }
