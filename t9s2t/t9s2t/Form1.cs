@@ -27,32 +27,37 @@ namespace t9s2t
         private NotifyIcon trayIcon;
         private EngineType currentEngineType = EngineType.None;
 
+        // 录音浮动提示窗
+        private Form recordingIndicator;
+        // 录音前的目标窗口句柄（防止提示窗抢焦点后无法恢复）
+        private IntPtr _lastTargetWindow = IntPtr.Zero;
+
         // ==================== 动态 UI 控件 ====================
         private CheckBox chkAutoStart;
 
         // ==================== 远程模型配置地址 ====================
         private readonly string remoteModelsJsonUrl = "https://t9.xiaobai.pro/models/models.json";
-        // 引擎运行时 DLL 远程配置地址
+        // 引擎运行时 DLL  远程配置地址
         private readonly string remoteEngineJsonUrl = "https://t9.xiaobai.pro/models/engine.json";
         // 备用方案：如果网络请求失败，使用本地内置的默认列表
         private readonly string fallbackJson = @"
         [
             {
-                ""name"": ""SenseVoice-Small (推荐)"",
-                ""description"": ""约230MB, 识别率极高, 支持情感识别, 速度快"",
-                ""url"": ""https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2"",
-                ""folder"": ""sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17"",
-                ""size_hint"": ""230MB"",
-                ""version"": ""2024-07-17"",
+                ""name"": ""Paraformer-large-zh (推荐)"",
+                ""description"": ""中文大模型, 自动标点, 松开快捷键后出字, 识别质量最高"",
+                ""url"": ""https://wp.xiaobai.pro:1111/d/%E8%BE%93%E5%85%A5%E6%B3%95/models/sherpa-onnx-paraformer-large.zip"",
+                ""folder"": ""sherpa-onnx-paraformer-large"",
+                ""size_hint"": ""258MB"",
+                ""version"": ""2024-03-09"",
                 ""published"": true
             },
             {
-                ""name"": ""Paraformer-zh (流式)"",
-                ""description"": ""约1GB, 中文流式识别, 边说边出字, 识别率高"",
-                ""url"": ""https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-paraformer-bilingual-zh-en.tar.bz2"",
-                ""folder"": ""sherpa-onnx-streaming-paraformer-bilingual-zh-en"",
-                ""size_hint"": ""1GB"",
-                ""version"": ""1.0"",
+               ""name"": ""Paraformer-large-zh (备用)"",
+                ""description"": ""中文大模型, 自动标点, 松开快捷键后出字, 识别质量最高"",
+                ""url"": ""https://wp.xiaobai.pro:1111/d/%E8%BE%93%E5%85%A5%E6%B3%95/models/sherpa-onnx-paraformer-large.zip"",
+                ""folder"": ""sherpa-onnx-paraformer-large"",
+                ""size_hint"": ""258MB"",
+                ""version"": ""2024-03-09"",
                 ""published"": true
             }
         ]";
@@ -87,6 +92,9 @@ namespace t9s2t
         private static extern IntPtr GetModuleHandle(string lpModuleName);
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
+        [DllImport("user32.dll")]
+        private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, IntPtr dwExtraInfo);
+        private const uint KEYEVENTF_KEYUP = 0x0002;  // keybd_event 标志：表示按键释放
 
         // ==================== 窗口控制与防多开 API ====================
         [DllImport("user32.dll")] private static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -598,7 +606,83 @@ namespace t9s2t
         }
 
 
+        private async Task LoadEngine()
+        {
+            try
+            {
+                engine?.Dispose();
+                engine = EngineDetector.DetectAndCreate(modelPath);
 
+                if (engine == null)
+                {
+                    this.Invoke((MethodInvoker)delegate {
+                        lblStatus.Text = "❌ 无法识别模型类型";
+                        btnDownloadModel.Enabled = true;
+                        btnDownloadModel.Text = "⬇️ 重新下载模型";
+                    });
+                    return;
+                }
+
+                await engine.LoadAsync(modelPath);
+
+                // ==================== 流式处理设置 ====================
+                if (engine.SupportsStreaming)
+                {
+                    if (engine is SherpaEngine) // 1GB Paraformer 走原生流式
+                    {
+                        vadProcessor = null; // 不使用 VAD
+                    }
+                    else // SenseVoice 等走 VAD 模拟流式
+                    {
+                        vadProcessor = new VadStreamProcessor(
+                            engine,
+                            onResult: (text) => SimulateKeyboardInput(text, isFinal: false), // 实时出字
+                            onPartial: (partial) => {
+                                try
+                                {
+                                    this.Invoke((MethodInvoker)delegate {
+                                        lblStatus.Text = $"🎤 {partial}";
+                                    });
+                                }
+                                catch { }
+                            }
+                        );
+                    }
+                }
+                else
+                {
+                    vadProcessor = null;
+                }
+
+                string streamingHint = engine.SupportsStreaming ? " (流式识别)" : "";
+
+                this.Invoke((MethodInvoker)delegate {
+                    var sherpa = engine as SherpaEngine;
+                    string extraHint = "";
+                    if (sherpa != null)
+                    {
+                        if (sherpa.HasPunctuation) extraHint += " +标点";
+                        if (sherpa.HasVad) extraHint += " +VAD";
+                    }
+                    lblEngine.Text = $"引擎: {engine.EngineName}{streamingHint}{extraHint}";
+                    lblEngine.ForeColor = Color.FromArgb(40, 140, 80);
+                    lblStatus.Text = $"✅ {engine.EngineName}{streamingHint}{extraHint} 就绪！按住 Ctrl+Alt+D 说话";
+                    lblStatus.ForeColor = Color.FromArgb(40, 53, 147);
+                    trayIcon.Text = $"t9s2t ({engine.EngineName})";
+                });
+
+                Debug.WriteLine($"[LoadEngine] Success: {engine.EngineName}, Streaming={engine.SupportsStreaming}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[LoadEngine Error] {ex}");
+                this.Invoke((MethodInvoker)delegate {
+                    lblStatus.Text = "❌ 加载失败: " + ex.Message;
+                    btnDownloadModel.Enabled = true;
+                    btnDownloadModel.Text = "⬇️ 重新下载模型";
+                });
+            }
+        }
 
         // ==================== 核心：动态获取模型列表并弹窗选择 ====================
         private async void btnDownloadModel_Click(object sender, EventArgs e)
@@ -863,57 +947,76 @@ namespace t9s2t
             }
         }
 
-        private async Task LoadEngine()
+
+
+        private readonly object _inputLock = new object();  // 保护键盘/剪贴板/引擎操作的线程安全锁
+        private DateTime _lastPartialTime = DateTime.MinValue;  // partial 更新时间戳（节流用）
+        private const int PartialThrottleMs = 200;  // partial 更新最小间隔（毫秒）
+        private string _lastDisplayedPartial = "";  // 上次显示的 partial 文本（去重用）
+
+        private void SimulateKeyboardInput(string text, bool isFinal = false)
         {
+            if (string.IsNullOrWhiteSpace(text)) return;
+
+            if (!isFinal)
+            {
+                // partial：不模拟到目标窗口（避免"BACKSPACE删除-粘贴"肉眼可见的闪烁）
+                // 实时进度只在托盘图标 tooltip 上显示，让用户能看到识别中但不会出现闪烁
+                try
+                {
+                    this.BeginInvoke((MethodInvoker)delegate {
+                        trayIcon.Text = $"🎤 {text}";
+                    });
+                }
+                catch { }
+                return;
+            }
+
+            // final：原子化粘贴最终结果到目标窗口（一次性出现，不闪烁）
+            lock (_inputLock)
+            {
+                try
+                {
+                    ForceForegroundWindow();
+
+                    // 关键修复：如果 Alt 仍按着，先临时释放，避免 Alt+Space 触发系统菜单
+                    // 场景：用户松开 D 时钩子拦截了 D 的 KEYUP，但 Ctrl/Alt 可能仍按着
+                    // 此时发送 Space 会被系统识别为 Alt+Space，弹出窗口控制菜单
+                    bool altDown = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
+                    if (altDown)
+                    {
+                        keybd_event((byte)Keys.Menu, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
+                        Thread.Sleep(20);
+                    }
+
+                    Clipboard.SetText(text);
+                    Thread.Sleep(50);  // 增加等待时间，避免剪贴板未就绪就发送 ^v
+                    SendKeys.SendWait("^v");
+                    SendKeys.SendWait(" ");  // 最终结果加空格
+
+                    // 不主动恢复 Alt：让用户自己控制 Alt 状态，避免干扰用户的实际输入
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"[SimulateKeyboardInput Error] {ex.Message}");
+                    try { FallbackTypeText(text); } catch { }
+                }
+            }
+
+            // UI 更新在 lock 外
             try
             {
-                engine?.Dispose();
-                engine = EngineDetector.DetectAndCreate(modelPath);
-
-                if (engine == null)
-                {
-                    this.Invoke((MethodInvoker)delegate {
-                        lblStatus.Text = "❌ 无法识别模型类型";
-                        btnDownloadModel.Enabled = true; btnDownloadModel.Text = "⬇️ 重新下载模型";
-                    });
-                    return;
-                }
-
-                await engine.LoadAsync(modelPath);
-
-                // SenseVoice 使用 VAD 模拟流式，流式 Paraformer 使用原生端点检测不需要 VAD
-                if (engine.SupportsStreaming && !(engine is SherpaEngine))
-                {
-                    vadProcessor = new VadStreamProcessor(
-                        engine,
-                        onResult: (text) => SimulateKeyboardInput(text),
-                        onPartial: (partial) => {
-                            try { this.Invoke((MethodInvoker)delegate { lblStatus.Text = $"🎤 {partial}"; }); } catch { }
-                        }
-                    );
-                }
-                else
-                {
-                    vadProcessor = null;
-                }
-
-                string streamingHint = engine.SupportsStreaming ? " (流式识别)" : "";
-                this.Invoke((MethodInvoker)delegate {
-                    lblEngine.Text = $"引擎: {engine.EngineName}{streamingHint}";
-                    lblEngine.ForeColor = Color.FromArgb(40, 140, 80);
-                    lblStatus.Text = $"✅ {engine.EngineName}{streamingHint} 就绪！按住 Ctrl+Alt+D 说话";
-                    lblStatus.ForeColor = Color.FromArgb(40, 53, 147);
-                    trayIcon.Text = $"t9s2t ({engine.EngineName})";
+                this.BeginInvoke((MethodInvoker)delegate {
+                    lblStatus.Text = $"✅ 已输入: {text}";
+                    trayIcon.Text = $"✅ 已输入: {text}";
                 });
             }
-            catch (Exception ex)
-            {
-                this.Invoke((MethodInvoker)delegate {
-                    lblStatus.Text = "❌ 加载失败: " + ex.Message;
-                    btnDownloadModel.Enabled = true; btnDownloadModel.Text = "⬇️ 重新下载模型";
-                });
-            }
+            catch { }
         }
+
+        // DeletePreviousPartial 已废弃：partial 不再模拟到目标窗口，无需删除中间结果
+
+
 
         private void InitMicrophone()
         {
@@ -926,86 +1029,253 @@ namespace t9s2t
         {
             if (!isRecording || engine == null) return;
 
-            if (engine.SupportsStreaming && engine is SherpaEngine sherpaEngine)
+            lock (_inputLock)
             {
-                // 流式 Paraformer: 使用 OnlineRecognizer 原生端点检测
-                sherpaEngine.AcceptAudio(e.Buffer, e.BytesRecorded);
+                if (!isRecording) return;  // double-check：获取锁后可能已停止录音
 
-                // 检查是否检测到句子端点
-                if (sherpaEngine.IsEndpoint())
+                if (engine.SupportsStreaming && engine is SherpaEngine sherpaEngine)
                 {
-                    string text = sherpaEngine.GetFinalResult();
-                    if (!string.IsNullOrWhiteSpace(text))
-                        SimulateKeyboardInput(text);
-                    // stream 已在 GetFinalResult 中重置
-                }
-                else
-                {
-                    // 显示临时识别结果
-                    string partial = sherpaEngine.GetPartialResult();
-                    if (!string.IsNullOrEmpty(partial))
+                    // 1GB Paraformer 流式处理
+                    sherpaEngine.AcceptAudio(e.Buffer, e.BytesRecorded);
+
+                    if (sherpaEngine.IsEndpoint())
                     {
-                        try { this.Invoke((MethodInvoker)delegate { lblStatus.Text = $"🎤 {partial}"; }); } catch { }
+                        // 端点检测（停顿分句）：获取结果并重置 stream（不调用 InputFinished）
+                        string finalText = sherpaEngine.GetResultAndReset();
+                        if (!string.IsNullOrWhiteSpace(finalText))
+                            SimulateKeyboardInput(finalText, isFinal: true);
+                    }
+                    else
+                    {
+                        string partial = sherpaEngine.GetPartialResult();
+                        // 节流+去重：仅当文本变化且距上次更新超过 200ms 时才更新
+                        if (!string.IsNullOrEmpty(partial) && partial != _lastDisplayedPartial)
+                        {
+                            var now = DateTime.Now;
+                            if ((now - _lastPartialTime).TotalMilliseconds >= PartialThrottleMs)
+                            {
+                                _lastPartialTime = now;
+                                _lastDisplayedPartial = partial;
+                                SimulateKeyboardInput(partial, isFinal: false);
+                            }
+                        }
                     }
                 }
+                else if (vadProcessor != null)
+                {
+                    // SenseVoice 等使用 VAD
+                    vadProcessor.ProcessAudio(e.Buffer, e.BytesRecorded);
+                }
+                else if (engine != null && !engine.SupportsStreaming)
+                {
+                    // 离线模式（Paraformer-large 等）：积累音频，松开后一次性识别
+                    engine.AcceptAudio(e.Buffer, e.BytesRecorded);
+                }
             }
-            else if (vadProcessor != null && engine.SupportsStreaming)
+        }
+
+
+        private void ForceForegroundWindow()
+        {
+            try
             {
-                // SenseVoice: 通过 VAD 处理器模拟流式
-                vadProcessor.ProcessAudio(e.Buffer, e.BytesRecorded);
+                IntPtr targetWnd = GetForegroundWindow();
+
+                // 如果前台窗口是自己的窗口（主窗体或录音提示窗），回退到录音前保存的目标窗口
+                if (targetWnd == this.Handle ||
+                    (recordingIndicator != null && targetWnd == recordingIndicator.Handle))
+                {
+                    targetWnd = _lastTargetWindow;
+                }
+
+                if (targetWnd == IntPtr.Zero || targetWnd == this.Handle) return;
+
+                uint foreThread = GetWindowThreadProcessId(targetWnd, out _);
+                uint thisThread = GetWindowThreadProcessId(this.Handle, out _);
+
+                if (foreThread != thisThread)
+                    AttachThreadInput(foreThread, thisThread, true);
+
+                SetForegroundWindow(targetWnd);
+
+                if (foreThread != thisThread)
+                    AttachThreadInput(foreThread, thisThread, false);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[ForceForegroundWindow] {ex.Message}");
             }
         }
 
         public void StartRecording()
         {
             if (isRecording || engine == null || waveIn == null) return;
-            isRecording = true;
-            engine.Reset();
-            vadProcessor?.Reset();
-            waveIn.StartRecording();
+
+            lock (_inputLock)
+            {
+                if (isRecording) return;  // double-check
+                isRecording = true;
+                engine.Reset();
+                vadProcessor?.Reset();
+                waveIn.StartRecording();
+            }
+
+            // 在显示录音提示窗之前，保存当前目标窗口句柄（防止提示窗抢焦点）
+            _lastTargetWindow = GetForegroundWindow();
 
             string modeHint = engine.SupportsStreaming ? " (流式)" : "";
-            this.Invoke((MethodInvoker)delegate {
-                lblStatus.Text = $"🎤 {engine.EngineName} 正在录音{modeHint}... (松开 Ctrl+Alt+D 结束)";
-                lblStatus.ForeColor = Color.FromArgb(200, 50, 50);
-                trayIcon.Text = $"🎤 {engine.EngineName} 录音中...";
-            });
+            try
+            {
+                this.BeginInvoke((MethodInvoker)delegate {
+                    lblStatus.Text = $"🎤 {engine.EngineName} 正在录音{modeHint}... (松开 Ctrl+Alt+D 结束)";
+                    lblStatus.ForeColor = Color.FromArgb(200, 50, 50);
+                    trayIcon.Text = $"🎤 {engine.EngineName} 录音中...";
+                    ShowRecordingIndicator();
+                });
+            }
+            catch { }
         }
+
+        // ==================== 录音浮动提示 ====================
+
+        private void ShowRecordingIndicator()
+        {
+            if (recordingIndicator == null)
+            {
+                recordingIndicator = new NonActivatingForm
+                {
+                    FormBorderStyle = FormBorderStyle.None,
+                    StartPosition = FormStartPosition.Manual,
+                    ShowInTaskbar = false,
+                    TopMost = true,
+                    Width = 180,
+                    Height = 44,
+                    BackColor = Color.FromArgb(230, 57, 70),
+                    Opacity = 0.92,
+                    ControlBox = false,
+                    Text = ""
+                };
+
+                var lbl = new Label
+                {
+                    Text = "● 正在识别...(松开结束)",
+                    ForeColor = Color.White,
+                    Font = new Font("Microsoft YaHei UI", 11, FontStyle.Bold),
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter
+                };
+                recordingIndicator.Controls.Add(lbl);
+
+                // 圆角
+                recordingIndicator.Region = System.Drawing.Region.FromHrgn(
+                    CreateRoundRectRgn(0, 0, recordingIndicator.Width, recordingIndicator.Height, 16, 16));
+            }
+
+            // 定位到屏幕底部居中
+            var screen = Screen.PrimaryScreen.WorkingArea;
+            recordingIndicator.Location = new Point(
+                screen.X + (screen.Width - recordingIndicator.Width) / 2,
+                screen.Y + screen.Height - recordingIndicator.Height - 80);
+
+            recordingIndicator.Show();
+        }
+
+        private void HideRecordingIndicator()
+        {
+            if (recordingIndicator != null && recordingIndicator.Visible)
+                recordingIndicator.Hide();
+        }
+
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr CreateRoundRectRgn(int x1, int y1, int x2, int y2, int cx, int cy);
 
         public void StopRecording()
         {
             if (!isRecording) return;
-            isRecording = false;
+
+            // 先停止录音设备（会触发最后的 DataAvailable），再在锁内设置 isRecording=false
+            // 这样最后几帧音频不会被丢弃
             waveIn.StopRecording();
 
-            if (engine.SupportsStreaming && engine is SherpaEngine sherpaEngine)
+            // 获取 lock，确保录音线程的 DataAvailable 已完成
+            lock (_inputLock)
             {
-                // 流式 Paraformer: 获取剩余识别结果
-                string text = sherpaEngine.GetFinalResult();
-                if (!string.IsNullOrWhiteSpace(text))
-                    SimulateKeyboardInput(text);
-            }
-            else if (vadProcessor != null && engine.SupportsStreaming)
-            {
-                // SenseVoice: VAD 强制提交剩余音频
-                vadProcessor.Flush();
+                isRecording = false;
+
+                if (engine.SupportsStreaming && engine is SherpaEngine sherpaEngine)
+                {
+                    string text = sherpaEngine.GetFinalResult();
+                    if (!string.IsNullOrWhiteSpace(text))
+                        SimulateKeyboardInput(text, isFinal: true);  // reentrant lock，一次性粘贴
+                }
+                else if (vadProcessor != null && engine.SupportsStreaming)
+                {
+                    vadProcessor.Flush();
+                }
+                else if (engine != null && !engine.SupportsStreaming && vadProcessor == null)
+                {
+                    // 离线模型（Paraformer-large）：录音结束后一次性识别整段音频
+                    string text = engine.GetFinalResult();
+                    if (!string.IsNullOrWhiteSpace(text))
+                        SimulateKeyboardInput(text, isFinal: true);
+                }
             }
 
-            this.Invoke((MethodInvoker)delegate {
-                lblStatus.Text = $"✅ {engine.EngineName} 识别完成，等待下次输入";
-                lblStatus.ForeColor = Color.FromArgb(40, 53, 147);
-                trayIcon.Text = $"t9s2t ({engine.EngineName}) 按住Ctrl+Alt+D";
-            });
+            _lastDisplayedPartial = "";  // 重置去重状态
+
+            // UI 更新用 BeginInvoke 避免阻塞
+            try
+            {
+                this.BeginInvoke((MethodInvoker)delegate {
+                    lblStatus.Text = $"✅ {engine.EngineName} 识别完成，等待下次输入";
+                    lblStatus.ForeColor = Color.FromArgb(40, 53, 147);
+                    trayIcon.Text = $"t9s2t ({engine.EngineName}) 按住Ctrl+Alt+D";
+                    HideRecordingIndicator();
+                });
+            }
+            catch { }
         }
 
-        private void SimulateKeyboardInput(string text)
+
+
+
+        // 最终保底方案：逐字符模拟输入（最慢但最稳）
+        private void FallbackTypeText(string text)
         {
             try
             {
-                Clipboard.SetText(text + " "); SendKeys.SendWait("^v");
-                this.Invoke((MethodInvoker)delegate { lblStatus.Text = $"✅ 已输入: {text}"; });
+                foreach (char c in text)
+                {
+                    SendKeys.SendWait(c.ToString());
+                    Thread.Sleep(8); // 适当延时
+                }
             }
-            catch (Exception ex) { this.Invoke((MethodInvoker)delegate { lblStatus.Text = "❌ 粘贴失败: " + ex.Message; }); }
+            catch { }
         }
+
+        // ==================== 非激活窗体（录音提示用） ====================
+        /// <summary>
+        /// 不会抢夺焦点的窗体，用于录音提示悬浮窗。
+        /// ShowWithoutActivate=true 阻止 Show() 激活窗口；
+        /// WS_EX_NOACTIVATE(0x08000000) 阻止鼠标点击激活窗口。
+        /// </summary>
+        private class NonActivatingForm : Form
+        {
+            protected override CreateParams CreateParams
+            {
+                get
+                {
+                    var cp = base.CreateParams;
+                    cp.ExStyle |= 0x08000000; // WS_EX_NOACTIVATE：阻止窗口被激活
+                    return cp;
+                }
+            }
+        }
+
+
+
+
+
+
     }
 }

@@ -79,6 +79,7 @@ void WeaselServerApp::SetupMenuHandlers() {
   m_server.AddMenuHandler(ID_WEASELTRAY_T9KEYBOARD,     std::bind(execute, std::wstring(dir) + L"\\t9keyboard.exe", std::wstring()));
   m_server.AddMenuHandler(ID_WEASELTRAY_SETTING,       std::bind(execute, std::wstring(dir) + L"\\t9configui.exe", std::wstring()));
   m_server.AddMenuHandler(ID_WEASELTRAY_T9SKIN,      std::bind(execute, std::wstring(dir) + L"\\t9skin.exe", std::wstring()));
+  m_server.AddMenuHandler(ID_WEASELTRAY_T9S2T,      std::bind(execute, std::wstring(dir) + L"\\t9s2t\\t9s2t.exe", std::wstring()));
   m_server.AddMenuHandler(ID_WEASELTRAY_QUICKPHRASE,
                           std::bind(open, L"https://gitee.com/gfdgd-xi-org/xiaobai_quick_phrase_panel"));
 }

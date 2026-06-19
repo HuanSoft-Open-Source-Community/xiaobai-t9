@@ -1,7 +1,7 @@
 LaunchMailKey=Shift
 LaunchApp2Key=微信截图
 BrowserHomeKey=ESC
-TabKey=语音输入
+TabKey=撤回
 Single0Key=Ctrl
 Triple0Key=0
 DotKey=语音输入

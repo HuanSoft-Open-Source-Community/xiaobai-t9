@@ -31,7 +31,9 @@
 #define ID_WEASELTRAY_SETTING           50002
 #define ID_WEASELTRAY_T9SKIN            50003
 #define ID_WEASELTRAY_QUICKPHRASE       50004
-#define ID_WEASELTRAY_NUMKEYBOARD          50005
+#define ID_WEASELTRAY_NUMKEYBOARD       50005
+#define ID_WEASELTRAY_T9S2T             50006
+
 
 // Next default values for new objects
 // 

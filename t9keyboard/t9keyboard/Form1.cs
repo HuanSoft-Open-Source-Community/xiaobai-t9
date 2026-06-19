@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using RFID;
 using System.Threading;
 using System.IO;
+using System.Diagnostics;
 
 
 
@@ -247,6 +248,7 @@ namespace t9keyboard
         byte VK_NUM8 = 104;
         byte VK_NUM9 = 105;
         byte VK_NUM0 = 96;
+        private const int KEYEVENTF_KEYUP = 0x0002;
 
 
 
@@ -792,17 +794,103 @@ namespace t9keyboard
 
 
 
+        // 标记：右键是否正在触发语音输入
+        private bool _voiceInputActive = false;
+
         private void b0_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                new SendMsg().SendText("0");
+                // 右键：语音输入（Ctrl+Alt+D），先检测 t9s2t 是否在运行
+                if (CheckAndLaunchT9s2t())
+                {
+                    // 只发送按下事件，松开右键时在 MouseUp 中发送释放事件
+                    // t9s2t 钩子逻辑：D down 开始录音，D up 停止录音
+                    keybd_event(0x11, 0, 0, 0);   // Ctrl down
+                    keybd_event(0x12, 0, 0, 0);   // Alt down
+                    keybd_event(0x44, 0, 0, 0);   // D down -> t9s2t 开始录音
+                    _voiceInputActive = true;
+                }
                 b0.BackColor = qc;
             }
             else
             {
                 SendKeys.Send(" ");
                 b0.BackColor = qc;
+            }
+        }
+
+        private void b0_MouseUp(object sender, MouseEventArgs e)
+        {
+            // 仅处理右键且确实在语音输入中
+            if (e.Button == MouseButtons.Right && _voiceInputActive)
+            {
+                // 松开右键：发送释放事件，t9s2t 收到 D up 停止录音并输出文字
+                keybd_event(0x44, 0, KEYEVENTF_KEYUP, 0);   // D up
+                keybd_event(0x12, 0, KEYEVENTF_KEYUP, 0);   // Alt up
+                keybd_event(0x11, 0, KEYEVENTF_KEYUP, 0);   // Ctrl up
+                _voiceInputActive = false;
+                b0.BackColor = qc;
+            }
+        }
+
+        /// <summary>
+        /// 检测 t9s2t.exe 是否在运行，未运行则询问用户是否启动。
+        /// 返回 true 表示可以执行语音输入，false 表示无法执行。
+        /// </summary>
+        private bool CheckAndLaunchT9s2t()
+        {
+            try
+            {
+                // 检测 t9s2t.exe 是否在运行
+                if (Process.GetProcessesByName("t9s2t").Length > 0) return true;
+
+                // 未运行，询问用户是否启动
+                string exePath = Path.Combine(Application.StartupPath, "t9s2t", "t9s2t.exe");
+                DialogResult result = MessageBox.Show(
+                    "检测到 t9s2t.exe 未在运行，语音输入功能需要该程序支持。\n\n是否立即启动 t9s2t.exe？",
+                    "语音输入提示",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    if (File.Exists(exePath))
+                    {
+                        try
+                        {
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = exePath,
+                                WorkingDirectory = Path.GetDirectoryName(exePath),
+                                UseShellExecute = true
+                            });
+                            // 等待片刻让 t9s2t 启动完成
+                            Thread.Sleep(2000);
+                            return true;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("启动 t9s2t.exe 失败：" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "未找到文件：" + exePath + "\n\n请确认 t9s2t 文件夹和 t9s2t.exe 存在于程序目录下。",
+                            "文件不存在",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("检测 t9s2t 进程时出错：" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
 

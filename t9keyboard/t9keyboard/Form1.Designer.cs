@@ -259,9 +259,10 @@
             this.b0.Name = "b0";
             this.b0.Size = new System.Drawing.Size(167, 50);
             this.b0.TabIndex = 14;
-            this.b0.Text = "0\r\n\r\n空格";
+            this.b0.Text = "0\r\n空格\r\n💬\r\n";
             this.b0.UseVisualStyleBackColor = false;
             this.b0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.b0_MouseDown);
+            this.b0.MouseUp += new System.Windows.Forms.MouseEventHandler(this.b0_MouseUp);
             // 
             // enter
             // 

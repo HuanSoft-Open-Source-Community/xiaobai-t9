@@ -116,8 +116,47 @@ namespace helpme
             txtLog.AppendText($"[{DateTime.Now:HH:mm:ss}] {message}{Environment.NewLine}");
         }
 
+        /// <summary>
+        /// 确保 t9s2t.exe 已运行，未运行则自动启动（无确认对话框）。
+        /// </summary>
+        private void EnsureT9s2tRunning()
+        {
+            try
+            {
+                if (Process.GetProcessesByName("t9s2t").Length > 0)
+                {
+                    AppendLog("【正常】t9s2t.exe 已经在运行中。");
+                    return;
+                }
+
+                string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "t9s2t", "t9s2t.exe");
+                if (File.Exists(exePath))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = exePath,
+                        WorkingDirectory = Path.GetDirectoryName(exePath),
+                        UseShellExecute = true
+                    });
+                    AppendLog("【启动】t9s2t.exe 已自动拉起。");
+                    System.Threading.Thread.Sleep(2000);
+                }
+                else
+                {
+                    AppendLog("【警告】未找到 t9s2t.exe，路径: " + exePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendLog($"【失败】启动 t9s2t.exe 异常: {ex.Message}");
+            }
+        }
+
         private void btnSwitch_Click_1(object sender, EventArgs e)
         {
+            // 确保 t9s2t.exe 已运行（未运行则自动启动）
+            EnsureT9s2tRunning();
+
             ResetRunningState();
             isHandlingClick = false;
             AppendLog("已唤醒系统输入法侧边栏，等待用户选择...");

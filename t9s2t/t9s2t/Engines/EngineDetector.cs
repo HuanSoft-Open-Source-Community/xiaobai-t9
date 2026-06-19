@@ -10,8 +10,9 @@ namespace t9s2t.Engines
     public enum EngineType
     {
         None,
-        SenseVoice,              // sherpa-onnx, 非流式
-        Paraformer,              // sherpa-onnx, 非流式 (单个 model 文件)
+        SenseVoice,              // sherpa-onnx, 非流式 (model.onnx, 多语言大词汇)
+        Paraformer,              // sherpa-onnx, 非流式 (encoder 文件)
+        ParaformerLarge,         // sherpa-onnx, 非流式 (model.onnx, 中文大模型)
         ParaformerStreaming      // sherpa-onnx, 流式 (encoder + decoder)
     }
 
@@ -38,10 +39,25 @@ namespace t9s2t.Engines
                 return EngineType.ParaformerStreaming;
             }
 
-            // SenseVoice: 有 model.int8.onnx
+            // 有 model.onnx / model.int8.onnx：通过 tokens.txt 行数区分 SenseVoice 和离线 Paraformer-large
+            // SenseVoice 多语言模型词汇量 ~25000，Paraformer-large 中文模型词汇量 ~8400
             if (File.Exists(Path.Combine(modelPath, "model.int8.onnx")) ||
                 File.Exists(Path.Combine(modelPath, "model.onnx")))
             {
+                string tokensFile = Path.Combine(modelPath, "tokens.txt");
+                if (File.Exists(tokensFile))
+                {
+                    try
+                    {
+                        int lineCount = File.ReadAllLines(tokensFile).Length;
+                        if (lineCount < 15000)
+                        {
+                            Debug.WriteLine($"[t9s2t] EngineDetector: 检测到离线 Paraformer-large 模型 (tokens: {lineCount})");
+                            return EngineType.ParaformerLarge;
+                        }
+                    }
+                    catch { }
+                }
                 Debug.WriteLine("[t9s2t] EngineDetector: 检测到 SenseVoice 模型");
                 return EngineType.SenseVoice;
             }
@@ -69,6 +85,8 @@ namespace t9s2t.Engines
                     return new SherpaEngine(false);
                 case EngineType.Paraformer:
                     return new SherpaEngine(false);
+                case EngineType.ParaformerLarge:
+                    return new SherpaEngine(false);
                 case EngineType.ParaformerStreaming:
                     return new SherpaEngine(true);
                 default:
@@ -94,6 +112,7 @@ namespace t9s2t.Engines
             {
                 case EngineType.SenseVoice: return "SenseVoice";
                 case EngineType.Paraformer: return "Paraformer";
+                case EngineType.ParaformerLarge: return "Paraformer-large";
                 case EngineType.ParaformerStreaming: return "Paraformer";
                 default: return "未知";
             }

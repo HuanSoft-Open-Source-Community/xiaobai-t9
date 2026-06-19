@@ -165,7 +165,7 @@ namespace NumKeyboardTray
             checkBox1.Checked = IsAutoRunEnabled();
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
 
-            string[] items = { "None", "ESC", "Shift", "Tab", "Ctrl", "0", ".", "复制", "粘贴", "剪切", "全选", "退格", "空格", "逗号", "句号", "打开我的电脑", "打开计算器", "打开浏览器主页", "打开邮件", "切换输入法", "微信截图", "切换鼠标键", "语音输入" };
+            string[] items = { "None", "ESC", "Shift", "Tab", "Ctrl", "0", ".", "复制", "粘贴", "剪切", "全选", "撤回", "退格", "空格", "逗号", "句号", "打开我的电脑", "打开计算器", "打开浏览器主页", "打开邮件", "切换输入法", "微信截图", "切换鼠标键", "语音输入" };
             comboBoxBrowserHome.Items.AddRange(items);
             comboBoxTab.Items.AddRange(items);
             comboBoxMail.Items.AddRange(items);
@@ -189,6 +189,10 @@ namespace NumKeyboardTray
             comboBox0.SelectedIndexChanged += (s, e2) => { if (!CheckAndLaunchT9s2t(comboBox0, "Triple0Key")) return; SaveKeyMapping("Triple0Key", comboBox0.SelectedItem?.ToString() ?? "None"); };
             comboBoxDot.SelectedIndexChanged += (s, e2) => { if (!CheckAndLaunchT9s2t(comboBoxDot, "DotKey")) return; SaveKeyMapping("DotKey", comboBoxDot.SelectedItem?.ToString() ?? "None"); };
             RegisterMediaHotkeys();
+
+            // 启动时：如果有按键配置为"语音输入"，检测 t9s2t 是否在运行
+            CheckVoiceInputOnStartup();
+
             monitorTimer = new Timer { Interval = 3000 };
             monitorTimer.Tick += (s, ev) => CheckKeyboardAndHook();
             monitorTimer.Start();
@@ -409,6 +413,65 @@ namespace NumKeyboardTray
         }
 
         /// <summary>
+        /// 启动时检测：如果配置文件中有任何按键设为"语音输入"，
+        /// 检查 t9s2t.exe 是否在运行，未运行则提示用户。
+        /// </summary>
+        private void CheckVoiceInputOnStartup()
+        {
+            // 检查所有可配置按键中是否有"语音输入"
+            string[] allKeys = { "BrowserHomeKey", "TabKey", "LaunchMailKey", "LaunchApp2Key", "Single0Key", "Triple0Key", "DotKey" };
+            bool hasVoiceInput = false;
+            foreach (string key in allKeys)
+            {
+                if (LoadKeyMapping(key) == "语音输入")
+                {
+                    hasVoiceInput = true;
+                    break;
+                }
+            }
+            if (!hasVoiceInput) return;  // 没有按键设为语音输入，跳过检测
+
+            // 检测 t9s2t.exe 是否在运行
+            if (Process.GetProcessesByName("t9s2t").Length > 0) return;
+
+            // 未运行，询问用户是否启动
+            string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "t9s2t", "t9s2t.exe");
+            DialogResult result = MessageBox.Show(
+                "检测到有按键设置为\"语音输入\"，但 t9s2t.exe 未在运行。\n\n是否立即启动 t9s2t.exe？",
+                "语音输入提示",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (File.Exists(exePath))
+                {
+                    try
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = exePath,
+                            WorkingDirectory = Path.GetDirectoryName(exePath),
+                            UseShellExecute = true
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("启动 t9s2t.exe 失败：" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "未找到文件：" + exePath + "\n\n请确认 t9s2t 文件夹和 t9s2t.exe 存在于程序目录下。",
+                        "文件不存在",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        /// <summary>
         /// 当用户在下拉菜单选择"语音输入"时，检测t9s2t.exe是否在运行，
         /// 如果没有运行则询问是否启动。返回true表示允许保存，false表示需要回退选择。
         /// </summary>
@@ -533,6 +596,12 @@ namespace NumKeyboardTray
                     keybd_event((byte)Keys.ControlKey, 0, 0, IntPtr.Zero);
                     keybd_event((byte)Keys.A, 0, 0, IntPtr.Zero);
                     keybd_event((byte)Keys.A, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
+                    keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
+                    break;
+                case "撤回":
+                    keybd_event((byte)Keys.ControlKey, 0, 0, IntPtr.Zero);
+                    keybd_event((byte)Keys.Z, 0, 0, IntPtr.Zero);
+                    keybd_event((byte)Keys.Z, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
                     keybd_event((byte)Keys.ControlKey, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
                     break;
                 case "ESC": keybd_event((byte)Keys.Escape, 0, 0, IntPtr.Zero); keybd_event((byte)Keys.Escape, 0, KEYEVENTF_KEYUP, IntPtr.Zero); break;

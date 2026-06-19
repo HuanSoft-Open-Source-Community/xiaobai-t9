@@ -56,3 +56,8 @@ arm64x_wrapper/*.dll
 arm64x_wrapper/*.ime
 arm64x_wrapper/*.lib
 arm64x_wrapper/*.exp
+# t9s2t model files (exceed GitHub 100MB limit)
+**/bin/**/model/
+**/model/*.onnx
+**/model/*.bin
+
