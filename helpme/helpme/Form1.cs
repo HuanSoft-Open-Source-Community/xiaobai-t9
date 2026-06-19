@@ -86,12 +86,16 @@ namespace helpme
         {
             var g = e.Graphics;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+
+            // 标题 "支持小白"
             using (var tf = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold))
             using (var tb = new SolidBrush(Color.FromArgb(200, 80, 40)))
             {
                 var w = g.MeasureString("支持小白", tf).Width;
-                g.DrawString("支持小白", tf, tb, (190 - w) / 2, 5);
+                g.DrawString("支持小白", tf, tb, (190 - w) / 2, 3);
             }
+
+            // 分区文字与分割线
             using (var lf = new Font("Microsoft YaHei UI", 8F, FontStyle.Bold))
             using (var sf = new Font("Microsoft YaHei UI", 7F))
             using (var gb = new SolidBrush(Color.FromArgb(80, 80, 80)))
@@ -99,17 +103,17 @@ namespace helpme
             using (var rb = new SolidBrush(Color.FromArgb(210, 50, 20)))
             using (var pen = new Pen(Color.FromArgb(230, 210, 190), 1))
             {
-                // 微信打赏
+                // 微信打赏（qrWechat: y=22-102，文字在 y=105 下方）
                 var w1 = g.MeasureString("微信打赏", lf).Width;
                 g.DrawString("微信打赏", lf, db, (190 - w1) / 2, 105);
                 g.DrawLine(pen, 20, 122, 170, 122);
 
-                // 支付宝打赏
+                // 支付宝打赏（qrAlipay: y=125-205，文字在 y=208 下方）
                 var w2 = g.MeasureString("支付宝打赏", lf).Width;
                 g.DrawString("支付宝打赏", lf, db, (190 - w2) / 2, 208);
                 g.DrawLine(pen, 20, 225, 170, 225);
 
-                // 拼多多店铺
+                // 拼多多店铺（qrPdd: y=228-308，文字在 y=311 下方）
                 var w3 = g.MeasureString("拼多多店铺", lf).Width;
                 g.DrawString("拼多多店铺", lf, db, (190 - w3) / 2, 311);
                 var w3a = g.MeasureString("捐助98元送键盘", sf).Width;
@@ -130,16 +134,16 @@ namespace helpme
             {
                 adPanel.Visible = false;
                 btnToggleAd.Text = ">";
-                btnToggleAd.Location = new System.Drawing.Point(830, 145);
                 this.ClientSize = new System.Drawing.Size(850, 350);
             }
             else
             {
                 adPanel.Visible = true;
                 btnToggleAd.Text = "<";
-                btnToggleAd.Location = new System.Drawing.Point(830, 145);
                 this.ClientSize = new System.Drawing.Size(1040, 350);
             }
+            // 确保按钮始终在最顶层
+            btnToggleAd.BringToFront();
         }
 
         private void InitializeCustomTimer()
@@ -294,10 +298,8 @@ namespace helpme
 
                     System.Threading.Tasks.Task.Run(async () =>
                     {
-                        // 【延时 1】必须等待 200ms！给系统充足时间让当前的物理点击(Down和Up)在Win10菜单上完全落位并激活
                         await System.Threading.Tasks.Task.Delay(200);
 
-                        // 点击已在菜单内安全消化，此时在主线程异步卸载钩子，绝不破坏当前点击的消息链
                         this.BeginInvoke((MethodInvoker)delegate
                         {
                             if (_hookID != IntPtr.Zero)
@@ -308,23 +310,18 @@ namespace helpme
                             }
                         });
 
-                        // 释放 Win 键，通知 Win10 确认当前选中的输入法并收起菜单
                         ReleaseWinKey();
 
-                        // 【延时 2】等待 300ms：让 Win10 侧边栏的收回动画彻底播完，防止动画抢焦点
                         await System.Threading.Tasks.Task.Delay(300);
 
-                        // 强行把焦点拉回我们的测试框
                         this.BeginInvoke((MethodInvoker)delegate
                         {
                             this.Activate();
                             if (textBox1 != null) { textBox1.Focus(); AppendLog("焦点已成功强制锁定回测试框。"); }
                         });
 
-                        // 【延时 3】等待 200ms：给 Win10 TSF 框架充足时间，把新切换的输入法绑定到当前的 textBox1
                         await System.Threading.Tasks.Task.Delay(200);
 
-                        // 环境就绪，执行后续核验与小键盘自动敲击
                         this.BeginInvoke((MethodInvoker)delegate
                         {
                             isHandlingClick = false;
@@ -333,7 +330,6 @@ namespace helpme
                     });
                 }
             }
-            // 毫不阻拦，立刻把点击消息往下传，确保点击真实有效！
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 
@@ -403,7 +399,6 @@ namespace helpme
 
                 EnsureChineseMode();
 
-                // 【延时 4】等待 150ms：确保 Shift 状态完全被系统队列消化后再打字
                 System.Threading.Thread.Sleep(150);
 
                 SimulateNumpadInput("64486");
@@ -440,13 +435,8 @@ namespace helpme
             {
                 byte vk = (byte)(VK_NUMPAD0 + (c - '0'));
                 keybd_event(vk, 0, 0, UIntPtr.Zero);
-
-                // 【延时 5】保持 30ms 按下状态
                 System.Threading.Thread.Sleep(30);
-
                 keybd_event(vk, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
-
-                // 【延时 6】字根间隔 60ms，给 TSF 候选框充足的时间渲染响应
                 System.Threading.Thread.Sleep(60);
             }
         }

@@ -154,7 +154,6 @@ namespace helpme
             this.panelRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
             this.panelRight.Controls.Add(this.txtLog);
             this.panelRight.Controls.Add(this.lblLogHint);
-            this.panelRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelRight.Location = new System.Drawing.Point(380, 0);
             this.panelRight.Name = "panelRight";
             this.panelRight.Padding = new System.Windows.Forms.Padding(20);
@@ -168,15 +167,31 @@ namespace helpme
             this.adPanel.Controls.Add(this.qrPdd);
             this.adPanel.Controls.Add(this.qrAlipay);
             this.adPanel.Controls.Add(this.qrWechat);
-            this.adPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.adPanel.Location = new System.Drawing.Point(850, 0);
             this.adPanel.Name = "adPanel";
             this.adPanel.Size = new System.Drawing.Size(190, 350);
             this.adPanel.TabIndex = 200;
             this.adPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.adPanel_Paint);
             // 
+            // btnToggleAd
+            // 
+            this.btnToggleAd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(200)))));
+            this.btnToggleAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnToggleAd.FlatAppearance.BorderSize = 1;
+            this.btnToggleAd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(100)))), ((int)(((byte)(50)))));
+            this.btnToggleAd.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnToggleAd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(100)))), ((int)(((byte)(50)))));
+            this.btnToggleAd.Location = new System.Drawing.Point(827, 145);
+            this.btnToggleAd.Name = "btnToggleAd";
+            this.btnToggleAd.Size = new System.Drawing.Size(24, 60);
+            this.btnToggleAd.TabIndex = 201;
+            this.btnToggleAd.Text = "<";
+            this.btnToggleAd.UseVisualStyleBackColor = false;
+            this.btnToggleAd.Click += new System.EventHandler(this.btnToggleAd_Click);
+            // 
             // qrPdd
             // 
+            this.qrPdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
             this.qrPdd.Location = new System.Drawing.Point(55, 228);
             this.qrPdd.Name = "qrPdd";
             this.qrPdd.Size = new System.Drawing.Size(80, 80);
@@ -186,6 +201,7 @@ namespace helpme
             // 
             // qrAlipay
             // 
+            this.qrAlipay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
             this.qrAlipay.Location = new System.Drawing.Point(55, 125);
             this.qrAlipay.Name = "qrAlipay";
             this.qrAlipay.Size = new System.Drawing.Size(80, 80);
@@ -195,6 +211,7 @@ namespace helpme
             // 
             // qrWechat
             // 
+            this.qrWechat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(250)))), ((int)(((byte)(240)))));
             this.qrWechat.Location = new System.Drawing.Point(55, 22);
             this.qrWechat.Name = "qrWechat";
             this.qrWechat.Size = new System.Drawing.Size(80, 80);
@@ -202,29 +219,14 @@ namespace helpme
             this.qrWechat.TabIndex = 0;
             this.qrWechat.TabStop = false;
             // 
-            // btnToggleAd
-            // 
-            this.btnToggleAd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(200)))));
-            this.btnToggleAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnToggleAd.FlatAppearance.BorderSize = 0;
-            this.btnToggleAd.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnToggleAd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(100)))), ((int)(((byte)(50)))));
-            this.btnToggleAd.Location = new System.Drawing.Point(830, 145);
-            this.btnToggleAd.Name = "btnToggleAd";
-            this.btnToggleAd.Size = new System.Drawing.Size(20, 60);
-            this.btnToggleAd.TabIndex = 201;
-            this.btnToggleAd.Text = "<";
-            this.btnToggleAd.UseVisualStyleBackColor = false;
-            this.btnToggleAd.Click += new System.EventHandler(this.btnToggleAd_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1040, 350);
-            this.Controls.Add(this.panelRight);
             this.Controls.Add(this.adPanel);
+            this.Controls.Add(this.panelRight);
             this.Controls.Add(this.panelLeft);
             this.Controls.Add(this.btnToggleAd);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
