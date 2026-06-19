@@ -448,27 +448,20 @@ namespace t9keyboard
             this.Hide();
             foreach (Form form in Application.OpenForms)
             {
-                if (form.GetType() == typeof(keyboard))
+                if (form is keyboard)
                 {
-                    keyboard f1 = new keyboard();
-                    f1 = (keyboard)form;
-                    f1.hide();
+                    ((keyboard)form).hide();
                 }
-                if (form.GetType() == typeof(numboard))
+                if (form is numboard)
                 {
-                    numboard f2 = new numboard();
-                    f2 = (numboard)form;
-                    f2.hide();
+                    ((numboard)form).hide();
                 }
-                if (form.GetType() == typeof(enboard))
+                if (form is enboard)
                 {
-                    enboard f3 = new enboard();
-                    f3 = (enboard)form;
-                    f3.hide();
+                    ((enboard)form).hide();
                 }
             }
-            keyboard f4 = new keyboard();
-            //f4.Close();
+            keyboard f4 = Form2.FindOrCreateForm<keyboard>();
             f4.Show();
         }
         private void bc1_Click(object sender, EventArgs e)

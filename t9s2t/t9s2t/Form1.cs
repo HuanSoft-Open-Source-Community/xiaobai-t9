@@ -54,7 +54,7 @@ namespace t9s2t
             {
                ""name"": ""Paraformer-large-zh (备用)"",
                 ""description"": ""中文大模型, 自动标点, 松开快捷键后出字, 识别质量最高"",
-                ""url"": ""https://wp.xiaobai.pro:1111/d/%E8%BE%93%E5%85%A5%E6%B3%95/models/sherpa-onnx-paraformer-large.zip"",
+                ""url"": ""https://t9.xiaobai.pro/models/sherpa-onnx-paraformer-large.zip"",
                 ""folder"": ""sherpa-onnx-paraformer-large"",
                 ""size_hint"": ""258MB"",
                 ""version"": ""2024-03-09"",

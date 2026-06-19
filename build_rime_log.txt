@@ -1,0 +1,779 @@
+**********************************************************************
+** Visual Studio 2019 Developer Command Prompt v16.11.27
+** Copyright (c) 2021 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+=== Configure librime (x64, /Z7) ===
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- The C compiler identification is MSVC 19.29.30151.0
+-- The CXX compiler identification is MSVC 19.29.30151.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Boost: C:/Libraries/boost_1_84_0 (found suitable version "1.84.0", minimum required is "1.77.0")  
+-- Found glog: C:/weasel/librime/lib/glog.lib
+-- Looking for pthread.h
+-- Looking for pthread.h - not found
+-- Found Threads: TRUE  
+-- Found yaml-cpp: C:/weasel/librime/lib/yaml-cpp.lib
+-- Found leveldb: C:/weasel/librime/lib/leveldb.lib
+-- Found marisa: C:/weasel/librime/lib/marisa.lib
+-- Found opencc: C:/weasel/librime/lib/opencc.lib
+-- Found X11/keysym.h at C:/weasel/librime/include
+-- rime_plugins_libs: 
+-- rime_plugins_modules: 
+true
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_BUILD_TYPE
+
+
+-- Build files have been written to: C:/weasel/librime/build
+=== Build librime (x64, /m:1) ===
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/src/CMakeLists.txt
+  rime_api.cc
+C:\weasel\librime\src\rime/segmentation.h(60,54): warning C4251: “std::vector<rime::Segment,std::allocator<rime::Segment>>::_Mypair”: class“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”需要有 dll 接口由 class“std::vector<rime::Segment,std::allocator<rime::Segment>>”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\vector(1822): message : 参见“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\weasel\librime\src\rime/segmentation.h(79,10): warning C4251: “rime::Segmentation::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Segmentation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/resource.h(34,8): warning C4251: “rime::ResourceResolver::root_path_”: class“rime::path”需要有 dll 接口由 class“rime::ResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/resource.h(48,8): warning C4251: “rime::FallbackResourceResolver::fallback_root_path_”: class“rime::path”需要有 dll 接口由 class“rime::FallbackResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(98,10): warning C4251: “rime::Context::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(100,15): warning C4251: “rime::Context::composition_”: class“rime::Composition”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/commit_history.h(23): message : 参见“rime::Composition”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(102,21): warning C4251: “rime::Context::options_”: class“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(77): message : 参见“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(103,23): warning C4251: “rime::Context::properties_”: class“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(78): message : 参见“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(105,12): warning C4251: “rime::Context::commit_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(106,12): warning C4251: “rime::Context::select_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(107,12): warning C4251: “rime::Context::update_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(108,12): warning C4251: “rime::Context::delete_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(109,24): warning C4251: “rime::Context::option_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(110,26): warning C4251: “rime::Context::property_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(111,20): warning C4251: “rime::Context::unhandled_key_notifier_”: class“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(26): message : 参见“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/service.h(93,14): warning C4251: “rime::Service::sessions_”: class“std::map<rime::SessionId,std::shared_ptr<rime::Session>,std::less<rime::SessionId>,std::allocator<std::pair<const rime::SessionId,std::shared_ptr<rime::Session>>>>”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(92): message : 参见“std::map<rime::SessionId,std::shared_ptr<rime::Session>,std::less<rime::SessionId>,std::allocator<std::pair<const rime::SessionId,std::shared_ptr<rime::Session>>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(94,12): warning C4251: “rime::Service::deployer_”: class“rime::Deployer”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/deployer.h(32): message : 参见“rime::Deployer”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(95,23): warning C4251: “rime::Service::notification_handler_”: class“std::function<void (rime::SessionId,const char *,const char *)>”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(22): message : 参见“std::function<void (rime::SessionId,const char *,const char *)>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(96,14): warning C4251: “rime::Service::mutex_”: class“std::mutex”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\mutex(86): message : 参见“std::mutex”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(222,56): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(225,56): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(226,55): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(227,51): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(242,44): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(251,61): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+  rime_api_stdbool.cc
+C:\weasel\librime\src\rime/segmentation.h(60,54): warning C4251: “std::vector<rime::Segment,std::allocator<rime::Segment>>::_Mypair”: class“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”需要有 dll 接口由 class“std::vector<rime::Segment,std::allocator<rime::Segment>>”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\vector(1822): message : 参见“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\weasel\librime\src\rime/segmentation.h(79,10): warning C4251: “rime::Segmentation::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Segmentation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/resource.h(34,8): warning C4251: “rime::ResourceResolver::root_path_”: class“rime::path”需要有 dll 接口由 class“rime::ResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/resource.h(48,8): warning C4251: “rime::FallbackResourceResolver::fallback_root_path_”: class“rime::path”需要有 dll 接口由 class“rime::FallbackResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(98,10): warning C4251: “rime::Context::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(100,15): warning C4251: “rime::Context::composition_”: class“rime::Composition”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/commit_history.h(23): message : 参见“rime::Composition”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(102,21): warning C4251: “rime::Context::options_”: class“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(77): message : 参见“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(103,23): warning C4251: “rime::Context::properties_”: class“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(78): message : 参见“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(105,12): warning C4251: “rime::Context::commit_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(106,12): warning C4251: “rime::Context::select_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(107,12): warning C4251: “rime::Context::update_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(108,12): warning C4251: “rime::Context::delete_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(109,24): warning C4251: “rime::Context::option_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(110,26): warning C4251: “rime::Context::property_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(111,20): warning C4251: “rime::Context::unhandled_key_notifier_”: class“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(26): message : 参见“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/service.h(93,14): warning C4251: “rime::Service::sessions_”: class“std::map<rime::SessionId,std::shared_ptr<rime::Session>,std::less<rime::SessionId>,std::allocator<std::pair<const rime::SessionId,std::shared_ptr<rime::Session>>>>”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(92): message : 参见“std::map<rime::SessionId,std::shared_ptr<rime::Session>,std::less<rime::SessionId>,std::allocator<std::pair<const rime::SessionId,std::shared_ptr<rime::Session>>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(94,12): warning C4251: “rime::Service::deployer_”: class“rime::Deployer”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/deployer.h(32): message : 参见“rime::Deployer”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(95,23): warning C4251: “rime::Service::notification_handler_”: class“std::function<void (rime::SessionId,const char *,const char *)>”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(22): message : 参见“std::function<void (rime::SessionId,const char *,const char *)>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(96,14): warning C4251: “rime::Service::mutex_”: class“std::mutex”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\mutex(86): message : 参见“std::mutex”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(222,56): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(225,56): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(226,55): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(227,51): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(242,44): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime_api_impl.h(251,61): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+  candidate.cc
+C:\weasel\librime\src\rime\candidate.cc(36,32): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime\candidate.cc(40,24): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+  commit_history.cc
+C:\weasel\librime\src\rime/segmentation.h(60,54): warning C4251: “std::vector<rime::Segment,std::allocator<rime::Segment>>::_Mypair”: class“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”需要有 dll 接口由 class“std::vector<rime::Segment,std::allocator<rime::Segment>>”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\vector(1822): message : 参见“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\weasel\librime\src\rime/segmentation.h(79,10): warning C4251: “rime::Segmentation::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Segmentation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+  composition.cc
+C:\weasel\librime\src\rime/segmentation.h(60,54): warning C4251: “std::vector<rime::Segment,std::allocator<rime::Segment>>::_Mypair”: class“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”需要有 dll 接口由 class“std::vector<rime::Segment,std::allocator<rime::Segment>>”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\vector(1822): message : 参见“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\weasel\librime\src\rime/segmentation.h(79,10): warning C4251: “rime::Segmentation::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Segmentation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+  context.cc
+C:\weasel\librime\src\rime\context.cc(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/segmentation.h(60,54): warning C4251: “std::vector<rime::Segment,std::allocator<rime::Segment>>::_Mypair”: class“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”需要有 dll 接口由 class“std::vector<rime::Segment,std::allocator<rime::Segment>>”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\vector(1822): message : 参见“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\weasel\librime\src\rime/segmentation.h(79,10): warning C4251: “rime::Segmentation::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Segmentation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(98,10): warning C4251: “rime::Context::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(100,15): warning C4251: “rime::Context::composition_”: class“rime::Composition”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/composition.h(21): message : 参见“rime::Composition”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(102,21): warning C4251: “rime::Context::options_”: class“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(77): message : 参见“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(103,23): warning C4251: “rime::Context::properties_”: class“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(78): message : 参见“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(105,12): warning C4251: “rime::Context::commit_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(106,12): warning C4251: “rime::Context::select_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(107,12): warning C4251: “rime::Context::update_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(108,12): warning C4251: “rime::Context::delete_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(109,24): warning C4251: “rime::Context::option_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(110,26): warning C4251: “rime::Context::property_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(111,20): warning C4251: “rime::Context::unhandled_key_notifier_”: class“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(26): message : 参见“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+  core_module.cc
+C:\weasel\librime\src\rime/resource.h(34,8): warning C4251: “rime::ResourceResolver::root_path_”: class“rime::path”需要有 dll 接口由 class“rime::ResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/resource.h(48,8): warning C4251: “rime::FallbackResourceResolver::fallback_root_path_”: class“rime::path”需要有 dll 接口由 class“rime::FallbackResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+  deployer.cc
+  engine.cc
+C:\weasel\librime\src\rime/segmentation.h(60,54): warning C4251: “std::vector<rime::Segment,std::allocator<rime::Segment>>::_Mypair”: class“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”需要有 dll 接口由 class“std::vector<rime::Segment,std::allocator<rime::Segment>>”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\vector(1822): message : 参见“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\weasel\librime\src\rime/segmentation.h(79,10): warning C4251: “rime::Segmentation::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Segmentation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(98,10): warning C4251: “rime::Context::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(100,15): warning C4251: “rime::Context::composition_”: class“rime::Composition”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/commit_history.h(23): message : 参见“rime::Composition”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(102,21): warning C4251: “rime::Context::options_”: class“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(77): message : 参见“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(103,23): warning C4251: “rime::Context::properties_”: class“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(78): message : 参见“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(105,12): warning C4251: “rime::Context::commit_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(106,12): warning C4251: “rime::Context::select_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(107,12): warning C4251: “rime::Context::update_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(108,12): warning C4251: “rime::Context::delete_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(109,24): warning C4251: “rime::Context::option_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(110,26): warning C4251: “rime::Context::property_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(111,20): warning C4251: “rime::Context::unhandled_key_notifier_”: class“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(26): message : 参见“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/resource.h(34,8): warning C4251: “rime::ResourceResolver::root_path_”: class“rime::path”需要有 dll 接口由 class“rime::ResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/resource.h(48,8): warning C4251: “rime::FallbackResourceResolver::fallback_root_path_”: class“rime::path”需要有 dll 接口由 class“rime::FallbackResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/translation.h(66,17): warning C4251: “rime::FifoTranslation::candies_”: class“std::vector<std::shared_ptr<rime::Candidate>,std::allocator<std::shared_ptr<rime::Candidate>>>”需要有 dll 接口由 class“rime::FifoTranslation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/candidate.h(22): message : 参见“std::vector<std::shared_ptr<rime::Candidate>,std::allocator<std::shared_ptr<rime::Candidate>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+  key_event.cc
+  key_table.cc
+  language.cc
+  menu.cc
+C:\weasel\librime\src\rime/translation.h(66,17): warning C4251: “rime::FifoTranslation::candies_”: class“std::vector<std::shared_ptr<rime::Candidate>,std::allocator<std::shared_ptr<rime::Candidate>>>”需要有 dll 接口由 class“rime::FifoTranslation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/candidate.h(22): message : 参见“std::vector<std::shared_ptr<rime::Candidate>,std::allocator<std::shared_ptr<rime::Candidate>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime\menu.cc(52,30): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime\menu.cc(53,26): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+  module.cc
+  registry.cc
+  resource.cc
+C:\weasel\librime\src\rime/resource.h(34,8): warning C4251: “rime::ResourceResolver::root_path_”: class“rime::path”需要有 dll 接口由 class“rime::ResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/resource.h(48,8): warning C4251: “rime::FallbackResourceResolver::fallback_root_path_”: class“rime::path”需要有 dll 接口由 class“rime::FallbackResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+  schema.cc
+C:\weasel\librime\src\rime/resource.h(34,8): warning C4251: “rime::ResourceResolver::root_path_”: class“rime::path”需要有 dll 接口由 class“rime::ResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/resource.h(48,8): warning C4251: “rime::FallbackResourceResolver::fallback_root_path_”: class“rime::path”需要有 dll 接口由 class“rime::FallbackResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+  segmentation.cc
+C:\weasel\librime\src\rime/segmentation.h(60,54): warning C4251: “std::vector<rime::Segment,std::allocator<rime::Segment>>::_Mypair”: class“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”需要有 dll 接口由 class“std::vector<rime::Segment,std::allocator<rime::Segment>>”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\vector(1822): message : 参见“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\weasel\librime\src\rime/segmentation.h(79,10): warning C4251: “rime::Segmentation::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Segmentation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime\segmentation.cc(85,40): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime\segmentation.cc(118,44): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据 [C:\weasel\librime\build\src\rime.vcxproj]
+  service.cc
+C:\weasel\librime\src\rime/segmentation.h(60,54): warning C4251: “std::vector<rime::Segment,std::allocator<rime::Segment>>::_Mypair”: class“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”需要有 dll 接口由 class“std::vector<rime::Segment,std::allocator<rime::Segment>>”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\vector(1822): message : 参见“std::_Compressed_pair<std::allocator<rime::Segment>,std::_Vector_val<std::_Simple_types<_Ty>>,true>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              _Ty=rime::Segment
+          ]
+C:\weasel\librime\src\rime/segmentation.h(79,10): warning C4251: “rime::Segmentation::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Segmentation”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(98,10): warning C4251: “rime::Context::input_”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\xstring(4871): message : 参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(100,15): warning C4251: “rime::Context::composition_”: class“rime::Composition”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/composition.h(21): message : 参见“rime::Composition”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(102,21): warning C4251: “rime::Context::options_”: class“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(77): message : 参见“std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(103,23): warning C4251: “rime::Context::properties_”: class“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(78): message : 参见“std::map<std::string,std::string,std::less<std::string>,std::allocator<std::pair<const std::string,std::string>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/context.h(105,12): warning C4251: “rime::Context::commit_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(106,12): warning C4251: “rime::Context::select_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(107,12): warning C4251: “rime::Context::update_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(108,12): warning C4251: “rime::Context::delete_notifier_”: class“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(21): message : 参见“boost::signals2::signal<void (rime::Context *),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(109,24): warning C4251: “rime::Context::option_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(110,26): warning C4251: “rime::Context::property_update_notifier_”: class“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(22): message : 参见“boost::signals2::signal<void (rime::Context *,const std::string &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const std::string &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const std::string &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(111,20): warning C4251: “rime::Context::unhandled_key_notifier_”: class“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”需要有 dll 接口由 class“rime::Context”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/context.h(26): message : 参见“boost::signals2::signal<void (rime::Context *,const rime::KeyEvent &),boost::signals2::optional_last_value<void>,int,std::less<Group>,boost::function<Signature>,boost::function<R (const boost::signals2::connection &,rime::Context *,const rime::KeyEvent &)>,boost::signals2::mutex>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+          with
+          [
+              Group=int,
+              Signature=void (rime::Context *,const rime::KeyEvent &),
+              R=void
+          ]
+C:\weasel\librime\src\rime/resource.h(34,8): warning C4251: “rime::ResourceResolver::root_path_”: class“rime::path”需要有 dll 接口由 class“rime::ResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/resource.h(48,8): warning C4251: “rime::FallbackResourceResolver::fallback_root_path_”: class“rime::path”需要有 dll 接口由 class“rime::FallbackResourceResolver”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/common.h(82): message : 参见“rime::path”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(93,14): warning C4251: “rime::Service::sessions_”: class“std::map<rime::SessionId,std::shared_ptr<rime::Session>,std::less<rime::SessionId>,std::allocator<std::pair<const rime::SessionId,std::shared_ptr<rime::Session>>>>”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(92): message : 参见“std::map<rime::SessionId,std::shared_ptr<rime::Session>,std::less<rime::SessionId>,std::allocator<std::pair<const rime::SessionId,std::shared_ptr<rime::Session>>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(94,12): warning C4251: “rime::Service::deployer_”: class“rime::Deployer”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/deployer.h(32): message : 参见“rime::Deployer”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(95,23): warning C4251: “rime::Service::notification_handler_”: class“std::function<void (rime::SessionId,const char *,const char *)>”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(22): message : 参见“std::function<void (rime::SessionId,const char *,const char *)>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(96,14): warning C4251: “rime::Service::mutex_”: class“std::mutex”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\mutex(86): message : 参见“std::mutex”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+  setup.cc
+C:\weasel\librime\src\rime/service.h(93,14): warning C4251: “rime::Service::sessions_”: class“std::map<rime::SessionId,std::shared_ptr<rime::Session>,std::less<rime::SessionId>,std::allocator<std::pair<const rime::SessionId,std::shared_ptr<rime::Session>>>>”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(92): message : 参见“std::map<rime::SessionId,std::shared_ptr<rime::Session>,std::less<rime::SessionId>,std::allocator<std::pair<const rime::SessionId,std::shared_ptr<rime::Session>>>>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(94,12): warning C4251: “rime::Service::deployer_”: class“rime::Deployer”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/deployer.h(32): message : 参见“rime::Deployer”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(95,23): warning C4251: “rime::Service::notification_handler_”: class“std::function<void (rime::SessionId,const char *,const char *)>”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(22): message : 参见“std::function<void (rime::SessionId,const char *,const char *)>”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\weasel\librime\src\rime/service.h(96,14): warning C4251: “rime::Service::mutex_”: class“std::mutex”需要有 dll 接口由 class“rime::Service”的客户端使用 [C:\weasel\librime\build\src\rime.vcxproj]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\include\mutex(86): message : 参见“std::mutex”的声明 [C:\weasel\librime\build\src\rime.vcxproj]
+  正在生成代码...
+C:\weasel\librime\src\rime\setup.cc : fatal error C1090: PDB API 调用失败，错误代码“3”: C:\weasel\librime\build\src\rime.dir\Release\vc142.pdb [C:\weasel\librime\build\src\rime.vcxproj]
+=== FAILED ===

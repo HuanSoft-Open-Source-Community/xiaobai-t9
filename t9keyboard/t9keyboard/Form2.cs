@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -118,6 +118,19 @@ namespace t9keyboard
             }
         }
 
+        // 通用方法：查找或创建指定类型的窗体（防止重复创建）
+        public static T FindOrCreateForm<T>() where T : Form, new()
+        {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form is T)
+                {
+                    return (T)form;
+                }
+            }
+            return new T();
+        }
+
         // 封装：隐藏键盘逻辑
         private void HideKeyboard()
         {
@@ -134,20 +147,36 @@ namespace t9keyboard
         // 封装：显示键盘逻辑
         private void ShowKeyboard()
         {
-            // 防止重复创建：先找有没有已经打开但隐藏的键盘
-            bool found = false;
+            // 查找已存在的键盘窗体（keyboard/numboard/enboard）
+            Form firstFound = null;
+            var formsToClose = new System.Collections.Generic.List<Form>();
+
             foreach (Form form in Application.OpenForms)
             {
-                if (form is keyboard)
+                if (form is keyboard || form is numboard || form is enboard)
                 {
-                    form.Show();
-                    found = true;
-                    // 也可以顺便把关联的 numboard/enboard 处理一下，视你具体需求而定
+                    if (firstFound == null)
+                    {
+                        // 第一个找到的窗体：显示它
+                        firstFound = form;
+                        form.Show();
+                    }
+                    else
+                    {
+                        // 后续重复的窗体：标记为待关闭
+                        formsToClose.Add(form);
+                    }
                 }
             }
 
+            // 关闭所有重复的键盘窗体，防止积累
+            foreach (Form form in formsToClose)
+            {
+                form.Close();
+            }
+
             // 如果没找到任何键盘窗体，才创建新的
-            if (!found)
+            if (firstFound == null)
             {
                 keyboard f1 = new keyboard();
                 f1.Show();

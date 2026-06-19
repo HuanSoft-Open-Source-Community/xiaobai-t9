@@ -281,7 +281,7 @@ namespace t9keyboard
 
         private void n2t_Click(object sender, EventArgs e)
         {
-            keyboard f1 = new keyboard();
+            keyboard f1 = Form2.FindOrCreateForm<keyboard>();
 
             f1.Show();
 
@@ -593,7 +593,7 @@ namespace t9keyboard
 
         private void n2e_Click(object sender, EventArgs e)
         {
-            enboard f1 = new enboard();
+            enboard f1 = Form2.FindOrCreateForm<enboard>();
             f1.Show();
 
             f1.Location = this.Location;

@@ -396,7 +396,7 @@ namespace t9keyboard
 
         private void n2t_Click(object sender, EventArgs e)
         {
-            numboard f1 = new numboard();
+            numboard f1 = Form2.FindOrCreateForm<numboard>();
 
             f1.Show();
 
@@ -558,7 +558,7 @@ namespace t9keyboard
 
         private void e2t_Click(object sender, EventArgs e)
         {
-            keyboard f1 = new keyboard();
+            keyboard f1 = Form2.FindOrCreateForm<keyboard>();
             f1.Show();
 
             f1.Location = this.Location;

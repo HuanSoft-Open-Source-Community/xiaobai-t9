@@ -1,0 +1,563 @@
+
+C:\weasel\t9s2t>call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvarsall.bat" x64   && cd /d c:\weasel   && build.bat librime 
+**********************************************************************
+** Visual Studio 2019 Developer Command Prompt v16.11.27
+** Copyright (c) 2021 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+PRODUCT_VERSION=0.17.4.7.163c96f
+WEASEL_VERSION=0.17.4
+WEASEL_BUILD=7
+WEASEL_ROOT=c:\weasel
+WEASEL_BUNDLED_RECIPES=
+
+BOOST_ROOT=C:\Libraries\boost_1_84_0
+
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\\Extensions\Microsoft\IntelliCode\CLI;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Team Tools\Performance Tools\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\\x64;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\;C:\Program Files (x86)\HTML Help Workshop;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\Tools\devinit;C:\Program Files (x86)\Windows Kits\10\bin\10.0.20348.0\x64;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\\MSBuild\Current\Bin;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\Tools\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Bandizip\;C:\Program Files\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe;C:\Program Files\dotnet\;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Tailscale\;C:\Program Files\Qoder\bin;C:\Users\xiaobai\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\xiaobai\AppData\Local\Programs\Python\Python310\;C:\Users\xiaobai\AppData\Local\Microsoft\WindowsApps;C:\Users\xiaobai\.dotnet\tools;C:\Users\xiaobai\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\VC\Linux\bin\ConnectionManagerExe
+
+RIME_ROOT=c:\weasel\librime
+
+BOOST_ROOT=C:\Libraries\boost_1_84_0
+
+building glog.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- Could NOT find Unwind (missing: Unwind_INCLUDE_DIR Unwind_LIBRARY) 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/weasel/librime/deps/glog/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/glog/CMakeLists.txt
+  demangle.cc
+  logging.cc
+  raw_logging.cc
+  signalhandler.cc
+  symbolize.cc
+  utilities.cc
+  vlog_is_on.cc
+  port.cc
+  正在生成代码...
+  glogbase.vcxproj -> C:\weasel\librime\deps\glog\build\glogbase.dir\Release\glogbase.lib
+  Building Custom Rule C:/weasel/librime/deps/glog/CMakeLists.txt
+  glog.vcxproj -> C:\weasel\librime\deps\glog\build\Release\glog.lib
+  Building Custom Rule C:/weasel/librime/deps/glog/CMakeLists.txt
+  -- Install configuration: "Release"
+  -- Installing: c:/weasel/librime/lib/glog.lib
+  -- Installing: c:/weasel/librime/include/glog/export.h
+  -- Installing: c:/weasel/librime/include/glog/logging.h
+  -- Installing: c:/weasel/librime/include/glog/raw_logging.h
+  -- Installing: c:/weasel/librime/include/glog/stl_logging.h
+  -- Installing: c:/weasel/librime/include/glog/vlog_is_on.h
+  -- Up-to-date: c:/weasel/librime/include/glog/log_severity.h
+  -- Up-to-date: c:/weasel/librime/include/glog/platform.h
+  -- Up-to-date: c:/weasel/librime/lib/pkgconfig/libglog.pc
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-modules.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-config.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-config-version.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-targets.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-targets-release.cmake
+building leveldb.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/weasel/librime/deps/leveldb/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/leveldb/CMakeLists.txt
+  leveldb.vcxproj -> C:\weasel\librime\deps\leveldb\build\Release\leveldb.lib
+  Building Custom Rule C:/weasel/librime/deps/leveldb/CMakeLists.txt
+  leveldbutil.vcxproj -> C:\weasel\librime\deps\leveldb\build\Release\leveldbutil.exe
+  Building Custom Rule C:/weasel/librime/deps/leveldb/CMakeLists.txt
+  -- Install configuration: "Release"
+  -- Up-to-date: c:/weasel/librime/lib/leveldb.lib
+  -- Up-to-date: c:/weasel/librime/include/leveldb/c.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/cache.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/comparator.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/db.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/dumpfile.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/env.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/export.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/filter_policy.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/iterator.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/options.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/slice.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/status.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/table_builder.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/table.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/write_batch.h
+  -- Up-to-date: c:/weasel/librime/lib/cmake/leveldb/leveldbTargets.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/leveldb/leveldbTargets-release.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/leveldb/leveldbConfig.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/leveldb/leveldbConfigVersion.cmake
+building yaml-cpp.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/weasel/librime/deps/yaml-cpp/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking File Globs
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/yaml-cpp/CMakeLists.txt
+  yaml-cpp.vcxproj -> C:\weasel\librime\deps\yaml-cpp\build\Release\yaml-cpp.lib
+  Building Custom Rule C:/weasel/librime/deps/yaml-cpp/CMakeLists.txt
+  -- Install configuration: "Release"
+  -- Up-to-date: c:/weasel/librime/lib/yaml-cpp.lib
+  -- Up-to-date: c:/weasel/librime/include
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/anchor.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/binary.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/contrib
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/contrib/anchordict.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/contrib/graphbuilder.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/depthguard.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/dll.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emitfromevents.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emitter.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emitterdef.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emittermanip.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emitterstyle.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/eventhandler.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/exceptions.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/mark.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/convert.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/impl.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/iterator.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/iterator_fwd.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/memory.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/node.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/node_data.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/node_iterator.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/node_ref.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/emit.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/impl.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/iterator.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/node.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/parse.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/ptr.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/type.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/noexcept.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/null.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/ostream_wrapper.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/parser.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/stlemitter.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/traits.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/yaml.h
+  -- Installing: c:/weasel/librime/share/cmake/yaml-cpp/yaml-cpp-targets.cmake
+  -- Installing: c:/weasel/librime/share/cmake/yaml-cpp/yaml-cpp-targets-release.cmake
+  -- Installing: c:/weasel/librime/share/cmake/yaml-cpp/yaml-cpp-config.cmake
+  -- Installing: c:/weasel/librime/share/cmake/yaml-cpp/yaml-cpp-config-version.cmake
+  -- Installing: c:/weasel/librime/share/pkgconfig/yaml-cpp.pc
+building gtest.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/weasel/librime/deps/googletest/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/googletest/googletest/CMakeLists.txt
+  gtest.vcxproj -> C:\weasel\librime\deps\googletest\build\lib\Release\gtest.lib
+  Building Custom Rule C:/weasel/librime/deps/googletest/googletest/CMakeLists.txt
+  gtest_main.vcxproj -> C:\weasel\librime\deps\googletest\build\lib\Release\gtest_main.lib
+  Building Custom Rule C:/weasel/librime/deps/googletest/CMakeLists.txt
+  -- Install configuration: "Release"
+  -- Up-to-date: c:/weasel/librime/lib/cmake/GTest/GTestTargets.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/GTest/GTestTargets-release.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/GTest/GTestConfigVersion.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/GTest/GTestConfig.cmake
+  -- Up-to-date: c:/weasel/librime/include
+  -- Up-to-date: c:/weasel/librime/include/gtest
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-death-test.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-matchers.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-message.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-param-test.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-printers.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-spi.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-test-part.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-typed-test.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest_pred_impl.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest_prod.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom/gtest-port.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom/gtest-printers.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom/gtest.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom/README.md
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-death-test-internal.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-filepath.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-internal.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-param-util.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-port-arch.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-port.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-string.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-type-util.h
+  -- Up-to-date: c:/weasel/librime/lib/gtest.lib
+  -- Up-to-date: c:/weasel/librime/lib/gtest_main.lib
+  -- Up-to-date: c:/weasel/librime/lib/pkgconfig/gtest.pc
+  -- Up-to-date: c:/weasel/librime/lib/pkgconfig/gtest_main.pc
+building marisa.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- The C compiler identification is MSVC 19.29.30151.0
+-- The CXX compiler identification is MSVC 19.29.30151.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_BUILD_TYPE
+
+
+-- Build files have been written to: C:/weasel/librime/deps/marisa-trie/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/marisa-trie/CMakeLists.txt
+  reader.cc
+C:\weasel\librime\deps\marisa-trie\lib\marisa\grimoire\io\reader.cc(121,73): warning C4267: “初始化”: 从“size_t”转换到“unsigned int”，可能丢失数据 [C:\weasel\librime\deps\marisa-trie\build\marisa.vcxproj]
+C:\weasel\librime\deps\marisa-trie\lib\marisa\grimoire\io\reader.cc(121,73): warning C4267: “初始化”: 从“size_t”转换到“const unsigned int”，可能丢失数据 [C:\weasel\librime\deps\marisa-trie\build\marisa.vcxproj]
+  mapper.cc
+  writer.cc
+C:\weasel\librime\deps\marisa-trie\lib\marisa\grimoire\io\writer.cc(121,73): warning C4267: “初始化”: 从“size_t”转换到“unsigned int”，可能丢失数据 [C:\weasel\librime\deps\marisa-trie\build\marisa.vcxproj]
+C:\weasel\librime\deps\marisa-trie\lib\marisa\grimoire\io\writer.cc(121,73): warning C4267: “初始化”: 从“size_t”转换到“const unsigned int”，可能丢失数据 [C:\weasel\librime\deps\marisa-trie\build\marisa.vcxproj]
+  tail.cc
+  louds-trie.cc
+  bit-vector.cc
+  trie.cc
+  agent.cc
+  keyset.cc
+  正在生成代码...
+  marisa.vcxproj -> C:\weasel\librime\deps\marisa-trie\build\Release\marisa.lib
+  Building Custom Rule C:/weasel/librime/deps/marisa-trie/tools/CMakeLists.txt
+  marisa-build.cc
+  cmdopt.cc
+  正在生成代码...
+LINK : warning LNK4044: 无法识别的选项“/llibcmt”；已忽略 [C:\weasel\librime\deps\marisa-trie\build\tools\marisa-build.vcxproj]
+  marisa-build.vcxproj -> C:\weasel\librime\deps\marisa-trie\build\tools\Release\marisa-build.exe
+  Building Custom Rule C:/weasel/librime/deps/marisa-trie/CMakeLists.txt
+  -- Install configuration: "Release"
+  -- Installing: c:/weasel/librime/lib/marisa.lib
+  -- Up-to-date: c:/weasel/librime/include/marisa.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/agent.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/base.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/exception.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/iostream.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/key.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/keyset.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/query.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/scoped-array.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/scoped-ptr.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/stdio.h
+  -- Up-to-date: c:/weasel/librime/include/marisa/trie.h
+  -- Installing: c:/weasel/librime/lib/cmake/marisa/marisa-targets.cmake
+  -- Installing: c:/weasel/librime/lib/cmake/marisa/marisa-targets-release.cmake
+  -- Installing: c:/weasel/librime/lib/pkgconfig/marisa.pc
+  -- Installing: c:/weasel/librime/lib/cmake/marisa/marisa-config.cmake
+  -- Installing: c:/weasel/librime/lib/cmake/marisa/marisa-version.cmake
+  -- Installing: c:/weasel/librime/bin/marisa-build.exe
+building opencc.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- The CXX compiler identification is MSVC 19.29.30151.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- libmarisa found: C:/weasel/librime/lib/marisa.lib
+-- Performing Test COMPILER_HAS_DEPRECATED_ATTR
+-- Performing Test COMPILER_HAS_DEPRECATED_ATTR - Failed
+-- Performing Test COMPILER_HAS_DEPRECATED
+-- Performing Test COMPILER_HAS_DEPRECATED - Success
+-- Found PythonInterp: C:/Users/xiaobai/AppData/Local/Programs/Python/Python310/python.exe (found version "3.10.8") 
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    marisa_DIR
+
+
+-- Build files have been written to: C:/weasel/librime/deps/opencc/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/opencc/src/CMakeLists.txt
+  Config.cpp
+  Conversion.cpp
+  ConversionChain.cpp
+  Converter.cpp
+  Dict.cpp
+  DictConverter.cpp
+  DictEntry.cpp
+  DictGroup.cpp
+  Lexicon.cpp
+  MarisaDict.cpp
+C:\weasel\librime\deps\opencc\src\MarisaDict.cpp(23,10): fatal error C1083: 无法打开包括文件: “marisa.h”: No such file or directory [C:\weasel\librime\deps\opencc\build\src\libopencc.vcxproj]
+  MaxMatchSegmentation.cpp
+  PhraseExtract.cpp
+C:\weasel\librime\deps\opencc\src\PhraseExtract.cpp(23,10): fatal error C1083: 无法打开包括文件: “marisa/trie.h”: No such file or directory [C:\weasel\librime\deps\opencc\build\src\libopencc.vcxproj]
+  SerializedValues.cpp
+  SimpleConverter.cpp
+  Segmentation.cpp
+  TextDict.cpp
+  UTF8StringSlice.cpp
+  UTF8Util.cpp
+  BinaryDict.cpp
+C:\weasel\librime\deps\opencc\src\BinaryDict.cpp(74,34): warning C4267: “参数”: 从“size_t”转换到“long”，可能丢失数据 [C:\weasel\librime\deps\opencc\build\src\libopencc.vcxproj]
+  DartsDict.cpp
+C:\weasel\librime\deps\opencc\src\..\deps\darts-clone\darts.h(759,1): warning C4334: “<<”: 32 位移位的结果被隐式转换为 64 位(是否希望进行 64 位移位?) [C:\weasel\librime\deps\opencc\build\src\libopencc.vcxproj]
+C:\weasel\librime\deps\opencc\src\..\deps\darts-clone\darts.h(761,1): warning C4319: “~”: 将“unsigned int”扩展到更大的“T”时为零 [C:\weasel\librime\deps\opencc\build\src\libopencc.vcxproj]
+          with
+          [
+              T=Darts::Details::id_type
+          ]
+  正在生成代码...
+
+error building la rime.
+
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+拒绝访问。
+移动了　        0 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+error building weasel...
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\\Extensions\Microsoft\IntelliCode\CLI;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Team Tools\Performance Tools\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\\x64;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64\;C:\Program Files (x86)\HTML Help Workshop;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\Tools\devinit;C:\Program Files (x86)\Windows Kits\10\bin\10.0.20348.0\x64;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\\MSBuild\Current\Bin;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\Tools\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Bandizip\;C:\Program Files\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe;C:\Program Files\dotnet\;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Tailscale\;C:\Program Files\Qoder\bin;C:\Users\xiaobai\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\xiaobai\AppData\Local\Programs\Python\Python310\;C:\Users\xiaobai\AppData\Local\Microsoft\WindowsApps;C:\Users\xiaobai\.dotnet\tools;C:\Users\xiaobai\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\VC\Linux\bin\ConnectionManagerExe
+
+RIME_ROOT=c:\weasel\librime
+
+BOOST_ROOT=C:\Libraries\boost_1_84_0
+
+building glog.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- Could NOT find Unwind (missing: Unwind_INCLUDE_DIR Unwind_LIBRARY) 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/weasel/librime/deps/glog/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/glog/CMakeLists.txt
+  demangle.cc
+  logging.cc
+  raw_logging.cc
+  signalhandler.cc
+  symbolize.cc
+  utilities.cc
+  vlog_is_on.cc
+  port.cc
+  正在生成代码...
+  glogbase.vcxproj -> C:\weasel\librime\deps\glog\build\glogbase.dir\Release\glogbase.lib
+  Building Custom Rule C:/weasel/librime/deps/glog/CMakeLists.txt
+  glog.vcxproj -> C:\weasel\librime\deps\glog\build\Release\glog.lib
+  Building Custom Rule C:/weasel/librime/deps/glog/CMakeLists.txt
+  -- Install configuration: "Release"
+  -- Installing: c:/weasel/librime/lib/glog.lib
+  -- Installing: c:/weasel/librime/include/glog/export.h
+  -- Installing: c:/weasel/librime/include/glog/logging.h
+  -- Installing: c:/weasel/librime/include/glog/raw_logging.h
+  -- Installing: c:/weasel/librime/include/glog/stl_logging.h
+  -- Installing: c:/weasel/librime/include/glog/vlog_is_on.h
+  -- Up-to-date: c:/weasel/librime/include/glog/log_severity.h
+  -- Up-to-date: c:/weasel/librime/include/glog/platform.h
+  -- Up-to-date: c:/weasel/librime/lib/pkgconfig/libglog.pc
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-modules.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-config.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-config-version.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-targets.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/glog/glog-targets-release.cmake
+building leveldb.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/weasel/librime/deps/leveldb/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/leveldb/CMakeLists.txt
+  leveldb.vcxproj -> C:\weasel\librime\deps\leveldb\build\Release\leveldb.lib
+  Building Custom Rule C:/weasel/librime/deps/leveldb/CMakeLists.txt
+  leveldbutil.vcxproj -> C:\weasel\librime\deps\leveldb\build\Release\leveldbutil.exe
+  Building Custom Rule C:/weasel/librime/deps/leveldb/CMakeLists.txt
+  -- Install configuration: "Release"
+  -- Up-to-date: c:/weasel/librime/lib/leveldb.lib
+  -- Up-to-date: c:/weasel/librime/include/leveldb/c.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/cache.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/comparator.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/db.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/dumpfile.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/env.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/export.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/filter_policy.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/iterator.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/options.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/slice.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/status.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/table_builder.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/table.h
+  -- Up-to-date: c:/weasel/librime/include/leveldb/write_batch.h
+  -- Up-to-date: c:/weasel/librime/lib/cmake/leveldb/leveldbTargets.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/leveldb/leveldbTargets-release.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/leveldb/leveldbConfig.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/leveldb/leveldbConfigVersion.cmake
+building yaml-cpp.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/weasel/librime/deps/yaml-cpp/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking File Globs
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/yaml-cpp/CMakeLists.txt
+  yaml-cpp.vcxproj -> C:\weasel\librime\deps\yaml-cpp\build\Release\yaml-cpp.lib
+  Building Custom Rule C:/weasel/librime/deps/yaml-cpp/CMakeLists.txt
+  -- Install configuration: "Release"
+  -- Up-to-date: c:/weasel/librime/lib/yaml-cpp.lib
+  -- Up-to-date: c:/weasel/librime/include
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/anchor.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/binary.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/contrib
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/contrib/anchordict.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/contrib/graphbuilder.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/depthguard.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/dll.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emitfromevents.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emitter.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emitterdef.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emittermanip.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/emitterstyle.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/eventhandler.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/exceptions.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/mark.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/convert.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/impl.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/iterator.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/iterator_fwd.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/memory.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/node.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/node_data.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/node_iterator.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/detail/node_ref.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/emit.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/impl.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/iterator.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/node.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/parse.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/ptr.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/node/type.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/noexcept.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/null.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/ostream_wrapper.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/parser.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/stlemitter.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/traits.h
+  -- Up-to-date: c:/weasel/librime/include/yaml-cpp/yaml.h
+  -- Installing: c:/weasel/librime/share/cmake/yaml-cpp/yaml-cpp-targets.cmake
+  -- Installing: c:/weasel/librime/share/cmake/yaml-cpp/yaml-cpp-targets-release.cmake
+  -- Installing: c:/weasel/librime/share/cmake/yaml-cpp/yaml-cpp-config.cmake
+  -- Installing: c:/weasel/librime/share/cmake/yaml-cpp/yaml-cpp-config-version.cmake
+  -- Installing: c:/weasel/librime/share/pkgconfig/yaml-cpp.pc
+building gtest.
+-- Selecting Windows SDK version 10.0.20348.0 to target Windows 10.0.19044.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/weasel/librime/deps/googletest/build
+用于 .NET Framework 的 Microsoft (R) 生成引擎版本 16.11.2+f32259642
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+  Checking Build System
+  Building Custom Rule C:/weasel/librime/deps/googletest/googletest/CMakeLists.txt
+  gtest.vcxproj -> C:\weasel\librime\deps\googletest\build\lib\Release\gtest.lib
+  Building Custom Rule C:/weasel/librime/deps/googletest/googletest/CMakeLists.txt
+  gtest_main.vcxproj -> C:\weasel\librime\deps\googletest\build\lib\Release\gtest_main.lib
+  Building Custom Rule C:/weasel/librime/deps/googletest/CMakeLists.txt
+  -- Install configuration: "Release"
+  -- Up-to-date: c:/weasel/librime/lib/cmake/GTest/GTestTargets.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/GTest/GTestTargets-release.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/GTest/GTestConfigVersion.cmake
+  -- Up-to-date: c:/weasel/librime/lib/cmake/GTest/GTestConfig.cmake
+  -- Up-to-date: c:/weasel/librime/include
+  -- Up-to-date: c:/weasel/librime/include/gtest
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-death-test.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-matchers.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-message.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-param-test.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-printers.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-spi.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-test-part.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest-typed-test.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest_pred_impl.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/gtest_prod.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom/gtest-port.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom/gtest-printers.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom/gtest.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/custom/README.md
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-death-test-internal.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-filepath.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-internal.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-param-util.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-port-arch.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-port.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-string.h
+  -- Up-to-date: c:/weasel/librime/include/gtest/internal/gtest-type-util.h
+  -- Up-to-date: c:/weasel/librime/lib/gtest.lib
+  -- Up-to-date: c:/weasel/librime/lib/gtest_main.lib
+  -- Up-to-date: c:/weasel/librime/lib/pkgconfig/gtest.pc
+  -- Up-to-date: c:/weasel/librime/lib/pkgconfig/gtest_main.pc
+building marisa.
+CMake Error: Error: generator platform: Win32
+Does not match the platform used previously: x64
+Either remove the CMakeCache.txt file and CMakeFiles directory or choose a different binary directory.
+
+error building la rime.
+
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+移动了　        1 个目录。
+error building weasel...

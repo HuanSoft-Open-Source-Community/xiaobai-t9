@@ -236,10 +236,20 @@ program_files:
   ${If} ${RunningX64}
     File "weaselx64.ime"
   ${EndIf}
+  ; Always install 32-bit core components (x64 rime.dll has STATUS_STACK_BUFFER_OVERRUN crash bug)
   File "Win32\WeaselDeployer.exe"
   File "Win32\WeaselServer.exe"
   File "Win32\rime.dll"
   File "Win32\WinSparkle.dll"
+  ${If} ${RunningX64}
+    ; x64: also install 32-bit components to Win32 subdir (backup)
+    SetOutPath $INSTDIR\Win32
+    File "Win32\WeaselDeployer.exe"
+    File "Win32\WeaselServer.exe"
+    File "Win32\rime.dll"
+    File "Win32\WinSparkle.dll"
+    SetOutPath $INSTDIR
+  ${EndIf}
   File "WeaselSetup.exe"
 
   ; ==================== 新增：复制 t9s2t 文件夹 ====================
@@ -402,6 +412,8 @@ Section "Uninstall"
     SetRegView 32
   ${EndIf}
   DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\WeaselServer.exe"
+  DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\WeaselDeployer.exe"
+  DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Win32\WeaselServer.exe"
   DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Win32\WeaselDeployer.exe"
   SetRegView lastused
 
