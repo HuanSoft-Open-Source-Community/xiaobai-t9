@@ -178,7 +178,7 @@ namespace helpme
             arrowOverlay.BackColor = Color.Transparent;
             arrowOverlay.Visible = false;
             panelRight.Controls.Add(arrowOverlay);
-            arrowOverlay.BringToFront();
+            txtLog.BringToFront(); // txtLog必须后处理(z-index=0)才能拿到Fill剩余空间
         }
 
         private void ShowArrow()
