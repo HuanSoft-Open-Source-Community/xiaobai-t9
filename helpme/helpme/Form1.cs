@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -41,16 +41,21 @@ namespace helpme
 
         private System.Windows.Forms.Timer actionTimer;
         private bool isWinPressed = false;
-        private bool isHandlingClick = false; // 【新增防重入锁】确保延时流稳定执行
+        private bool isHandlingClick = false;
 
         // 箭头覆盖层与闪烁定时器
         private ArrowOverlay arrowOverlay;
         private System.Windows.Forms.Timer blinkTimer;
         private int blinkTickCount = 0;
 
+        // ================= 广告面板状态 =================
+        private bool _adCollapsed = false;
+        private readonly string _adStateFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "helpme_ad_state.txt");
+
         public Form1()
         {
             InitializeComponent();
+            InitializeAdPanel();
             InitializeCustomTimer();
             InitializeArrowOverlay();
 
@@ -61,6 +66,80 @@ namespace helpme
 
             StyleUI();
             AppendLog("系统初始化成功。请点击左侧按钮启动切换流程.");
+        }
+
+        // ================= 广告面板逻辑 =================
+        private void InitializeAdPanel()
+        {
+            // 从文件加载二维码图片
+            string appDir = AppDomain.CurrentDomain.BaseDirectory;
+            try { string p = Path.Combine(appDir, "wechat_qr.png"); if (File.Exists(p)) qrWechat.Image = Image.FromFile(p); } catch { }
+            try { string p = Path.Combine(appDir, "alipay_qr.png"); if (File.Exists(p)) qrAlipay.Image = Image.FromFile(p); } catch { }
+            try { string p = Path.Combine(appDir, "pdd_qrcode.png"); if (File.Exists(p)) qrPdd.Image = Image.FromFile(p); } catch { }
+
+            // 恢复广告面板状态（默认展开）
+            try { if (File.Exists(_adStateFile) && File.ReadAllText(_adStateFile).Trim() == "1") _adCollapsed = true; } catch { }
+            ApplyAdState();
+        }
+
+        private void adPanel_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            using (var tf = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold))
+            using (var tb = new SolidBrush(Color.FromArgb(200, 80, 40)))
+            {
+                var w = g.MeasureString("支持小白", tf).Width;
+                g.DrawString("支持小白", tf, tb, (190 - w) / 2, 5);
+            }
+            using (var lf = new Font("Microsoft YaHei UI", 8F, FontStyle.Bold))
+            using (var sf = new Font("Microsoft YaHei UI", 7F))
+            using (var gb = new SolidBrush(Color.FromArgb(80, 80, 80)))
+            using (var db = new SolidBrush(Color.FromArgb(50, 50, 50)))
+            using (var rb = new SolidBrush(Color.FromArgb(210, 50, 20)))
+            using (var pen = new Pen(Color.FromArgb(230, 210, 190), 1))
+            {
+                // 微信打赏
+                var w1 = g.MeasureString("微信打赏", lf).Width;
+                g.DrawString("微信打赏", lf, db, (190 - w1) / 2, 105);
+                g.DrawLine(pen, 20, 122, 170, 122);
+
+                // 支付宝打赏
+                var w2 = g.MeasureString("支付宝打赏", lf).Width;
+                g.DrawString("支付宝打赏", lf, db, (190 - w2) / 2, 208);
+                g.DrawLine(pen, 20, 225, 170, 225);
+
+                // 拼多多店铺
+                var w3 = g.MeasureString("拼多多店铺", lf).Width;
+                g.DrawString("拼多多店铺", lf, db, (190 - w3) / 2, 311);
+                var w3a = g.MeasureString("捐助98元送键盘", sf).Width;
+                g.DrawString("捐助98元送键盘", sf, rb, (190 - w3a) / 2, 327);
+            }
+        }
+
+        private void btnToggleAd_Click(object sender, EventArgs e)
+        {
+            _adCollapsed = !_adCollapsed;
+            ApplyAdState();
+            try { File.WriteAllText(_adStateFile, _adCollapsed ? "1" : "0"); } catch { }
+        }
+
+        private void ApplyAdState()
+        {
+            if (_adCollapsed)
+            {
+                adPanel.Visible = false;
+                btnToggleAd.Text = ">";
+                btnToggleAd.Location = new System.Drawing.Point(830, 145);
+                this.ClientSize = new System.Drawing.Size(850, 350);
+            }
+            else
+            {
+                adPanel.Visible = true;
+                btnToggleAd.Text = "<";
+                btnToggleAd.Location = new System.Drawing.Point(830, 145);
+                this.ClientSize = new System.Drawing.Size(1040, 350);
+            }
         }
 
         private void InitializeCustomTimer()
