@@ -132,6 +132,12 @@ if exist output\weaselserver.exe (
   output\weaselserver.exe /q
 )
 
+rem check ARM64 build tools before any ARM/ARM64 build step
+if %build_arm64% == 1 (
+  call :check_arm64
+  if errorlevel 1 exit /b 1
+)
+
 rem build booost
 if %build_boost% == 1 (
   call :build_boost
@@ -163,6 +169,14 @@ if %build_rime% == 1 (
   rem build Win32 librime
   set ARCH=Win32
   call :build_librime_platform Win32 %WEASEL_ROOT%\lib %WEASEL_ROOT%\output\Win32
+  rem build ARM64 librime (native WeaselServer; enabled by `build.bat arm64`)
+  if %build_arm64% == 1 (
+    if not exist %WEASEL_ROOT%\lib64arm mkdir %WEASEL_ROOT%\lib64arm
+    if not exist %WEASEL_ROOT%\output\ARM64 mkdir %WEASEL_ROOT%\output\ARM64
+    set ARCH=ARM64
+    call :build_librime_platform ARM64 %WEASEL_ROOT%\lib64arm %WEASEL_ROOT%\output\ARM64
+    if errorlevel 1 exit /b 1
+  )
   rem clean the modified file
   rem git checkout .
   rem git submodule foreach git checkout .
@@ -232,7 +246,35 @@ if %build_installer% == 1 (
 
 goto end
 
-rem -------------------------------------------------------------------------
+rem ---------------------------------------------------------------------------
+rem check ARM64 build tools are present (used by `build.bat arm64`)
+:check_arm64
+  set VSWHERE=
+  if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" set VSWHERE="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+  if not defined VSWHERE exit /b 0
+  set ARM64_TOOLCHAIN=
+  for /f "usebackq tokens=*" %%i in (`%VSWHERE% -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.ARM64 -property installationPath`) do set ARM64_TOOLCHAIN=%%i
+  if defined ARM64_TOOLCHAIN goto check_arm64_have_tools
+  echo.
+  echo Error: MSVC ARM64 build tools not found, cannot build ARM64 targets.
+  echo   Install the Visual Studio component for ARM64 C++ builds:
+  echo     - VS2019: "MSVC v142 - VS 2019 C++ ARM64 build tools"
+  echo     - VS2022: "MSVC v143 - VS 2022 C++ ARM64/ARM64EC build tools"
+  echo   Note: arm64x_wrapper also needs the ARM64EC toolchain (VS 2022 17.4+).
+  echo.
+  exit /b 1
+:check_arm64_have_tools
+  rem dependency check: ARM64 WinSparkle (required to link the native WeaselServer)
+  if exist "%WEASEL_ROOT%\lib64arm\WinSparkle.lib" exit /b 0
+  echo.
+  echo Error: lib64arm\WinSparkle.lib not found.
+  echo   WinSparkle ARM64 files are required to link the native ARM64 WeaselServer.
+  echo   Download the official WinSparkle release zip ^(0.9.x, contains ARM64/^), then copy:
+  echo     ARM64\Release\WinSparkle.lib  -^>  lib64arm\WinSparkle.lib
+  echo     ARM64\Release\WinSparkle.dll  -^>  output\ARM64\WinSparkle.dll
+  echo.
+  exit /b 1
+
 rem build boost
 :build_boost
   set BJAM_OPTIONS_COMMON=-j%NUMBER_OF_PROCESSORS%^

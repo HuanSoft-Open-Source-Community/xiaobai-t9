@@ -81,3 +81,17 @@ arm64x_wrapper/*.exp
 .workbuddy/
 _resx_dump/
 
+
+# ARM64 构建产物与工具目录（2026-10-14 新增）
+/output/ARM64/
+/lib64arm/rime.*
+
+# ===== ARM64 构建中间目录（2026-11-11）=====
+# 项目内 $(IntDir)/$(OutDir) 相对路径产生的中间目录
+/ARM64/
+/*/ARM64/
+# 本地临时备份目录与测试源
+numkeyboard/_backup_*/
+arm64x_wrapper/t_dummy.c
+numkeyboard/numkeyboard/obj/Debug/numkeyboard.exe.config
+

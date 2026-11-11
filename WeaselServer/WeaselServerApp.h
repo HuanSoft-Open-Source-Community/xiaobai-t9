@@ -52,7 +52,18 @@ class WeaselServerApp {
   static fs::path install_dir() {
     WCHAR exe_path[MAX_PATH] = {0};
     GetModuleFileNameW(GetModuleHandle(NULL), exe_path, _countof(exe_path));
-    return fs::path(exe_path).remove_filename();
+    fs::path dir = fs::path(exe_path).remove_filename();
+    // ARM64 build: the native server lives in <root>\ARM64\ whereas the helper
+    // tools (WeaselDeployer.exe / update.exe / numkeyboard.exe / t9keyboard.exe)
+    // stay in <root>.  When <dir> has no WeaselDeployer.exe but the parent does,
+    // the parent is the real installation root (tray menu must use it).
+    std::error_code ec;
+    if (!fs::exists(dir / L"WeaselDeployer.exe", ec)) {
+      fs::path parent = dir.parent_path();
+      if (!parent.empty() && fs::exists(parent / L"WeaselDeployer.exe", ec))
+        return parent;
+    }
+    return dir;
   }
 
  public:

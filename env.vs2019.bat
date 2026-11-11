@@ -11,5 +11,11 @@ set BJAM_TOOLSET=msvc-14.2
 set CMAKE_GENERATOR="Visual Studio 16 2019"
 set PLATFORM_TOOLSET=v142
 
+rem NOTE for ARM64 builds (`build.bat arm64`): install the Visual Studio
+rem   component "MSVC v142 - VS 2019 C++ ARM64 build tools".
+rem   The ARM64X redirector (arm64x_wrapper) additionally needs the ARM64EC
+rem   toolchain, which requires VS 2022 17.4+ (without it, weaselARM64X.dll/.ime
+rem   will not be produced).
+
 rem OPTIONAL: path to additional build tools
 rem set DEVTOOLS_PATH=%ProgramFiles%\Git\cmd;%ProgramFiles%\Git\usr\bin;%ProgramFiles%\CMake\bin;

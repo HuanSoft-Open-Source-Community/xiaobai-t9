@@ -34,3 +34,4 @@ Z:\numkeyboard\numkeyboard\obj\Debug\NumKeyboardTray.Form1.resources
 Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.Properties.Resources.resources
 Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.csproj.GenerateResource.cache
 Z:\numkeyboard\numkeyboard\obj\Debug\numkeyboard.csproj.CoreCompileInputs.cache
+C:\weasel\numkeyboard\numkeyboard\obj\Debug\numkeyboard.exe.config

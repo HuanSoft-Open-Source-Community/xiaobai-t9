@@ -9,7 +9,7 @@ Unicode true
 ;--------------------------------
 ; General
 !ifndef WEASEL_VERSION
-!define WEASEL_VERSION 2026.10.10
+!define WEASEL_VERSION 2026.11.11
 !endif
 !ifndef WEASEL_BUILD
 !define WEASEL_BUILD 0
@@ -153,6 +153,7 @@ uninst:
   CopyFiles $R1\data\*.* $TEMP\weasel-backup
 call_uninstaller:
   ExecWait '"$R1\WeaselServer.exe" /quit'
+  ExecWait '"$R1\ARM64\WeaselServer.exe" /quit'
   ExecWait '"$R1\WeaselSetup.exe" /u'
   ; Remove registry keys
   DeleteRegKey HKLM "Software\Rime"
@@ -203,6 +204,7 @@ Section "Weasel"
   StrCpy $INSTDIR "${WEASEL_ROOT}"
   IfFileExists "$INSTDIR\WeaselServer.exe" 0 +2
   ExecWait '"$INSTDIR\WeaselServer.exe" /quit'
+  ExecWait '"$INSTDIR\ARM64\WeaselServer.exe" /quit'
   SetOverwrite try
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
@@ -236,15 +238,54 @@ program_files:
   ${If} ${RunningX64}
     File "weaselx64.dll"
   ${EndIf}
+  ; ========== ARM64 支持：追加投递 ARM64 / ARM32 输入法组件 ==========
+  ; 说明：这些文件由 WeaselSetup.exe 在 ARM64 系统上复制到系统目录（无需手工注册）：
+  ;   weaselARM64X.dll  ARM64X 重定向器（ARM64 进程转向 weaselARM64.dll / x64 进程转向 weaselx64.dll）
+  ;   weaselARM64.dll   ARM64 原生版本
+  ;   weaselARM.dll     ARM32 版本（仅当系统支持 ARM32 WOW，即 Windows 11 24H2 之前）
+  ; /nonfatal：ARM64 产物缺失（未安装 ARM64 工具链构建）时仅警告，不阻断安装包编译。
+  ${If} ${IsNativeARM64}
+    File /nonfatal "weaselARM.dll"
+    File /nonfatal "weaselARM64.dll"
+    File /nonfatal "weaselARM64X.dll"
+  ${EndIf}
   File "weasel.ime"
   ${If} ${RunningX64}
     File "weaselx64.ime"
   ${EndIf}
+  ${If} ${IsNativeARM64}
+    File /nonfatal "weaselARM.ime"
+    File /nonfatal "weaselARM64.ime"
+    File /nonfatal "weaselARM64X.ime"
+  ${EndIf}
   ; Always install 32-bit core components (x64 rime.dll has STATUS_STACK_BUFFER_OVERRUN crash bug)
+  ; 注意：ARM64 系统会在下方用原生（ARM64）版本覆盖 WeaselServer/rime.dll/WinSparkle.dll
   File "Win32\WeaselDeployer.exe"
   File "Win32\WeaselServer.exe"
   File "Win32\rime.dll"
   File "Win32\WinSparkle.dll"
+  ; ===== ARM64 系统：原生（ARM64）核心组件 → ARM64 子目录 =====
+  ; 【严禁覆盖根目录】根目录的 WeaselDeployer.exe / WeaselSetup.exe 是 x86 程序，
+  ; 启动时加载同目录的 rime.dll；若根目录 rime.dll 被换成 ARM64 版，x86 进程会
+  ; 立即报 0xc000007b（STATUS_INVALID_IMAGE_FORMAT）。Deployer 失败 → 配置与词库
+  ; 不部署 → 安装完成后无法打字。
+  ; ARM64 的 WeaselServer.exe 在自己所在目录加载同目录的 rime.dll / WinSparkle.dll。
+  ; 产物由 `build.bat arm64` 生成；/nonfatal：缺失时退回根目录 32 位服务端。
+  ${If} ${IsNativeARM64}
+    SetOutPath $INSTDIR\ARM64
+    File /nonfatal "ARM64\WeaselServer.exe"
+    File /nonfatal "ARM64\rime.dll"
+    File /nonfatal "ARM64\WinSparkle.dll"
+    SetOutPath $INSTDIR
+  ${EndIf}
+  ; 解析原生服务端实际路径（$R8 供 Exec / 计划任务 / 快捷方式 / VBS 共用）
+  StrCpy $R8 "$INSTDIR\WeaselServer.exe"
+  ${If} ${IsNativeARM64}
+    StrCpy $R9 "$INSTDIR\ARM64\WeaselServer.exe"
+    ${If} ${FileExists} "$R9"
+      StrCpy $R8 "$R9"
+    ${EndIf}
+  ${EndIf}
   ${If} ${RunningX64}
     ; x64: also install 32-bit components to Win32 subdir (backup)
     SetOutPath $INSTDIR\Win32
@@ -345,6 +386,7 @@ program_files:
   ; WeaselServer.exe（位于根目录）
   WriteRegStr HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Win32\WeaselServer.exe" "RUNASADMIN"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\WeaselServer.exe" "RUNASADMIN"
+  WriteRegStr HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\ARM64\WeaselServer.exe" "RUNASADMIN"
   ; WeaselDeployer.exe（位于 Win32 子目录）
   WriteRegStr HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Win32\WeaselDeployer.exe" "RUNASADMIN"
   WriteRegStr HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\WeaselDeployer.exe" "RUNASADMIN"
@@ -358,7 +400,7 @@ program_files:
   ExecWait "$INSTDIR\WeaselDeployer.exe /deploy"
   deploy_done:
   ; Start WeaselServer (后台运行)
-  Exec "$INSTDIR\WeaselServer.exe"
+  Exec "$R8"
   ; 安装完成后强制检查一次更新
   Sleep 3000
   ExecWait '"$INSTDIR\update.exe"' $0
@@ -378,14 +420,14 @@ Section "Start Menu Shortcuts"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSYNC).lnk" "$INSTDIR\WeaselDeployer.exe" "/sync" "$SYSDIR\shell32.dll" 26
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORDEPLOY).lnk" "$INSTDIR\WeaselDeployer.exe" "/deploy" "$SYSDIR\shell32.dll" 144
   ; 算法服务快捷方式：改为触发已批准的计划任务，双击不再弹 UAC；服务在跑时不会重复启动
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSERVER).lnk" "$SYSDIR\schtasks.exe" `/run /tn "XiaoBaiT9\WeaselServer"` "$INSTDIR\WeaselServer.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSERVER).lnk" "$SYSDIR\schtasks.exe" `/run /tn "XiaoBaiT9\WeaselServer"` "$R8" 0 SW_SHOWMINIMIZED
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORNUMKEYBOARD).lnk" "$INSTDIR\numkeyboard.exe" "" "$INSTDIR\numkeyboard.exe"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORCONFIG).lnk" "$INSTDIR\t9configui.exe" "" "$INSTDIR\t9configui.exe"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORT9SKIN).lnk" "$INSTDIR\t9skin.exe" "" "$INSTDIR\t9skin.exe"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORt9keyboard).lnk" "$INSTDIR\t9keyboard.exe" "" "$INSTDIR\t9keyboard.exe"
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUSERFOLDER).lnk" "$INSTDIR\WeaselServer.exe" "/userdir" "$SYSDIR\shell32.dll" 126
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORAPPFOLDER).lnk" "$INSTDIR\WeaselServer.exe" "/weaseldir" "$SYSDIR\shell32.dll" 19
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUPDATER).lnk" "$INSTDIR\WeaselServer.exe" "/update" "$SYSDIR\shell32.dll" 13
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUSERFOLDER).lnk" "$R8" "/userdir" "$SYSDIR\shell32.dll" 126
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORAPPFOLDER).lnk" "$R8" "/weaseldir" "$SYSDIR\shell32.dll" 19
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUPDATER).lnk" "$R8" "/update" "$SYSDIR\shell32.dll" 13
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSETUP).lnk" "$INSTDIR\WeaselSetup.exe" "" "$SYSDIR\shell32.dll" 162
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUNINSTALL).lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORT9S2T).lnk" "$INSTDIR\t9s2t\t9s2t.exe" "" "$INSTDIR\t9s2t\t9s2t.exe" 0
@@ -503,7 +545,7 @@ Function RegisterWeaselServerTask
   FileWriteUTF16LE $R4 '    <Priority>7</Priority>$\r$\n'
   FileWriteUTF16LE $R4 '    <RestartOnFailure><Interval>PT1M</Interval><Count>3</Count></RestartOnFailure>$\r$\n'
   FileWriteUTF16LE $R4 '  </Settings>$\r$\n'
-  FileWriteUTF16LE $R4 '  <Actions Context="Author"><Exec><Command>$INSTDIR\WeaselServer.exe</Command><WorkingDirectory>$INSTDIR</WorkingDirectory></Exec></Actions>$\r$\n'
+  FileWriteUTF16LE $R4 '  <Actions Context="Author"><Exec><Command>$R8</Command><WorkingDirectory>$INSTDIR</WorkingDirectory></Exec></Actions>$\r$\n'
   FileWriteUTF16LE $R4 '</Task>$\r$\n'
   FileClose $R4
 
@@ -520,7 +562,7 @@ Function RegisterWeaselServerTask
   FileWrite $R4 'Set sh = CreateObject("WScript.Shell")$\r$\n'
   FileWrite $R4 'If sh.Run("cmd /c tasklist /FI ""IMAGENAME eq WeaselServer.exe"" | find /I ""WeaselServer.exe""", 0, True) <> 0 Then$\r$\n'
   FileWrite $R4 '  If sh.Run("schtasks.exe /run /tn ""XiaoBaiT9\WeaselServer""", 0, True) <> 0 Then$\r$\n'
-  FileWrite $R4 '    sh.Run """$INSTDIR\WeaselServer.exe""", 0, False$\r$\n'
+  FileWrite $R4 '    sh.Run """$R8""", 0, False$\r$\n'
   FileWrite $R4 '  End If$\r$\n'
   FileWrite $R4 'End If$\r$\n'
   FileClose $R4

@@ -27,7 +27,17 @@ fs::path WeaselUserDataPath() {
 fs::path WeaselSharedDataPath() {
   wchar_t _path[MAX_PATH] = {0};
   GetModuleFileNameW(NULL, _path, _countof(_path));
-  return fs::path(_path).remove_filename().append("data");
+  fs::path dir = fs::path(_path).remove_filename();
+  // ARM64 build: the native WeaselServer.exe lives in <root>\ARM64\ while the
+  // shared rime data stays in <root>\data.  When <dir>\data is missing but the
+  // parent directory has one, the parent is the real installation root.
+  std::error_code ec;
+  if (!fs::exists(dir / L"data", ec)) {
+    fs::path parent = dir.parent_path();
+    if (!parent.empty() && fs::exists(parent / L"data", ec))
+      return parent / L"data";
+  }
+  return dir / L"data";
 }
 
 std::string GetCustomResource(const char* name, const char* type) {

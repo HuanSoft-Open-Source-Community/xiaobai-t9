@@ -2,7 +2,11 @@
 @echo off
 setlocal
 
-call :find_toolchain
+REM Build the ARM64X (CHPE) wrappers weaselARM64X.dll / weaselARM64X.ime.
+REM The arm64 cl.exe accepts /arm64EC directly, so instead of calling
+REM vsdevcmd (which needs reg.exe - blocked in some environments and may
+REM kill the process tree) we set up the toolchain with the manual wrapper.
+call "C:\weasel_build\vcvarsall_wrapper.bat" arm64
 if errorlevel 1 exit /b 1
 
 REM Build dummy object files
@@ -23,28 +27,3 @@ link.exe /dll /noentry /machine:arm64x /defArm64Native:WeaselIME_arm64.def /def:
 
 endlocal
 exit /b
-
-:find_toolchain
-set VSWHERE="%PROGRAMFILES%\Microsoft Visual Studio\Installer\vswhere.exe"
-if not exist %VSWHERE% (
-  set VSWHERE="%PROGRAMFILES(X86)%\Microsoft Visual Studio\Installer\vswhere.exe"
-)
-if not exist %VSWHERE% (
-  echo vswhere not found, could not find a working MSVC install.
-  exit /b 1
-)
-
-for /f "usebackq tokens=*" %%i in (`%VSWHERE% -latest -requires Microsoft.VisualStudio.Component.VC.Tools.ARM64EC -property installationPath`) do (
-  set ARM64EC_TOOLCHAIN=%%i
-)
-
-if exist "%ARM64EC_TOOLCHAIN%\Common7\Tools\vsdevcmd.bat" (
-  call "%ARM64EC_TOOLCHAIN%\Common7\Tools\vsdevcmd.bat" -arch=arm64 -host_arch=x86
-  echo.
-) else (
-  echo ARM64EC capable toolchain not found
-  exit /b 1
-)
-
-exit /b
-
