@@ -95,3 +95,7 @@ numkeyboard/_backup_*/
 arm64x_wrapper/t_dummy.c
 numkeyboard/numkeyboard/obj/Debug/numkeyboard.exe.config
 
+# arm64-patches 里的 env.bat 是 librime 子模块补丁内容，必须入库
+!arm64-patches/librime/env.bat
+
+
