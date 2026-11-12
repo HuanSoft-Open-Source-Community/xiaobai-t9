@@ -208,6 +208,9 @@ namespace helpme
             }
 
             this.ClientSize = new Size(targetWidth, h);
+
+            // panelRight 是 Dock=Fill，会把右边的广告面板压在下面，必须重新提到最前
+            adPanel.BringToFront();
             btnToggleAd.Location = new Point(ContentWidth - btnToggleAd.Width, btnToggleAd.Location.Y);
             btnToggleAd.BringToFront();
         }
@@ -337,7 +340,7 @@ namespace helpme
             }
         }
 
-        private void btnSwitch_Click_1(object sender, EventArgs e)
+        private async void btnSwitch_Click_1(object sender, EventArgs e)
         {
             // 语音工具必须拉起：很多人插上键盘就按语音键，没进程就没反应。
             // 但要以最小化方式启动，别抢焦点、别盖住箭头。
@@ -372,6 +375,13 @@ namespace helpme
                 AppendLog($"【失败】拉起 numkeyboard.exe 异常: {ex.Message}");
             }
 
+            // 新拉起来的 numkeyboard / t9s2t 会短暂抢焦点，抢在 Win+Space 之后就会把
+            // 输入法选择框顶掉。这里先等它们稳定，再模拟按键。
+            await System.Threading.Tasks.Task.Delay(900);
+
+            // 先把箭头和置顶摆好，再发按键：按键之后再改窗口属性有概率把选择框顶掉
+            ShowArrow();
+
             keybd_event(VK_LWIN, 0x5B, KEYEVENTF_EXTENDEDKEY, UIntPtr.Zero);
             keybd_event(VK_SPACE, 0, 0, UIntPtr.Zero);
             keybd_event(VK_SPACE, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
@@ -379,8 +389,6 @@ namespace helpme
 
             _hookID = SetHook(_mouseProc);
             actionTimer.Start();
-
-            ShowArrow();
         }
 
         // ================= 核心延时流修复 =================
