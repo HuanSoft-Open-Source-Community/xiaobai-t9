@@ -47,6 +47,7 @@ namespace t9s2t
         // ==================== 远程模型配置地址 ====================
         private readonly string remoteModelsJsonUrl = "https://t9.xiaobai.pro/models/models.json";
         private string _pendingVersion;   // 本次安装的模型版本号
+        private string _backupModelDir;   // 升级时旧模型的暂存目录（新模型加载成功后再删）
         private bool _upgrading;          // 防止升级流程递归
         // 引擎运行时 DLL  远程配置地址
         private readonly string remoteEngineJsonUrl = "https://t9.xiaobai.pro/models/engine.json";
@@ -168,6 +169,7 @@ namespace t9s2t
             public string folder { get; set; }
             public string size_hint { get; set; }
             public string version { get; set; }
+            public string md5 { get; set; }              // 可选：下载后校验，防止半截包被装上
             public bool published { get; set; } = true;  // 默认 true，兼容旧 JSON
 
             // 新增：用于自动显示的格式化属性
@@ -215,6 +217,7 @@ namespace t9s2t
         private async void Form1_Load(object sender, EventArgs e)
         {
             ApplyVoiceTheme();
+            RecoverInterruptedUpgrade();   // 上次升级中途退出的话，先把旧模型找回来
             bool createdNew;
             _mutex = new Mutex(true, "Global\\t9s2t_single_instance_mutex_v3", out createdNew);
 
@@ -1206,6 +1209,13 @@ namespace t9s2t
                     catch { }
                 });
 
+                // 可选：校验 md5，防止网络中断导致的半截包
+                if (!string.IsNullOrEmpty(target.md5) && !VerifyMd5(tmp, target.md5))
+                {
+                    Debug.WriteLine("[t9s2t] 升级失败：md5 不匹配");
+                    return false;
+                }
+
                 lblStatus.Text = "⬆️ 正在解压新模型…";
                 if (TarBz2Extractor.IsTarBz2File(tmp))
                     await TarBz2Extractor.ExtractAsync(tmp, staging);
@@ -1237,7 +1247,7 @@ namespace t9s2t
                 }
 
                 WriteLocalModelVersion(target.version);
-                try { if (Directory.Exists(oldDir)) Directory.Delete(oldDir, true); } catch { }
+                _backupModelDir = oldDir;   // 先留着，等新模型真正加载成功再删
                 try { if (Directory.Exists(staging)) Directory.Delete(staging, true); } catch { }
                 return true;
             }
@@ -1252,37 +1262,113 @@ namespace t9s2t
             }
         }
 
+        private static bool VerifyMd5(string path, string expect)
+        {
+            try
+            {
+                using (var md5 = System.Security.Cryptography.MD5.Create())
+                using (var fs = File.OpenRead(path))
+                {
+                    var hash = BitConverter.ToString(md5.ComputeHash(fs)).Replace("-", "").ToLowerInvariant();
+                    return string.Equals(hash, expect.Replace("-", "").Trim().ToLowerInvariant(), StringComparison.Ordinal);
+                }
+            }
+            catch { return false; }
+        }
+
+        /// <summary>新模型加载失败时把旧模型换回来</summary>
+        private void RollbackModelUpgrade()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(_backupModelDir) || !Directory.Exists(_backupModelDir)) return;
+                if (Directory.Exists(modelPath)) Directory.Delete(modelPath, true);
+                Directory.Move(_backupModelDir, modelPath);
+                _backupModelDir = null;
+                Debug.WriteLine("[t9s2t] 已回滚到旧模型");
+            }
+            catch (Exception ex) { Debug.WriteLine($"[t9s2t] 回滚失败: {ex.Message}"); }
+        }
+
+        /// <summary>新模型确认可用后，删掉备份</summary>
+        private void CleanupModelBackup()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(_backupModelDir) && Directory.Exists(_backupModelDir))
+                    Directory.Delete(_backupModelDir, true);
+                _backupModelDir = null;
+            }
+            catch { }
+        }
+
+        /// <summary>上次升级中途退出（model 没了但 model_old 还在）→ 恢复旧模型</summary>
+        private void RecoverInterruptedUpgrade()
+        {
+            try
+            {
+                string oldDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "model_old");
+                if (!Directory.Exists(modelPath) && Directory.Exists(oldDir))
+                {
+                    Directory.Move(oldDir, modelPath);
+                    Debug.WriteLine("[t9s2t] 检测到上次升级中断，已恢复旧模型");
+                }
+            }
+            catch { }
+        }
+
         private async Task<bool> TryUpgradeModelAsync()
         {
             if (_upgrading) return false;
             try
             {
                 var remote = await FetchModelsAsync();
-                var newest = remote != null && remote.Count > 0 ? remote[0] : null;
+                if (remote == null || remote.Count == 0) return false;
+
                 string localVer = ReadLocalModelVersion();
-                if (newest == null || string.IsNullOrEmpty(newest.version) || newest.version == localVer)
-                    return false;
+
+                // 只认「比本地新」的版本，避免服务端清单回退时把用户降级
+                ModelInfo target = null;
+                foreach (var m in remote)
+                {
+                    if (string.IsNullOrEmpty(m.version) || !m.published) continue;
+                    if (string.CompareOrdinal(m.version, localVer) <= 0) continue;
+                    if (target == null || string.CompareOrdinal(m.version, target.version) > 0) target = m;
+                }
+                if (target == null) return false;
 
                 _upgrading = true;
                 lblStatus.ForeColor = SystemColors.ControlText;
-                lblStatus.Text = $"⬆️ 发现新模型（{newest.version}），正在自动升级，请稍候…";
+                lblStatus.Text = $"⬆️ 发现新模型（{target.version}），正在自动升级，请稍候…";
                 lblEngine.Text = "引擎: 升级中";
                 lblStatus.Refresh();
 
-                bool ok = await UpgradeModelAsync(newest);
+                bool ok = await UpgradeModelAsync(target);
                 _upgrading = false;
-                if (ok)
+                if (!ok)
                 {
-                    currentEngineType = EngineDetector.Detect(modelPath);
-                    lblEngine.Text = $"引擎: {EngineDetector.GetDisplayName(currentEngineType)}";
-                    lblStatus.Text = "✅ 模型已升级到 " + newest.version + "，可以说话了";
-                    SyncModelStateToRegistry();
-                    await LoadEngine();
-                    return true;
+                    lblStatus.Text = "⚠️ 新模型下载失败，先继续使用旧模型";
+                    return false;
                 }
 
-                lblStatus.Text = "⚠️ 新模型下载失败，先继续使用旧模型";
-                return false;
+                // 加载新模型；加载失败就回滚，绝不让用户两头落空
+                currentEngineType = EngineDetector.Detect(modelPath);
+                lblEngine.Text = $"引擎: {EngineDetector.GetDisplayName(currentEngineType)}";
+                await LoadEngine();
+
+                if (!IsLoadedOk())
+                {
+                    RollbackModelUpgrade();
+                    currentEngineType = EngineDetector.Detect(modelPath);
+                    lblStatus.Text = "⚠️ 新模型加载失败，已回滚到旧模型";
+                    await LoadEngine();
+                    return false;
+                }
+
+                CleanupModelBackup();
+                lblStatus.Text = "✅ 模型已升级到 " + target.version + "，可以说话了";
+                SyncModelStateToRegistry();
+                return true;
             }
             catch (Exception ex)
             {
@@ -1290,6 +1376,13 @@ namespace t9s2t
                 Debug.WriteLine($"[t9s2t] 模型升级失败: {ex.Message}");
                 return false;
             }
+        }
+
+        /// <summary>引擎是否真的加载成功</summary>
+        private bool IsLoadedOk()
+        {
+            try { return currentEngineType != EngineType.None && Directory.Exists(modelPath); }
+            catch { return false; }
         }
 
         private async Task AutoCheckModel()

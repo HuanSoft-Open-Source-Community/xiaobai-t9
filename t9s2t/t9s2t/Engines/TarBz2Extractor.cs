@@ -37,6 +37,19 @@ namespace t9s2t.Engines
 
             Debug.WriteLine($"[t9s2t] 开始解压: {archivePath} -> {destinationDir}");
 
+            // 优先用随包分发的 7z.exe：同样一个 300MB tar.bz2，
+            // 7z 约 4 秒完成，SharpCompress 要一分多钟且偶发进程崩溃。
+            string sevenZip = Find7z();
+            if (sevenZip != null)
+            {
+                if (Run7z(sevenZip, archivePath, destinationDir))
+                {
+                    Debug.WriteLine("[t9s2t] 7z 解压完成");
+                    return;
+                }
+                Debug.WriteLine("[t9s2t] 7z 解压失败，回退 SharpCompress");
+            }
+
             bool isBz2 = IsTarBz2File(archivePath);
 
             if (isBz2)
@@ -137,6 +150,53 @@ namespace t9s2t.Engines
                     filePath.EndsWith(".tbz2", StringComparison.OrdinalIgnoreCase) ||
                     filePath.EndsWith(".tar.gz", StringComparison.OrdinalIgnoreCase) ||
                     filePath.EndsWith(".tgz", StringComparison.OrdinalIgnoreCase));
+        }
+
+        /// <summary>找随包的 7z.exe（程序目录 / 上一级 / 上两级）</summary>
+        private static string Find7z()
+        {
+            try
+            {
+                var dir = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
+                for (int i = 0; i < 3 && !string.IsNullOrEmpty(dir); i++)
+                {
+                    string p = Path.Combine(dir, "7z.exe");
+                    if (File.Exists(p)) return p;
+                    var parent = Directory.GetParent(dir);
+                    if (parent == null) break;
+                    dir = parent.FullName;
+                }
+            }
+            catch { }
+            return null;
+        }
+
+        private static bool Run7z(string exe, string archive, string dest)
+        {
+            try
+            {
+                var psi = new ProcessStartInfo
+                {
+                    FileName = exe,
+                    Arguments = "x -y -o\"" + dest + "\" \"" + archive + "\"",
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+                using (var p = Process.Start(psi))
+                {
+                    p.BeginOutputReadLine();
+                    p.BeginErrorReadLine();
+                    if (!p.WaitForExit(10 * 60 * 1000)) { try { p.Kill(); } catch { } return false; }
+                    return p.ExitCode == 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("[t9s2t] 7z 调用失败: " + ex.Message);
+                return false;
+            }
         }
     }
 }
