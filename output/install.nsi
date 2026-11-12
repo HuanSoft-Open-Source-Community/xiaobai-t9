@@ -64,6 +64,7 @@ LangString LNKFORAPPFOLDER ${LANG_TRADCHINESE} "程序文件夾"
 LangString LNKFORUPDATER ${LANG_TRADCHINESE} "檢查新版本"
 LangString LNKFORSETUP ${LANG_TRADCHINESE} "安裝選項"
 LangString LNKFORHELPME ${LANG_TRADCHINESE} "新手教學"
+LangString LNKFORTUTOR_DESK ${LANG_TRADCHINESE} "小白T9新手教學"
 LangString LNKFORUNINSTALL ${LANG_TRADCHINESE} "卸載"
 LangString CONFIRMATION ${LANG_TRADCHINESE} "安裝前，請先卸載舊版本的小白T9输入法。$\n$\n按下「確定」移除舊版本，按下「取消」放棄本次安裝。"
 LangString SYSTEMVERSIONNOTOK ${LANG_TRADCHINESE} "您的系统不被支持，最低系統要求:Windows 8.1!"
@@ -84,6 +85,7 @@ LangString LNKFORAPPFOLDER ${LANG_SIMPCHINESE} "程序文件夹"
 LangString LNKFORUPDATER ${LANG_SIMPCHINESE} "检查新版本"
 LangString LNKFORSETUP ${LANG_SIMPCHINESE} "安装选项"
 LangString LNKFORHELPME ${LANG_SIMPCHINESE} "新手教程"
+LangString LNKFORTUTOR_DESK ${LANG_SIMPCHINESE} "小白T9新手教程"
 LangString LNKFORUNINSTALL ${LANG_SIMPCHINESE} "卸载"
 LangString CONFIRMATION ${LANG_SIMPCHINESE} '安装前，请先卸载旧版本的小白T9输入法。$\n$\n点击 "确定" 移除旧版本，或点击 "取消" 放弃本次安装。'
 LangString SYSTEMVERSIONNOTOK ${LANG_SIMPCHINESE} "您的系統不被支持，最低系统要求:Windows 8.1!"
@@ -108,6 +110,7 @@ LangString LNKFORAPPFOLDER ${LANG_ENGLISH} "App Folder"
 LangString LNKFORUPDATER ${LANG_ENGLISH} "Check for Updates"
 LangString LNKFORSETUP ${LANG_ENGLISH} "Installation Preference"
 LangString LNKFORHELPME ${LANG_ENGLISH} "Getting Started"
+LangString LNKFORTUTOR_DESK ${LANG_ENGLISH} "xiaobaiT9 Tutorial"
 LangString LNKFORUNINSTALL ${LANG_ENGLISH} "Uninstall"
 LangString CONFIRMATION ${LANG_ENGLISH} "Before installation, please uninstall the old version of Weasel.$\n$\nPress 'OK' to remove the old version, or 'Cancel' to abort installation."
 LangString SYSTEMVERSIONNOTOK ${LANG_ENGLISH} "Your system not supported, minimium system required: Windows 8.1!"
@@ -421,6 +424,10 @@ program_files:
   ; 升级时提示重启
   StrCmp $0 "Upgrade" 0 +2
   SetRebootFlag true
+; ===== 桌面保留「小白T9新手教程」入口（主段，不受可选组件影响）=====
+SetShellVarContext all
+CreateShortCut "$DESKTOP\$(LNKFORTUTOR_DESK).lnk" "$INSTDIR\helpme.exe" "" "$INSTDIR\helpme.exe" 0
+
 SectionEnd
 
 ; Optional section (can be disabled by the user)
@@ -432,6 +439,7 @@ Section "Start Menu Shortcuts"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORCONFIG).lnk" "$INSTDIR\t9configui.exe" "" "$INSTDIR\t9configui.exe"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORMANUAL).lnk" "$INSTDIR\README.txt"
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORHELPME).lnk" "$INSTDIR\helpme.exe" "" "$INSTDIR\helpme.exe" 0
+
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUNINSTALL).lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
 
   ; ===== 维护类统一收进「高级工具」，普通用户不需要看见 =====
@@ -659,6 +667,7 @@ Section "Uninstall"
   ; 删除开始菜单快捷方式
   SetShellVarContext all
   Delete "$DESKTOP\小白T9输入法HelpMe.lnk"
+  Delete "$DESKTOP\$(LNKFORTUTOR_DESK).lnk"
   RMDir /r "$SMPROGRAMS\$(DISPLAYNAME)"
 
   ; 删除桌面快捷方式
