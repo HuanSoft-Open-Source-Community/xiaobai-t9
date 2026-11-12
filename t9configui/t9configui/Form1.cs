@@ -77,6 +77,7 @@ namespace t9configui
             HideInternal(label29);     // 老提示，统一用新的
 
             if (_chkPredict == null) BuildPredictSwitch();
+            if (_chkLearning == null) BuildLearningSwitch();
 
             int y = 10;
 
@@ -96,6 +97,7 @@ namespace t9configui
                 new object[] { "emoji：",      new Control[] { emoji1, emoji2 } },
                 new object[] { "超四字联想：", new Control[] { cszlx1, cszlx2 } },
                 new object[] { "联想提示：",   new Control[] { _chkPredict } },
+                new object[] { "短语组合：",   new Control[] { _chkLearning } },
             };
             _cardBasic.Height = LayoutRows(_cardBasic, basicRows);
             y += _cardBasic.Height + 14;
@@ -316,6 +318,64 @@ namespace t9configui
 
 
         private static readonly string[] PredMark = { "  # >>> 联想提示（自动生成，勿手改）", "  # <<< 联想提示" };
+
+        private CheckBox _chkLearning;
+
+        private static readonly string[] LearnMark = { "  # >>> 选词记忆/短语组合（自动生成，勿手改）", "  # <<< 选词记忆/短语组合" };
+
+        private bool IsLearningEnabled()
+        {
+            try
+            {
+                if (!System.IO.File.Exists(CustomYamlPath)) return true;   // 没有补丁 = 默认开启
+                string txt = System.IO.File.ReadAllText(CustomYamlPath);
+                return !txt.Contains("\"xiaobai/learning\": false");
+            }
+            catch { return true; }
+        }
+
+        /// <summary>选词记忆 / 短语组合：默认开，关掉时往 custom.yaml 写一条 false</summary>
+        private void SetLearning(bool on)
+        {
+            try
+            {
+                string p = CustomYamlPath;
+                var lines = System.IO.File.Exists(p)
+                    ? new System.Collections.Generic.List<string>(System.IO.File.ReadAllLines(p))
+                    : new System.Collections.Generic.List<string>(new[] { "patch:" });
+
+                int begin = lines.FindIndex(l => l.Trim() == LearnMark[0].Trim());
+                int end = lines.FindIndex(l => l.Trim() == LearnMark[1].Trim());
+                if (begin >= 0 && end > begin) lines.RemoveRange(begin, end - begin + 1);
+
+                if (!on)
+                {
+                    int patchAt = lines.FindIndex(l => l.TrimEnd() == "patch:");
+                    if (patchAt < 0) { lines.Add("patch:"); patchAt = lines.Count - 1; }
+                    lines.InsertRange(patchAt + 1, new[]
+                    {
+                        LearnMark[0],
+                        "  \"xiaobai/learning\": false",
+                        LearnMark[1]
+                    });
+                }
+
+                System.IO.File.WriteAllLines(p, lines.ToArray());
+                DeployNow();
+            }
+            catch { }
+        }
+
+        private void BuildLearningSwitch()
+        {
+            _chkLearning = new CheckBox();
+            _chkLearning.AutoSize = true;
+            _chkLearning.ForeColor = Color.FromArgb(55, 65, 81);
+            _chkLearning.Text = "记住打过的词并参与组句";
+            _chkLearning.Checked = IsLearningEnabled();
+            _chkLearning.CheckedChanged += delegate { SetLearning(_chkLearning.Checked); };
+            this.Controls.Add(_chkLearning);
+        }
 
         /// <summary>联想数据包放在用户目录（引擎按用户目录查找 predict.db）</summary>
         private string PredictDbPath
