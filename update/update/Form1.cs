@@ -47,6 +47,10 @@ namespace XiaobaiT9Updater
 
             textBox3.Text = "安装路径:\r\n" + installPath + "\r\n\r\n当前版本: " + currentVersion + "\r\n";
 
+            // 只要用户碰过这个窗口（点任意位置、按任意键），就不要再自动关闭了：
+            // 万象语法模型要在这里下载，自动关掉会让用户没法操作。
+            HookUserActivity(this);
+
             chkAutoUpdateOnStartup.Checked = LoadAutoCheckSetting();
             lblVersion.Text = "当前版本: " + currentVersion;
 
@@ -278,7 +282,7 @@ namespace XiaobaiT9Updater
                         for (int i = 10; i > 0; i--)
                         {
                             if (cancelAutoExit) return;
-                            btnCheckUpdate.Text = $"已是最新版！！ ({i}s) 内点击取消自动关闭";
+                            btnCheckUpdate.Text = $"已是最新版 ({i}s 后关闭，点窗口取消)";
                             await Task.Delay(1000);
                         }
 
@@ -294,7 +298,7 @@ namespace XiaobaiT9Updater
                 // ==================== 有新版本 → 三个选项 ====================
                 if (InstallerMode)
                 {
-                    await CountdownAndExitAsync("发现新版本 " + info.version + "，可在设置里检查更新。", 4);
+                    await CountdownAndExitAsync("发现新版本 " + info.version + "，可在设置里再检查。", 8);
                     return;
                 }
 
@@ -330,7 +334,7 @@ namespace XiaobaiT9Updater
                 if (isStartupCheck)
                 {
                     // 安装程序/开机自检都不允许挂着：明确提示 + 倒计时退出
-                    await CountdownAndExitAsync("检查更新失败（可能没联网）：" + ex.Message, InstallerMode ? 4 : 8);
+                    await CountdownAndExitAsync("检查更新失败（可能没联网）：" + ex.Message, InstallerMode ? 8 : 10);
                 }
                 else
                 {
@@ -341,12 +345,32 @@ namespace XiaobaiT9Updater
 
         // ==================== 两个辅助方法（必须添加） ====================
 
+        /// <summary>递归把所有控件上的点击/按键都当成"用户还在用"，取消自动关闭</summary>
+        private void HookUserActivity(Control root)
+        {
+            if (root == null) return;
+            root.MouseDown += (s, e) => CancelAutoClose();
+            root.KeyDown += (s, e) => CancelAutoClose();
+            foreach (Control c in root.Controls)
+                HookUserActivity(c);
+        }
+
+        private void CancelAutoClose()
+        {
+            if (cancelAutoExit) return;
+            cancelAutoExit = true;
+            if (btnCheckUpdate != null && btnCheckUpdate.Text.Contains("自动关闭"))
+                btnCheckUpdate.Text = "检查更新";
+            if (textBox3 != null && textBox3.Text.Contains("自动关闭"))
+                textBox3.Text += "\r\n\r\n[已取消自动关闭]";
+        }
+
         /// <summary>显示一句提示，倒计时后退出（安装流程不能被卡住）</summary>
         private async Task CountdownAndExitAsync(string message, int seconds)
         {
             try
             {
-                textBox3.Text = message + "\r\n\r\n程序即将自动关闭...(" + seconds + "s)";
+                textBox3.Text = message + "\r\n\r\n程序即将自动关闭...(" + seconds + "s)，点一下窗口可取消";
                 for (int i = seconds; i > 0; i--)
                 {
                     if (cancelAutoExit) return;
