@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace t9s2t
@@ -15,6 +16,27 @@ namespace t9s2t
         [STAThread]
         static void Main(string[] args)
         {
+            // 全局异常兜底：写日志，别让进程无声无息地消失
+            AppDomain.CurrentDomain.UnhandledException += (s2, e2) =>
+            {
+                try
+                {
+                    File.AppendAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log"),
+                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " [Unhandled] " + e2.ExceptionObject + "\r\n\r\n");
+                }
+                catch { }
+            };
+            Application.ThreadException += (s2, e2) =>
+            {
+                try
+                {
+                    File.AppendAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log"),
+                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " [Thread] " + e2.Exception + "\r\n\r\n");
+                }
+                catch { }
+            };
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
             // 程序启动时就设好 TLS，确保所有网络请求都支持 TLS 1.2
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 

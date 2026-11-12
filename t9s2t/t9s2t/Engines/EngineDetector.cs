@@ -13,7 +13,8 @@ namespace t9s2t.Engines
         SenseVoice,              // sherpa-onnx, 非流式 (model.onnx, 多语言大词汇)
         Paraformer,              // sherpa-onnx, 非流式 (encoder 文件)
         ParaformerLarge,         // sherpa-onnx, 非流式 (model.onnx, 中文大模型)
-        ParaformerStreaming      // sherpa-onnx, 流式 (encoder + decoder)
+        ParaformerStreaming,     // sherpa-onnx, 流式 (encoder + decoder)
+        OfflineZipformer         // 2026 X-ASR 离线 zipformer (encoder-epoch + decoder + joiner, 自带标点)
     }
 
     /// <summary>
@@ -28,6 +29,14 @@ namespace t9s2t.Engines
         {
             if (string.IsNullOrEmpty(modelPath) || !Directory.Exists(modelPath))
                 return EngineType.None;
+
+            // 2026 X-ASR 离线 zipformer: encoder-epoch-*.onnx + joiner*.onnx
+            if (Directory.GetFiles(modelPath, "encoder-epoch*.onnx").Length > 0 &&
+                Directory.GetFiles(modelPath, "joiner*.onnx").Length > 0)
+            {
+                Debug.WriteLine("[t9s2t] EngineDetector: 检测到离线 X-ASR Zipformer 模型");
+                return EngineType.OfflineZipformer;
+            }
 
             // 流式 Paraformer: 有 encoder.int8.onnx + decoder.int8.onnx
             if ((File.Exists(Path.Combine(modelPath, "encoder.int8.onnx")) ||
@@ -89,6 +98,8 @@ namespace t9s2t.Engines
                     return new SherpaEngine(false);
                 case EngineType.ParaformerStreaming:
                     return new SherpaEngine(true);
+                case EngineType.OfflineZipformer:
+                    return new SherpaEngine(false);
                 default:
                     return null;
             }
@@ -114,6 +125,7 @@ namespace t9s2t.Engines
                 case EngineType.Paraformer: return "Paraformer";
                 case EngineType.ParaformerLarge: return "Paraformer-large";
                 case EngineType.ParaformerStreaming: return "Paraformer";
+                case EngineType.OfflineZipformer: return "X-ASR Zipformer";
                 default: return "未知";
             }
         }

@@ -46,27 +46,29 @@ namespace t9s2t
 
         // ==================== 远程模型配置地址 ====================
         private readonly string remoteModelsJsonUrl = "https://t9.xiaobai.pro/models/models.json";
+        private string _pendingVersion;   // 本次安装的模型版本号
+        private bool _upgrading;          // 防止升级流程递归
         // 引擎运行时 DLL  远程配置地址
         private readonly string remoteEngineJsonUrl = "https://t9.xiaobai.pro/models/engine.json";
         // 备用方案：如果网络请求失败，使用本地内置的默认列表
         private readonly string fallbackJson = @"
         [
             {
-                ""name"": ""Paraformer-large-zh (推荐)"",
-                ""description"": ""中文大模型, 自动标点, 松开快捷键后出字, 识别质量最高"",
-                ""url"": ""https://wp.xiaobai.pro:1111/d/%E8%BE%93%E5%85%A5%E6%B3%95/models/sherpa-onnx-paraformer-large.zip"",
-                ""folder"": ""sherpa-onnx-paraformer-large"",
-                ""size_hint"": ""258MB"",
-                ""version"": ""2024-03-09"",
+                ""name"": ""X-ASR 中文增强版 (推荐)"",
+                ""description"": ""2026 新版模型, 自带标点, 中英混说更准, 松开快捷键后出字"",
+                ""url"": ""https://wp.xiaobai.pro:1111/d/%E8%BE%93%E5%85%A5%E6%B3%95/models/x-asr-zh-en-punct-int8-2026-06-03.tar.bz2"",
+                ""folder"": ""x-asr-zh-en-punct-2026-06"",
+                ""size_hint"": ""128MB"",
+                ""version"": ""2026-06-03"",
                 ""published"": true
             },
             {
-               ""name"": ""Paraformer-large-zh (备用)"",
-                ""description"": ""中文大模型, 自动标点, 松开快捷键后出字, 识别质量最高"",
-                ""url"": ""https://t9.xiaobai.pro/models/sherpa-onnx-paraformer-large.zip"",
-                ""folder"": ""sherpa-onnx-paraformer-large"",
-                ""size_hint"": ""258MB"",
-                ""version"": ""2024-03-09"",
+                ""name"": ""X-ASR 中文增强版 (备用)"",
+                ""description"": ""2026 新版模型, 自带标点, 中英混说更准, 松开快捷键后出字"",
+                ""url"": ""https://t9.xiaobai.pro/models/x-asr-zh-en-punct-int8-2026-06-03.tar.bz2"",
+                ""folder"": ""x-asr-zh-en-punct-2026-06"",
+                ""size_hint"": ""128MB"",
+                ""version"": ""2026-06-03"",
                 ""published"": true
             }
         ]";
@@ -275,6 +277,9 @@ namespace t9s2t
 
             if (engineReady && modelReady)
             {
+                // 老用户强制升级：版本不一致就地换模型
+                if (await TryUpgradeModelAsync()) return;
+
                 // 一切就绪：下载按钮禁用（模型已安装，不允许重复下载），删除按钮可用
                 SetModelReadyButtonState();
 
@@ -1169,6 +1174,124 @@ namespace t9s2t
             catch (Exception ex) { Debug.WriteLine("[t9s2t] 挪走未完成的模型目录失败: " + ex.Message); }
         }
 
+        /// <summary>
+        /// 老用户强制升级：本地记录的版本和服务端推荐版本不一致就直接换掉。
+        /// 返回 true 表示完成升级（调用方应直接结束当前流程，引擎已在下载流程里重新加载）。
+        /// </summary>
+        /// <summary>
+        /// 安全升级：先下到临时文件、解压到 staging，验证通过才替换旧模型。
+        /// 任何一步失败都保持旧模型不动。
+        /// </summary>
+        private async Task<bool> UpgradeModelAsync(ModelInfo target)
+        {
+            string appDir = AppDomain.CurrentDomain.BaseDirectory;
+            string staging = Path.Combine(appDir, "model_new");
+            string oldDir = Path.Combine(appDir, "model_old");
+            string tmp = Path.Combine(Path.GetTempPath(), "upgrade_" + Guid.NewGuid().ToString("N") + ".bin");
+            try
+            {
+                if (Directory.Exists(staging)) Directory.Delete(staging, true);
+                Directory.CreateDirectory(staging);
+
+                await DownloadFileAsync(target.url, tmp, (got, total) =>
+                {
+                    if (total <= 0) return;
+                    // 回调在后台线程，必须切回 UI 线程，否则会抛跨线程异常
+                    try
+                    {
+                        if (IsHandleCreated && !IsDisposed)
+                            BeginInvoke(new Action(() =>
+                                lblStatus.Text = $"⬆️ 正在下载新模型 {got * 100 / total}%（请勿关闭）"));
+                    }
+                    catch { }
+                });
+
+                lblStatus.Text = "⬆️ 正在解压新模型…";
+                if (TarBz2Extractor.IsTarBz2File(tmp))
+                    await TarBz2Extractor.ExtractAsync(tmp, staging);
+                else
+                    ZipFile.ExtractToDirectory(tmp, staging);
+
+                string found = File.Exists(Path.Combine(staging, "tokens.txt")) ? staging : null;
+                if (found == null)
+                {
+                    foreach (var d in Directory.GetDirectories(staging))
+                        if (File.Exists(Path.Combine(d, "tokens.txt"))) { found = d; break; }
+                }
+                if (found == null)
+                {
+                    Debug.WriteLine("[t9s2t] 升级失败：解压后找不到模型目录");
+                    return false;
+                }
+
+                if (Directory.Exists(oldDir)) Directory.Delete(oldDir, true);
+                if (Directory.Exists(modelPath)) Directory.Move(modelPath, oldDir);
+                try
+                {
+                    Directory.Move(found, modelPath);
+                }
+                catch
+                {
+                    if (Directory.Exists(oldDir)) Directory.Move(oldDir, modelPath);
+                    return false;
+                }
+
+                WriteLocalModelVersion(target.version);
+                try { if (Directory.Exists(oldDir)) Directory.Delete(oldDir, true); } catch { }
+                try { if (Directory.Exists(staging)) Directory.Delete(staging, true); } catch { }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[t9s2t] 升级异常: {ex.Message}");
+                return false;
+            }
+            finally
+            {
+                try { if (File.Exists(tmp)) File.Delete(tmp); } catch { }
+            }
+        }
+
+        private async Task<bool> TryUpgradeModelAsync()
+        {
+            if (_upgrading) return false;
+            try
+            {
+                var remote = await FetchModelsAsync();
+                var newest = remote != null && remote.Count > 0 ? remote[0] : null;
+                string localVer = ReadLocalModelVersion();
+                if (newest == null || string.IsNullOrEmpty(newest.version) || newest.version == localVer)
+                    return false;
+
+                _upgrading = true;
+                lblStatus.ForeColor = SystemColors.ControlText;
+                lblStatus.Text = $"⬆️ 发现新模型（{newest.version}），正在自动升级，请稍候…";
+                lblEngine.Text = "引擎: 升级中";
+                lblStatus.Refresh();
+
+                bool ok = await UpgradeModelAsync(newest);
+                _upgrading = false;
+                if (ok)
+                {
+                    currentEngineType = EngineDetector.Detect(modelPath);
+                    lblEngine.Text = $"引擎: {EngineDetector.GetDisplayName(currentEngineType)}";
+                    lblStatus.Text = "✅ 模型已升级到 " + newest.version + "，可以说话了";
+                    SyncModelStateToRegistry();
+                    await LoadEngine();
+                    return true;
+                }
+
+                lblStatus.Text = "⚠️ 新模型下载失败，先继续使用旧模型";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _upgrading = false;
+                Debug.WriteLine($"[t9s2t] 模型升级失败: {ex.Message}");
+                return false;
+            }
+        }
+
         private async Task AutoCheckModel()
         {
             // 先确认宿主进程为 64 位（引擎组件只有 x64 版本）
@@ -1185,6 +1308,8 @@ namespace t9s2t
             lblStatus.Text = "🔍 正在检测模型..."; lblStatus.Refresh();
 
             currentEngineType = EngineDetector.Detect(modelPath);
+
+            if (await TryUpgradeModelAsync()) return;
 
             if (currentEngineType != EngineType.None)
             {
@@ -1449,6 +1574,28 @@ namespace t9s2t
             }
         }
 
+        /// <summary>模型目录里记录的版本号（老用户没有这个文件 → 返回空，会触发升级）</summary>
+        private string ReadLocalModelVersion()
+        {
+            try
+            {
+                string p = Path.Combine(modelPath, ".version");
+                return File.Exists(p) ? File.ReadAllText(p).Trim() : "";
+            }
+            catch { return ""; }
+        }
+
+        private void WriteLocalModelVersion(string version)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(version)) return;
+                Directory.CreateDirectory(modelPath);
+                File.WriteAllText(Path.Combine(modelPath, ".version"), version);
+            }
+            catch { }
+        }
+
         private async Task<bool> StartDownloadProcess(ModelInfo selectedModel, bool silent = false)
         {
             btnDownloadModel.Enabled = false;
@@ -1466,7 +1613,9 @@ namespace t9s2t
             progressBar.BringToFront();
 
             lblStatus.Text = $"⬇️ 正在下载 {selectedModel.name}...";
+            _pendingVersion = selectedModel.version;
             bool success = await DownloadWithProgress(progressBar, selectedModel.url, selectedModel.folder, silent);
+            if (success) WriteLocalModelVersion(_pendingVersion);
 
             this.Controls.Remove(progressBar);
             await AutoCheckModel();

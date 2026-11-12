@@ -23,7 +23,8 @@ namespace t9s2t.Engines
         private bool _isStreaming;
         private bool _isSenseVoice;
         private bool _isParaformer;
-        private bool _isParaformerLarge;  // 离线 Paraformer-large 模型标志
+        private bool _isParaformerLarge;
+        private bool _isOfflineZipformer;   // 2026 版 X-ASR zipformer，自带标点
         private readonly int _sampleRate = 16000;
 
         // 静音检测
@@ -40,7 +41,8 @@ namespace t9s2t.Engines
         private VoiceActivityDetector _vad;
 
         public bool IsLoaded => _offlineRecognizer != null || _onlineRecognizer != null;
-        public string EngineName => _isSenseVoice ? "SenseVoice" : (_isParaformerLarge ? "Paraformer-large" : (_isParaformer ? "Paraformer" : "sherpa-onnx"));
+        public string EngineName => _isOfflineZipformer ? "X-ASR Zipformer"
+            : (_isSenseVoice ? "SenseVoice" : (_isParaformerLarge ? "Paraformer-large" : (_isParaformer ? "Paraformer" : "sherpa-onnx")));
         public bool SupportsStreaming => _isStreaming;
         public bool HasPunctuation => _punctuation != null;
         public bool HasVad => _vad != null;
@@ -64,8 +66,9 @@ namespace t9s2t.Engines
                 else
                     LoadOfflineModel(modelPath);
 
-                // 加载标点模型（如果存在 punc.onnx）
-                LoadPunctuationModel(modelPath);
+                // 加载标点模型（新模型自带标点，不需要额外的 punc.onnx）
+                if (!_isOfflineZipformer)
+                    LoadPunctuationModel(modelPath);
                 // 加载 VAD 模型（如果存在 vad.onnx）
                 LoadVadModel(modelPath);
             });
@@ -99,6 +102,16 @@ namespace t9s2t.Engines
                 _isParaformerLarge = false;
                 Debug.WriteLine("[t9s2t] SherpaEngine: 检测到 SenseVoice 模型");
             }
+            else if (Directory.GetFiles(modelPath, "encoder-epoch*.onnx").Length > 0 &&
+                     Directory.GetFiles(modelPath, "joiner*.onnx").Length > 0)
+            {
+                // 2026 版 X-ASR 离线 zipformer：encoder-epoch-*.onnx / decoder-*.onnx / joiner-*.onnx
+                _isSenseVoice = false;
+                _isParaformer = false;
+                _isParaformerLarge = false;
+                _isOfflineZipformer = true;
+                Debug.WriteLine("[t9s2t] SherpaEngine: 检测到离线 X-ASR Zipformer 模型（自带标点）");
+            }
             else if (File.Exists(Path.Combine(modelPath, "encoder.int8.onnx")) ||
                      File.Exists(Path.Combine(modelPath, "encoder.onnx")))
             {
@@ -118,7 +131,9 @@ namespace t9s2t.Engines
 
         private void LoadOfflineModel(string modelPath)
         {
-            if (_isSenseVoice)
+            if (_isOfflineZipformer)
+                LoadOfflineZipformerModel(modelPath);
+            else if (_isSenseVoice)
                 LoadSenseVoiceModel(modelPath);
             else if (_isParaformerLarge)
                 LoadOfflineParaformerLargeModel(modelPath);
@@ -154,6 +169,47 @@ namespace t9s2t.Engines
 
             _offlineRecognizer = new OfflineRecognizer(config);
             Debug.WriteLine("[t9s2t] SenseVoice 模型加载完成");
+        }
+
+        /// <summary>
+        /// 2026 版 X-ASR 离线 Zipformer（encoder/decoder/joiner 三件套，标点内置）
+        /// </summary>
+        private void LoadOfflineZipformerModel(string modelPath)
+        {
+            string Enc(string prefix)
+            {
+                var int8 = Directory.GetFiles(modelPath, prefix + "*.int8.onnx");
+                if (int8.Length > 0) return int8[0];
+                var any = Directory.GetFiles(modelPath, prefix + "*.onnx");
+                if (any.Length > 0) return any[0];
+                throw new FileNotFoundException("缺少 " + prefix + " 模型文件", modelPath);
+            }
+
+            var tokensFile = Path.Combine(modelPath, "tokens.txt");
+            if (!File.Exists(tokensFile))
+                throw new FileNotFoundException("缺少 tokens.txt 文件", tokensFile);
+
+            var config = new OfflineRecognizerConfig();
+            config.FeatConfig = new FeatureConfig
+            {
+                SampleRate = _sampleRate,
+                FeatureDim = 80
+            };
+            config.ModelConfig = new OfflineModelConfig
+            {
+                Transducer = new OfflineTransducerModelConfig
+                {
+                    Encoder = Enc("encoder"),
+                    Decoder = Enc("decoder"),
+                    Joiner = Enc("joiner")
+                },
+                Tokens = tokensFile,
+                NumThreads = 4,
+                Debug = 0
+            };
+
+            _offlineRecognizer = new OfflineRecognizer(config);
+            Debug.WriteLine("[t9s2t] 离线 X-ASR Zipformer 加载完成（标点内置）");
         }
 
         private void LoadOfflineParaformerLargeModel(string modelPath)
@@ -292,6 +348,17 @@ namespace t9s2t.Engines
         /// <summary>
         /// 给识别文本添加标点符号
         /// </summary>
+        /// <summary>
+        /// 清掉中文标点两侧多余的空格（新模型会输出「恭喜发财 ， 红包拿来」这种）
+        /// </summary>
+        public static string NormalizeText(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            text = System.Text.RegularExpressions.Regex.Replace(text, @"\s+([，。！？、；：）】」』])", "$1");
+            text = System.Text.RegularExpressions.Regex.Replace(text, @"([（【「『])\s+", "$1");
+            return text.Trim();
+        }
+
         public string AddPunctuation(string text)
         {
             if (_punctuation == null || string.IsNullOrWhiteSpace(text))
@@ -441,7 +508,7 @@ namespace t9s2t.Engines
                     if (_punctuation != null && !string.IsNullOrWhiteSpace(text))
                         text = AddPunctuation(text);
 
-                    return text;
+                    return NormalizeText(text);
                 }
                 catch (Exception ex)
                 {
@@ -467,7 +534,7 @@ namespace t9s2t.Engines
                     if (_punctuation != null)
                         finalText = AddPunctuation(finalText);
 
-                    return finalText.Trim();
+                    return NormalizeText(finalText);
                 }
                 catch (Exception ex)
                 {
