@@ -794,7 +794,116 @@ namespace t9s2t
         /// <param name="onProgress">进度回调 (已下载字节, 总字节)；总字节未知时传 0</param>
         private static Task DownloadFileAsync(string url, string destPath, Action<long, long> onProgress = null, int retries = 3)
         {
-            return Task.Run(() => DownloadFileCore(url, destPath, onProgress, retries));
+            return Task.Run(() =>
+            {
+                // 先试多线程分片：公司/校园网常按单连接限速，多连接能成倍提速
+                if (TryDownloadParallel(url, destPath, onProgress))
+                    return;
+                DownloadFileCore(url, destPath, onProgress, retries);
+            });
+        }
+
+        /// <summary>
+        /// 多连接分段下载。返回 true 表示已经完整下好；false 则交回单线程逻辑处理。
+        /// </summary>
+        private static bool TryDownloadParallel(string url, string destPath, Action<long, long> onProgress, int parts = 4)
+        {
+            try
+            {
+                long total = GetRemoteLength(url);
+                if (total <= 0 || total < 4 * 1024 * 1024) return false;   // 小文件没必要
+
+                long partSize = total / parts;
+                var tasks = new System.Threading.Tasks.Task[parts];
+                var done = new long[parts];
+                string[] partFiles = new string[parts];
+
+                for (int i = 0; i < parts; i++)
+                {
+                    int idx = i;
+                    long start = idx * partSize;
+                    long end = (idx == parts - 1) ? total - 1 : start + partSize - 1;
+                    partFiles[idx] = destPath + ".part" + idx;
+
+                    tasks[idx] = System.Threading.Tasks.Task.Run(() =>
+                    {
+                        var req = (HttpWebRequest)WebRequest.Create(url);
+                        req.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)";
+                        req.Accept = "*/*";
+                        req.AllowAutoRedirect = true;
+                        req.Timeout = 30000;
+                        req.ReadWriteTimeout = 60000;
+                        req.AddRange(start, end);
+
+                        using (var resp = (HttpWebResponse)req.GetResponse())
+                        {
+                            if (resp.StatusCode != HttpStatusCode.PartialContent)
+                                throw new IOException("服务端不支持分段下载");
+                            using (var src = resp.GetResponseStream())
+                            using (var fs = new FileStream(partFiles[idx], FileMode.Create, FileAccess.Write, FileShare.None))
+                            {
+                                var buf = new byte[81920];
+                                int n;
+                                while ((n = src.Read(buf, 0, buf.Length)) > 0)
+                                {
+                                    fs.Write(buf, 0, n);
+                                    done[idx] += n;
+                                    if (onProgress != null)
+                                    {
+                                        long sum = 0;
+                                        for (int k = 0; k < parts; k++) sum += done[k];
+                                        onProgress(sum, total);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                System.Threading.Tasks.Task.WaitAll(tasks, 30 * 60 * 1000);
+
+                // 拼文件
+                using (var dst = new FileStream(destPath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    for (int i = 0; i < parts; i++)
+                    {
+                        using (var src = new FileStream(partFiles[i], FileMode.Open, FileAccess.Read))
+                            src.CopyTo(dst);
+                    }
+                }
+
+                long size = new FileInfo(destPath).Length;
+                if (size != total) throw new IOException($"分片合并后长度不符（{size}/{total}）");
+
+                for (int i = 0; i < parts; i++) { try { File.Delete(partFiles[i]); } catch { } }
+                Debug.WriteLine($"[t9s2t] 分段下载完成，{parts} 线程，{total / 1048576.0:F1} MB");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[t9s2t] 分段下载不可用，回退单线程: {ex.Message}");
+                for (int i = 0; i < parts; i++) { try { File.Delete(destPath + ".part" + i); } catch { } }
+                return false;
+            }
+        }
+
+        /// <summary>探测文件大小与是否支持 Range，不支持返回 -1</summary>
+        private static long GetRemoteLength(string url)
+        {
+            try
+            {
+                var head = (HttpWebRequest)WebRequest.Create(url);
+                head.Method = "HEAD";
+                head.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)";
+                head.Timeout = 20000;
+                using (var r = (HttpWebResponse)head.GetResponse())
+                {
+                    if (!string.Equals(r.Headers["Accept-Ranges"], "bytes", StringComparison.OrdinalIgnoreCase))
+                        return -1;
+                    return r.ContentLength;
+                }
+            }
+            catch { return -1; }
         }
 
         private static void DownloadFileCore(string url, string destPath, Action<long, long> onProgress, int retries)
