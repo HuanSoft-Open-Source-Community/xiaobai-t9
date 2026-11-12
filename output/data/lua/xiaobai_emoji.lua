@@ -103,15 +103,44 @@ local rows = {
 
 local M = {}
 
+-- 前缀匹配：7 + 3 位以上就开始出候选，越接近完整编码排得越前。
+-- 7 单独（字母）和 7+两位短码（标点）不参与，保持原样。
+local keys = {}
+for code, row in pairs(rows) do
+  keys[#keys + 1] = { code = code, name = row[1], syms = row[2] }
+end
+table.sort(keys, function(a, b) return #a.code < #b.code end)
+
 function M.func(input, seg, env)
   if not input or input:sub(1, 1) ~= "7" then return end
-  local row = rows[input:sub(2)]
-  if not row then return end
-  local name, syms = row[1], row[2]
-  for s in syms:gmatch("%S+") do
-    local c = Candidate("emoji", seg.start, seg._end, s, name)
-    c.quality = 100
-    yield(c)
+  local q = input:sub(2)
+  if #q < 3 then return end
+
+  local shown = 0
+  -- 完全匹配优先
+  local exact = rows[q]
+  if exact then
+    for sym in exact[2]:gmatch("%S+") do
+      local c = Candidate("emoji", seg.start, seg._end, sym, exact[1])
+      c.quality = 100
+      yield(c)
+      shown = shown + 1
+    end
+  end
+
+  for _, e in ipairs(keys) do
+    if shown >= 8 then break end
+    if e.code ~= q and e.code:sub(1, #q) == q then
+      local first = true
+      for sym in e.syms:gmatch("%S+") do
+        if shown >= 8 then break end
+        local c = Candidate("emoji", seg.start, seg._end, sym, e.name)
+        c.quality = 90 - shown
+        yield(c)
+        shown = shown + 1
+        first = false
+      end
+    end
   end
 end
 
