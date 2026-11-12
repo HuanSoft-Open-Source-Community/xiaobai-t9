@@ -37,6 +37,13 @@ namespace t9s2t
         // ==================== 动态 UI 控件 ====================
         private CheckBox chkAutoStart;
 
+        // 开机自启：沿用旧的 Run 值名 "t9s2t"；用户手动关过会单独记一个标记，
+        // 免得引擎装好后又被自动勾上，跟用户的意愿打架
+        private const string AutoStartRunValue = "t9s2t";
+        private const string AutoStartOptOutSubKey = @"Software\XiaobaiT9\t9s2t";
+        private const string AutoStartOptOutValue = "AutoStartUserDisabled";
+        private bool _suppressAutoStartEvent;
+
         // ==================== 远程模型配置地址 ====================
         private readonly string remoteModelsJsonUrl = "https://t9.xiaobai.pro/models/models.json";
         // 引擎运行时 DLL  远程配置地址
@@ -172,8 +179,40 @@ namespace t9s2t
             this.FormClosing += Form1_FormClosing;
         }
 
+
+        /// <summary>
+        /// 统一外观：浅灰底 + 白底细边按钮。只改配色和按钮样式，
+        /// 不动任何控件的位置与尺寸，避免影响既有布局。
+        /// </summary>
+        private void ApplyVoiceTheme()
+        {
+            this.BackColor = Color.FromArgb(242, 243, 245);
+            StyleVoiceControls(this);
+        }
+
+        private void StyleVoiceControls(Control parent)
+        {
+            foreach (Control c in parent.Controls)
+            {
+                Button btn = c as Button;
+                if (btn != null && !string.IsNullOrEmpty(btn.Text) && btn.FlatStyle != FlatStyle.Flat)
+                {
+                    btn.UseVisualStyleBackColor = false;
+                    btn.FlatStyle = FlatStyle.Flat;
+                    btn.FlatAppearance.BorderSize = 1;
+                    btn.FlatAppearance.BorderColor = Color.FromArgb(208, 213, 221);
+                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(240, 244, 250);
+                    if (btn.BackColor == SystemColors.Control) btn.BackColor = Color.White;
+                    btn.ForeColor = Color.FromArgb(52, 64, 84);
+                    btn.Cursor = Cursors.Hand;
+                }
+                if (c.HasChildren) StyleVoiceControls(c);
+            }
+        }
+
         private async void Form1_Load(object sender, EventArgs e)
         {
+            ApplyVoiceTheme();
             bool createdNew;
             _mutex = new Mutex(true, "Global\\t9s2t_single_instance_mutex_v3", out createdNew);
 
@@ -206,7 +245,7 @@ namespace t9s2t
                 Size = new Size(300, 24),
                 Font = new Font("Segoe UI", 9F),
                 ForeColor = Color.FromArgb(80, 80, 80),
-                Checked = IsAutoStartEnabled()
+                Checked = ResolveAutoStartOnStartup()
             };
             chkAutoStart.CheckedChanged += ChkAutoStart_CheckedChanged;
             this.Controls.Add(chkAutoStart);
@@ -311,23 +350,93 @@ namespace t9s2t
 
         private void ChkAutoStart_CheckedChanged(object sender, EventArgs e)
         {
+            if (_suppressAutoStartEvent) return;
             try
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
-                {
-                    // 必须加引号：安装目录形如 C:\Program Files (x86)\...，含空格时
-                    // 不加引号的 Run 值会被系统错误解析，自启动直接失效
-                    if (chkAutoStart.Checked) key.SetValue("t9s2t", "\"" + Application.ExecutablePath + "\"");
-                    else key.DeleteValue("t9s2t", false);
-                }
+                EnableAutoStart(chkAutoStart.Checked);
+                SetAutoStartOptOut(!chkAutoStart.Checked);   // 记住用户关过，别自动帮他打开
             }
-            catch (Exception ex) { MessageBox.Show("设置开机自启失败: " + ex.Message); chkAutoStart.Checked = !chkAutoStart.Checked; }
+            catch (Exception ex)
+            {
+                MessageBox.Show("设置开机自启失败: " + ex.Message);
+                _suppressAutoStartEvent = true;
+                chkAutoStart.Checked = !chkAutoStart.Checked;
+                _suppressAutoStartEvent = false;
+            }
         }
 
         private bool IsAutoStartEnabled()
         {
             try { using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", false)) return key.GetValue("t9s2t") != null; }
             catch { return false; }
+        }
+        /// <summary>写/删 HKCU\...\Run 里的自启项（不改复选框）</summary>
+        private void EnableAutoStart(bool enable)
+        {
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+            {
+                if (key == null) throw new InvalidOperationException("无法打开启动项注册表");
+                // 必须加引号：安装目录形如 C://Program Files (x86)\...，含空格时
+                // 不加引号的 Run 值会被系统错误解析，自启动直接失效
+                if (enable) key.SetValue(AutoStartRunValue, "\"" + Application.ExecutablePath + "\"");
+                else key.DeleteValue(AutoStartRunValue, false);
+            }
+        }
+
+        private bool IsAutoStartOptOut()
+        {
+            try
+            {
+                using (var key = Registry.CurrentUser.OpenSubKey(AutoStartOptOutSubKey, false))
+                    return key != null && Convert.ToInt32(key.GetValue(AutoStartOptOutValue) ?? 0) == 1;
+            }
+            catch { return false; }
+        }
+
+        private void SetAutoStartOptOut(bool value)
+        {
+            try
+            {
+                using (var key = Registry.CurrentUser.CreateSubKey(AutoStartOptOutSubKey))
+                    if (key != null) key.SetValue(AutoStartOptOutValue, value ? 1 : 0, RegistryValueKind.DWord);
+            }
+            catch { }
+        }
+
+        /// <summary>引擎 DLL + 模型都在 = 语音功能可用</summary>
+        private bool IsVoiceReady()
+        {
+            try { return AreEngineDllsReady() && IsModelInstalled(); }
+            catch { return false; }
+        }
+
+        /// <summary>
+        /// 启动时复选框初值：已启用→勾；用户手动关过→不勾；
+        /// 没关过且引擎与模型都就绪→默认勾上
+        /// </summary>
+        private bool ResolveAutoStartOnStartup()
+        {
+            if (IsAutoStartEnabled()) return true;
+            if (IsAutoStartOptOut()) return false;
+            if (!IsVoiceReady()) return false;
+            try { EnableAutoStart(true); return true; } catch { return false; }
+        }
+
+        /// <summary>模型刚装好时调用：用户没主动关过就默认打开开机自启</summary>
+        private void EnsureAutoStartDefault()
+        {
+            if (IsAutoStartEnabled() || IsAutoStartOptOut()) return;
+            try
+            {
+                EnableAutoStart(true);
+                if (chkAutoStart != null && !chkAutoStart.Checked)
+                {
+                    _suppressAutoStartEvent = true;
+                    chkAutoStart.Checked = true;
+                    _suppressAutoStartEvent = false;
+                }
+            }
+            catch { }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -963,6 +1072,7 @@ namespace t9s2t
         /// </summary>
         private void SetModelReadyButtonState()
         {
+            EnsureAutoStartDefault();     // 引擎与模型都就绪时，默认打开开机自启
             btnDownloadModel.Enabled = false;
             btnDownloadModel.Text = "✅ 模型已就绪";
             btnDownloadModel.BackColor = SystemColors.Control;

@@ -203,7 +203,7 @@
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "小白T9语音输入 - 按住 Ctrl+Alt+D 开始语音输入";
+            this.Text = "小白T9 · 语音输入";
             this.statusPanel.ResumeLayout(false);
             this.adPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.qrTaobao)).EndInit();

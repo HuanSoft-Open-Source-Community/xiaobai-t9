@@ -316,16 +316,49 @@ namespace NumKeyboardTray
         #endregion
 
         #region 小键盘检测
+        private bool _wasInserted;
+        private bool _firstCheck = true;
+
         private void CheckKeyboardAndHook()
         {
             // 强制断开模式下不安装钩子
             if (isForceDisconnectMode)
             {
                 if (_hookID != IntPtr.Zero) { UnhookWindowsHookEx(_hookID); _hookID = IntPtr.Zero; }
+                _wasInserted = false;
                 return;
             }
-            if (IsKeyboardInsertedByVIDPID()) { if (_hookID == IntPtr.Zero) { _hookID = SetHook(_proc); ShowStatus("小白T9键盘已插入！"); } }
-            else { if (_hookID != IntPtr.Zero) { UnhookWindowsHookEx(_hookID); _hookID = IntPtr.Zero; ShowStatus("未检测到键盘！"); } }
+
+            bool inserted = IsKeyboardInsertedByVIDPID();
+            if (inserted)
+            {
+                if (_hookID == IntPtr.Zero) { _hookID = SetHook(_proc); ShowStatus("小白T9键盘已插入！"); }
+                // 插上的那一刻把驱动界面摆出来；程序刚启动时的首次检测不算（否则一开机就弹）
+                if (!_firstCheck && !_wasInserted) ShowDriverWindow();
+            }
+            else
+            {
+                if (_hookID != IntPtr.Zero) { UnhookWindowsHookEx(_hookID); _hookID = IntPtr.Zero; ShowStatus("未检测到键盘！"); }
+            }
+
+            _wasInserted = inserted;
+            _firstCheck = false;
+        }
+
+        /// <summary>键盘插入时把驱动界面显示出来</summary>
+        private void ShowDriverWindow()
+        {
+            try
+            {
+                this.Show();
+                this.ShowInTaskbar = true;
+                if (this.WindowState == FormWindowState.Minimized)
+                    this.WindowState = FormWindowState.Normal;
+                this.Activate();
+                this.BringToFront();
+                ShowStatus("检测到键盘已插入，已打开驱动界面。");
+            }
+            catch { }
         }
         private bool IsKeyboardInsertedByVIDPID()
         {

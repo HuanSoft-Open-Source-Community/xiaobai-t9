@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Microsoft.Win32;
 using System.Security.Principal;
-using System.Text;
 using System.Drawing;
-using System.Collections.Generic;
 
 
 namespace XiaobaiT9Updater
@@ -23,6 +25,7 @@ namespace XiaobaiT9Updater
         private bool isCheckingForUpdate = false;
         private bool isStartupCheck = false;
         private bool cancelAutoExit = false;
+        private bool gramBusy = false;
 
         // 语法模型文件路径
         private string gramFilePath;
@@ -38,9 +41,9 @@ namespace XiaobaiT9Updater
 
             // 新增：schema 文件路径
             schemaFilePath = Path.Combine(installPath, "data", "xiaobai_simp.schema.yaml");
-            gramFilePath = Path.Combine(installPath, "data", "wanxiang-lts-zh-hans.gram");
+            gramFilePath = Path.Combine(installPath, "data", GramManager.GramFileName);
 
-            textBox3.Text = "安装路径:\r\n" + installPath + "\r\n\r\n当前版本: " + currentVersion;
+            textBox3.Text = "安装路径:\r\n" + installPath + "\r\n\r\n当前版本: " + currentVersion + "\r\n";
 
             chkAutoUpdateOnStartup.Checked = LoadAutoCheckSetting();
             lblVersion.Text = "当前版本: " + currentVersion;
@@ -53,8 +56,8 @@ namespace XiaobaiT9Updater
             chkAutoUpdateOnStartup.CheckedChanged += chkAutoUpdateOnStartup_CheckedChanged;
             if (btnForceDownload != null)
                 btnForceDownload.Click += btnForceDownload_Click;
-            //if (btnManageGram != null)
-            //    btnManageGram.Click += btnManageGram_Click;
+            if (btnManageGram != null)
+                btnManageGram.Click += btnManageGram_Click;
             // 【新增】：程序关闭时检查并确保算法服务运行
             this.FormClosing += UpdateForm_FormClosing;
         }
@@ -219,7 +222,7 @@ namespace XiaobaiT9Updater
             }
             if (!btnCheckUpdate.Text.Contains("点击取消"))
             {
-                btnCheckUpdate.Enabled = !isCheckingForUpdate;
+                btnCheckUpdate.Enabled = !isCheckingForUpdate && !gramBusy;
                 btnCheckUpdate.Text = isCheckingForUpdate ? "正在检查更新…" : "检查更新";
             }
         }
@@ -370,210 +373,310 @@ namespace XiaobaiT9Updater
             }
         }
 
-
-
-
-        private async void btnForceDownload_Click(object sender, EventArgs e)
+        private void btnForceDownload_Click(object sender, EventArgs e)
         {
-            string url = "https://t9.xiaobai.pro";
-
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = url,
+                FileName = "https://t9.xiaobai.pro",
                 UseShellExecute = true   // 必须设置为 true，才能用默认浏览器打开
             };
 
             Process.Start(psi);
         }
 
+        // ==================== 万象语法模型 ====================
 
+        private void Log(string message)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<string>(Log), message);
+                return;
+            }
+            textBox3.AppendText("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + message + "\r\n");
+        }
 
+        private void EnableGramUi(bool enabled)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<bool>(EnableGramUi), enabled);
+                return;
+            }
+            btnManageGram.Enabled = enabled;
+            btnCheckUpdate.Enabled = enabled && !isCheckingForUpdate;
+            btnForceDownload.Enabled = enabled;
+            button1.Enabled = enabled;
+        }
 
-        //private async void btnForceDownload_Click(object sender, EventArgs e)
-        //{
-        //    cancelAutoExit = true;
-        //    if (btnCheckUpdate.Text.Contains("点击取消"))
-        //        btnCheckUpdate.Text = "检查更新";
+        private void UpdateProgress(int percent, string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<int, string>(UpdateProgress), percent, text);
+                return;
+            }
+            progressBarDownload.Value = Math.Max(0, Math.Min(100, percent));
+            lblGramStatus.Text = text;
+            lblGramStatus.ForeColor = SystemColors.ControlText;
+        }
 
-        //    if (MessageBox.Show("确定要强制下载并安装最新版吗？\n\n即使已是最新版也会重新覆盖。",
-        //        "强制下载最新版", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-        //        return;
+        private async void btnManageGram_Click(object sender, EventArgs e)
+        {
+            if (gramBusy) return;
 
-        //    btnForceDownload.Enabled = false;
-        //    btnForceDownload.Text = "正在获取…";
-        //    if (lblLatestVersion != null) lblLatestVersion.Text = "正在获取...";
+            // 正在做模型相关操作时，取消“已是最新版”的自动退出倒计时
+            cancelAutoExit = true;
+            if (btnCheckUpdate.Text.Contains("点击取消") || btnCheckUpdate.Text.Contains("s) 内点击取消"))
+                btnCheckUpdate.Text = "检查更新";
 
-        //    try
-        //    {
-        //        HttpClient client = new HttpClient();
-        //        client.Timeout = TimeSpan.FromSeconds(30);
-        //        string json = await client.GetStringAsync(updateApiUrl);
-        //        UpdateInfo info = JsonConvert.DeserializeObject<UpdateInfo>(json);
-        //        await ReportAsync("force_update", true);
+            gramBusy = true;
+            EnableGramUi(false);
+            try
+            {
+                if (File.Exists(gramFilePath))
+                    await RemoveGramAsync();
+                else
+                    await InstallGramAsync();
+            }
+            catch (Exception ex)
+            {
+                Log("操作失败：" + ex.Message);
+                MessageBox.Show(this, ex.Message, "操作失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                gramBusy = false;
+                EnableGramUi(true);
+                progressBarDownload.Value = 0;
+                UpdateGramButtonState();
+            }
+        }
 
-        //        if (info != null && !string.IsNullOrEmpty(info.version))
-        //            if (lblLatestVersion != null) lblLatestVersion.Text = "最新版本: " + info.version;
+        private async Task InstallGramAsync()
+        {
+            bool engine = GramManager.EnginePresent(installPath);
+            bool capable = engine && GramManager.EngineSupportsGrammar(installPath);
+            string tip;
+            if (capable)
+                tip = "将下载官方万象 LTS 语法模型（约 398 MB）到：\r\n" + gramFilePath +
+                      "\r\n\r\n下载完成后自动启用 grammar 配置并重新部署，首次部署约需一分钟。";
+            else if (!engine)
+                tip = "当前目录下没有 rime.dll（看起来不是安装目录，例如 bin\\Debug），" +
+                      "下载后不会立刻生效。\r\n\r\n正式安装的版本自带 Octagram，不需要额外组件。\r\n\r\n仍要下载吗？\r\n\r\n目标位置：" + gramFilePath;
+            else
+                tip = "当前引擎里没有 Octagram 组件，模型下载后不会参与组句。\r\n\r\n仍要下载吗？\r\n\r\n目标位置：" + gramFilePath;
 
-        //        if (info != null && !string.IsNullOrEmpty(info.download_url))
-        //            await DownloadAndRunUpdate(client, info.download_url);
-        //        else
-        //            MessageBox.Show("无法获取下载地址", "错误");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("强制下载失败：\n" + ex.Message, "错误");
-        //        if (lblLatestVersion != null) lblLatestVersion.Text = "最新版本: 获取失败";
-        //    }
-        //    finally
-        //    {
-        //        btnForceDownload.Enabled = true;
-        //        btnForceDownload.Text = "强制下载最新版";
-        //    }
-        //}
+            if (MessageBox.Show(this, tip, "下载万象语法模型", MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.OK)
+                return;
 
-        //private async Task DownloadAndRunUpdate(HttpClient client, string url)
-        //{
-        //    string temp = Path.Combine(Path.GetTempPath(), "xiaobai_t9_update.exe");
-        //    textBox1.Text = temp;
-        //    try
-        //    {
-        //        progressBarDownload.Value = 0;
-        //        HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-        //        response.EnsureSuccessStatusCode();
-        //        long? total = response.Content.Headers.ContentLength;
-        //        long read = 0;
-        //        Stream stream = await response.Content.ReadAsStreamAsync();
-        //        FileStream fs = new FileStream(temp, FileMode.Create, FileAccess.Write, FileShare.None);
-        //        try
-        //        {
-        //            byte[] buffer = new byte[8192];
-        //            int bytes;
-        //            while ((bytes = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-        //            {
-        //                await fs.WriteAsync(buffer, 0, bytes);
-        //                read += bytes;
-        //                if (total.HasValue && total.Value > 0)
-        //                {
-        //                    int p = (int)(read * 100 / total.Value);
-        //                    if (InvokeRequired)
-        //                        Invoke(new Action(() => progressBarDownload.Value = p));
-        //                    else
-        //                        progressBarDownload.Value = p;
-        //                }
-        //            }
-        //        }
-        //        finally
-        //        {
-        //            fs.Close();
-        //            stream.Close();
-        //        }
+            string part = Path.Combine(Path.GetTempPath(), GramManager.GramFileName + ".part");
+            Log("开始下载语法模型（支持断点续传，临时文件：" + part + "）");
+            await DownloadGramFile(part);
 
-        //        Process.Start(new ProcessStartInfo(temp) { UseShellExecute = true });
-        //        Application.Exit();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("下载失败：\n" + ex.Message, "错误");
-        //        if (File.Exists(temp)) File.Delete(temp);
-        //    }
-        //}
+            bool applied;
+            try
+            {
+                Log("正在停止算法服务、落地模型并重新部署（约需一分钟）……");
+                await Task.Run(() => GramManager.Apply(part, installPath));
+                applied = true;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Log("当前权限不足，正在申请管理员权限完成安装……");
+                applied = GramManager.RelaunchElevated("--apply-gram", part);
+            }
+            finally
+            {
+                try { if (File.Exists(part)) File.Delete(part); } catch { }
+            }
 
-        ////private async void btnManageGram_Click(object sender, EventArgs e)
-        //{
-        //    // 新快捷方式：启动算法服务（相当于重启小狼毫）
-        //    string serviceShortcutPath = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\小白T9输入法\小白T9输入法算法服务.lnk";
+            if (!applied)
+                throw new Exception("未能完成安装。请右键“以管理员身份运行”本程序后重试。");
 
-        //    // 如果即将下载模型，也取消自动退出倒计时
-        //    if (!File.Exists(gramFilePath))
-        //    {
-        //        cancelAutoExit = true;
-        //        if (btnCheckUpdate.Text.Contains("点击取消") || btnCheckUpdate.Text.Contains("s) 内点击取消"))
-        //        {
-        //            btnCheckUpdate.Text = "检查更新";
-        //            textBox3.Text += "\r\n\r\n[操作] 已取消自动关闭（正在处理语法模型）。";
-        //        }
-        //    }
+            Log("已安装并启用语法模型。");
+            MessageBox.Show(this,
+                "万象语法模型已安装并启用。\r\n\r\n首次重新部署约需一分钟，输入法会自动重载。",
+                "完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
-        //    btnManageGram.Enabled = false;
+        private async Task RemoveGramAsync()
+        {
+            if (MessageBox.Show(this,
+                    "确定要删除万象语法模型并关闭 grammar 配置吗？\r\n\r\n删除后长句候选改用引擎内置词频，文件可随时重新下载。",
+                    "删除万象语法模型", MessageBoxButtons.YesNo, MessageBoxIcon.Warning,
+                    MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+                return;
 
-        //    try
-        //    {
-        //        // 第一步：强制停止算法服务（避免文件占用）
-        //        btnManageGram.Text = "正在停止算法服务…";
+            bool removed;
+            try
+            {
+                Log("正在停止算法服务、删除模型并重新部署……");
+                await Task.Run(() => GramManager.Remove(installPath));
+                removed = true;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Log("当前权限不足，正在申请管理员权限完成删除……");
+                removed = GramManager.RelaunchElevated("--remove-gram");
+            }
 
-        //        string tempBat = Path.Combine(Path.GetTempPath(), "xiaobai_t9_stop_service.bat");
-        //        string batContent = "@echo off\ntaskkill /F /IM WeaselServer.exe >nul 2>&1\nping 127.0.0.1 -n 3 >nul\ndel /F /Q \"%~f0\"";
+            if (!removed)
+                throw new Exception("未能删除模型。请确认已退出输入法，或以管理员身份运行本程序后重试。");
 
-        //        File.WriteAllText(tempBat, batContent, Encoding.Default);
+            Log("已删除语法模型并关闭 grammar 配置。");
+            MessageBox.Show(this, "语法模型已删除，grammar 配置已关闭。", "完成",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
 
-        //        ProcessStartInfo psiStop = new ProcessStartInfo(tempBat)
-        //        {
-        //            UseShellExecute = true,
-        //            Verb = "runas",                 // 提升权限
-        //            WindowStyle = ProcessWindowStyle.Hidden,
-        //            CreateNoWindow = true
-        //        };
+        private async Task DownloadGramFile(string partPath)
+        {
+            long existing = 0;
+            try
+            {
+                if (File.Exists(partPath)) existing = new FileInfo(partPath).Length;
+            }
+            catch { existing = 0; }
 
-        //        Process.Start(psiStop)?.WaitForExit(8000); // 等待最多8秒
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("停止算法服务失败：\n" + ex.Message + "\n\n将继续尝试后续操作，但可能失败。", "警告");
-        //    }
+            if (existing >= GramManager.GramFileSize)
+            {
+                try { File.Delete(partPath); } catch { }
+                existing = 0;
+            }
+            if (existing > 0)
+                Log("检测到未完成的下载，从 " + (existing / 1048576.0).ToString("F1") + " MB 处继续。");
 
-        //    try
-        //    {
-        //        if (File.Exists(gramFilePath))
-        //        {
-        //            // ============ 删除模型 ============
-        //            btnManageGram.Text = "正在删除模型文件…";
+            Exception last = null;
+            foreach (string url in GramManager.GramUrls)
+            {
+                try
+                {
+                    Log("下载源：" + url);
+                    await DownloadFrom(url, partPath, existing);
 
-        //            // 直接删除（服务已停，应该不会被占用）
-        //            File.Delete(gramFilePath);
+                    Log("正在校验文件完整性……");
+                    long size = new FileInfo(partPath).Length;
+                    if (size != GramManager.GramFileSize)
+                        throw new Exception("文件大小不符（" + size + " 字节，应为 " + GramManager.GramFileSize + " 字节）");
 
-        //            // 禁用 grammar 配置
-        //            ToggleGrammarConfig(enable: false);
+                    string sha = GramManager.Sha256OfFile(partPath);
+                    if (!string.Equals(sha, GramManager.GramSha256, StringComparison.OrdinalIgnoreCase))
+                        throw new Exception("SHA-256 不匹配（" + sha.Substring(0, 16) + "…）");
 
-        //            MessageBox.Show("万象语法模型已成功删除。\n\n已自动禁用相关配置，正在重启算法服务以生效...", "操作成功");
-        //        }
-        //        else
-        //        {
-        //            // ============ 下载模型 ============
-        //            btnManageGram.Text = "正在下载模型…";
+                    Log("校验通过：" + sha.Substring(0, 16) + "…");
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    last = ex;
+                    Log("该源未通过：" + ex.Message);
+                    // 内容有问题就删掉重下；纯网络中断则保留，方便下次续传
+                    bool badContent = ex.Message.IndexOf("不符", StringComparison.Ordinal) >= 0 ||
+                                      ex.Message.IndexOf("SHA-256", StringComparison.Ordinal) >= 0;
+                    if (badContent)
+                    {
+                        try { if (File.Exists(partPath)) File.Delete(partPath); } catch { }
+                        existing = 0;
+                    }
+                }
+            }
 
-        //            string dataFolder = Path.GetDirectoryName(gramFilePath);
-        //            Directory.CreateDirectory(dataFolder);
+            throw new Exception("所有下载地址均失败：" + (last == null ? "未知错误" : last.Message) +
+                                "\r\n\r\n若本机无法访问 GitHub，可把同一份文件上传到 https://t9.xiaobai.pro/models/wanxiang-lts-zh-hans.gram 后再试。");
+        }
 
-        //            await DownloadGramFile();
+        private async Task DownloadFrom(string url, string partPath, long existing)
+        {
+            using (var client = new HttpClient())
+            {
+                client.Timeout = TimeSpan.FromMinutes(120);
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("XiaobaiT9Updater/1.0");
 
-        //            // 启用 grammar 配置（含缩进修正）
-        //            ToggleGrammarConfig(enable: true);
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                if (existing > 0)
+                    request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(existing, null);
 
-        //            MessageBox.Show("万象语法模型下载完成。\n\n已自动启用相关配置，正在重启算法服务以生效...", "操作成功");
-        //        }
+                using (var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead))
+                {
+                    bool resumed = existing > 0 && response.StatusCode == HttpStatusCode.PartialContent;
+                    if (existing > 0 && !resumed) existing = 0;
+                    if (!resumed) response.EnsureSuccessStatusCode();
 
-        //        // 最后一步：启动算法服务快捷方式（重启小狼毫服务，加载新配置）
-        //        if (File.Exists(serviceShortcutPath))
-        //        {
-        //            btnManageGram.Text = "正在启动算法服务…";
-        //            await Task.Delay(500); // 给用户一点视觉反馈
-        //            Process.Start(new ProcessStartInfo(serviceShortcutPath) { UseShellExecute = true });
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("警告：未找到“小白T9输入法算法服务”快捷方式。\n\n请手动启动算法服务以使更改生效。", "提示");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("操作失败：\n" + ex.Message + "\n\n可能原因：权限不足、网络问题或文件被占用。", "错误");
-        //    }
-        //    finally
-        //    {
-        //        btnManageGram.Enabled = true;
-        //        UpdateGramButtonState(); // 刷新按钮文字（下载/删除）
-        //    }
-        //}
+                    long total = existing + (response.Content.Headers.ContentLength ?? Math.Max(0, GramManager.GramFileSize - existing));
+
+                    using (var input = await response.Content.ReadAsStreamAsync())
+                    using (var output = new FileStream(partPath, resumed ? FileMode.Append : FileMode.Create,
+                               FileAccess.Write, FileShare.None, 81920, true))
+                    {
+                        byte[] buffer = new byte[81920];
+                        long read = existing;
+                        long speedBase = existing;
+                        var speedWatch = Stopwatch.StartNew();
+                        DateTime lastReport = DateTime.MinValue;
+                        int bytes;
+
+                        while ((bytes = await input.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        {
+                            await output.WriteAsync(buffer, 0, bytes);
+                            read += bytes;
+
+                            if ((DateTime.UtcNow - lastReport).TotalMilliseconds >= 300)
+                            {
+                                lastReport = DateTime.UtcNow;
+                                int percent = total > 0 ? (int)(read * 100 / total) : 0;
+                                double speed = speedWatch.Elapsed.TotalSeconds > 0.2
+                                    ? (read - speedBase) / speedWatch.Elapsed.TotalSeconds
+                                    : 0;
+                                UpdateProgress(percent, string.Format(
+                                    "正在下载语法模型 {0:F1}/{1:F1} MB（{2:F1} MB/s）",
+                                    read / 1048576.0, total / 1048576.0, speed / 1048576.0));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateGramButtonState()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(UpdateGramButtonState));
+                return;
+            }
+
+            bool exists = File.Exists(gramFilePath);
+            bool engine = GramManager.EnginePresent(installPath);
+            bool capable = engine && GramManager.EngineSupportsGrammar(installPath);
+
+            if (btnManageGram != null)
+                btnManageGram.Text = exists ? "删除万象语法模型" : "下载万象语法模型（约 398 MB）";
+
+            if (lblGramStatus != null)
+            {
+                if (!engine)
+                {
+                    // 开发目录（bin\Debug）下没有 rime.dll，这不是"引擎不支持"
+                    lblGramStatus.Text = "万象语法模型: 未安装（当前目录没有 rime.dll，安装后自动检测）";
+                    lblGramStatus.ForeColor = Color.DimGray;
+                }
+                else if (exists)
+                {
+                    lblGramStatus.Text = capable
+                        ? "万象语法模型: 已安装"
+                        : "万象语法模型: 已安装（当前引擎不含 Octagram，不会生效）";
+                    lblGramStatus.ForeColor = capable ? Color.Green : Color.DarkOrange;
+                }
+                else
+                {
+                    lblGramStatus.Text = capable
+                        ? "万象语法模型: 未安装"
+                        : "万象语法模型: 未安装（当前引擎不含 Octagram）";
+                    lblGramStatus.ForeColor = capable ? Color.DimGray : Color.Red;
+                }
+            }
+        }
 
         private void UpdateForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -600,201 +703,6 @@ namespace XiaobaiT9Updater
             catch
             {
                 // 静默失败，不影响程序退出
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //private async Task DownloadGramFile()
-        //{
-        //    string url = "https://github.com/amzxyz/RIME-LMDG/releases/download/LTS/wanxiang-lts-zh-hans.gram";
-        //    HttpClient client = new HttpClient();
-        //    client.Timeout = TimeSpan.FromSeconds(120); // 大文件建议超时长一点
-
-        //    progressBarDownload.Value = 0;
-        //    HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-        //    response.EnsureSuccessStatusCode();
-
-        //    long? total = response.Content.Headers.ContentLength;
-        //    long read = 0;
-        //    Stream stream = await response.Content.ReadAsStreamAsync();
-
-        //    using (FileStream fs = new FileStream(gramFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
-        //    {
-        //        byte[] buffer = new byte[8192];
-        //        int bytes;
-        //        while ((bytes = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-        //        {
-        //            await fs.WriteAsync(buffer, 0, bytes);
-        //            read += bytes;
-        //            if (total.HasValue && total.Value > 0)
-        //            {
-        //                int p = (int)(read * 100 / total.Value);
-        //                if (InvokeRequired)
-        //                    Invoke(new Action(() => progressBarDownload.Value = p));
-        //                else
-        //                    progressBarDownload.Value = p;
-        //            }
-        //        }
-        //    }
-        //}
-
-        /// <summary>
-        /// 启用或禁用 xiaobai_simp.schema.yaml 中的 grammar 配置块
-        /// 精确识别从 "# grammar:" 开始的整个缩进块
-        /// </summary>
-        /// <param name="enable">true=取消注释（启用），false=加上注释（禁用）</param>
-        private void ToggleGrammarConfig(bool enable)
-        {
-            if (!File.Exists(schemaFilePath))
-            {
-                MessageBox.Show("未找到 schema 文件：\n" + schemaFilePath, "警告");
-                return;
-            }
-
-            try
-            {
-                string[] lines = File.ReadAllLines(schemaFilePath, Encoding.UTF8);
-                List<string> newLines = new List<string>();
-
-                bool inGrammarBlock = false;
-
-                foreach (string line in lines)
-                {
-                    string originalTrimmed = line.TrimStart(' ');
-                    int leadingSpaceCount = line.Length - originalTrimmed.Length;
-
-                    // 第一步：如果当前行是下一个顶级项，强制结束 grammar 块
-                    if (inGrammarBlock &&
-                        (originalTrimmed.StartsWith("speller:", StringComparison.Ordinal) ||
-                         originalTrimmed.StartsWith("translator:", StringComparison.Ordinal) ||
-                         originalTrimmed.StartsWith("key_binder:", StringComparison.Ordinal) ||
-                         originalTrimmed.StartsWith("punctuator:", StringComparison.Ordinal) ||
-                         originalTrimmed.StartsWith("recognizer:", StringComparison.Ordinal) ||
-                         originalTrimmed.StartsWith("simplifier:", StringComparison.Ordinal)))
-                    {
-                        inGrammarBlock = false;
-                    }
-
-                    // 第二步：检测是否进入 grammar 块
-                    if (!inGrammarBlock &&
-                        (originalTrimmed.StartsWith("grammar:", StringComparison.Ordinal) ||
-                         originalTrimmed.StartsWith("# grammar:", StringComparison.Ordinal) ||
-                         originalTrimmed.StartsWith("#grammar:", StringComparison.Ordinal)))  // 兼容无空格情况
-                    {
-                        inGrammarBlock = true;
-                    }
-
-                    // 第三步：处理 grammar 块内的行
-                    if (inGrammarBlock)
-                    {
-                        if (enable)
-                        {
-                            // ============ 启用：彻底去掉所有 # 注释 ============
-                            string cleanContent;
-
-                            if (originalTrimmed.StartsWith("#"))
-                            {
-                                // 去掉开头的 # 和它后面的所有空格
-                                cleanContent = originalTrimmed.Substring(1).TrimStart(' ');
-                            }
-                            else
-                            {
-                                cleanContent = originalTrimmed;
-                            }
-
-                            // 去除可能残留的 #（防御性）
-                            if (cleanContent.StartsWith("#"))
-                                cleanContent = cleanContent.TrimStart('#', ' ');
-
-                            if (string.IsNullOrWhiteSpace(cleanContent))
-                            {
-                                newLines.Add("");
-                            }
-                            else if (cleanContent.StartsWith("grammar:"))
-                            {
-                                // grammar: 行：前面完全无空格（按你要求）
-                                newLines.Add("grammar:");
-                            }
-                            else
-                            {
-                                // 子配置行：前面正好 2 个空格
-                                newLines.Add("  " + cleanContent);
-                            }
-                        }
-                        else
-                        {
-                            // ============ 禁用：确保每行都有 # ============
-                            if (!string.IsNullOrWhiteSpace(originalTrimmed) && !originalTrimmed.StartsWith("#"))
-                            {
-                                newLines.Add(new string(' ', leadingSpaceCount) + "#" + originalTrimmed);
-                            }
-                            else
-                            {
-                                newLines.Add(line); // 已经有 # 或为空行
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // 不在 grammar 块，直接原样输出
-                        newLines.Add(line);
-                    }
-                }
-
-                File.WriteAllLines(schemaFilePath, newLines, Encoding.UTF8);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"修改 schema 配置失败：\n{ex.Message}\n\n可能原因：文件被占用或权限不足。", "错误");
-            }
-        }
-
-
-
-
-
-        private void UpdateGramButtonState()
-        {
-            if (InvokeRequired)
-            {
-                Invoke(new Action(UpdateGramButtonState));
-                return;
-            }
-
-            bool exists = File.Exists(gramFilePath);
-
-            if (btnManageGram != null)
-            {
-                btnManageGram.Text = exists ? "删除万象语法模型" : "下载万象语法模型";
-            }
-
-            if (lblGramStatus != null)
-            {
-                if (exists)
-                {
-                    lblGramStatus.Text = "万象语法模型: 已安装";
-                    lblGramStatus.ForeColor = Color.Green;
-                }
-                else
-                {
-                    lblGramStatus.Text = "万象语法模型: 未安装";
-                    lblGramStatus.ForeColor = Color.Red;
-                }
             }
         }
 
@@ -908,5 +816,291 @@ namespace XiaobaiT9Updater
     {
         public bool autoCheck { get; set; } = true;
         public bool autoUpdateOnStartup { get; set; } = true;
+    }
+
+    /// <summary>
+    /// 万象语法模型（wanxiang-lts-zh-hans.gram，418,071,596 字节）的安装与卸载。
+    /// 安装流程与九键 1.4 一致：停止服务 → 落地模型 → 开关 grammar 段 → 重新部署 → 启动服务。
+    /// </summary>
+    internal static class GramManager
+    {
+        public const string GramFileName = "wanxiang-lts-zh-hans.gram";
+        public const long GramFileSize = 418071596L;
+
+        // 与九键 1.4/2.3 随包模型同一份文件（万象 LTS，CC BY 4.0），下载后逐字节校验
+        public const string GramSha256 = "3457B69F5FE0FC4F5D211C878BBFA2E2361B90639952C9845C8E31E9D047CDE6";
+
+        public static readonly string[] GramUrls =
+        {
+            // 自家 NAS（wp.xiaobai.pro:1111，物理目录 \\192.168.50.99\Download\输入法\models）
+            "https://wp.xiaobai.pro:1111/d/%E8%BE%93%E5%85%A5%E6%B3%95/models/wanxiang-lts-zh-hans.gram",
+            // 阿里云 ECS 镜像
+            "https://t9.xiaobai.pro/models/wanxiang-lts-zh-hans.gram",
+            // 上游原始发布（兜底）
+            "https://github.com/amzxyz/rime-wanxiang-data/releases/download/LTS/wanxiang-lts-zh-hans.gram"
+        };
+
+        private static bool? grammarCapable;
+        private static bool? enginePresent;
+
+        public static string GramPath(string installPath)
+        {
+            return Path.Combine(installPath, "data", GramFileName);
+        }
+
+        public static string SchemaPath(string installPath)
+        {
+            return Path.Combine(installPath, "data", "xiaobai_simp.schema.yaml");
+        }
+
+        /// <summary>安装目录里到底有没有 rime.dll（开发目录 bin\Debug 下没有）。</summary>
+        public static bool EnginePresent(string installPath)
+        {
+            if (enginePresent.HasValue) return enginePresent.Value;
+            bool found = false;
+            string[] candidates = { "rime.dll", Path.Combine("Win32", "rime.dll") };
+            foreach (string name in candidates)
+            {
+                try
+                {
+                    if (File.Exists(Path.Combine(installPath, name))) { found = true; break; }
+                }
+                catch { }
+            }
+            enginePresent = found;
+            return found;
+        }
+
+        /// <summary>检测 rime.dll 是否带 Octagram（语法模型）组件。</summary>
+        public static bool EngineSupportsGrammar(string installPath)
+        {
+            if (grammarCapable.HasValue) return grammarCapable.Value;
+
+            bool found = false;
+            string[] candidates = { "rime.dll", Path.Combine("Win32", "rime.dll") };
+            foreach (string name in candidates)
+            {
+                try
+                {
+                    string path = Path.Combine(installPath, name);
+                    if (!File.Exists(path)) continue;
+                    byte[] data = File.ReadAllBytes(path);
+                    string text = Encoding.ASCII.GetString(data);
+                    if (text.IndexOf("octagram", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                catch { }
+            }
+            grammarCapable = found;
+            return found;
+        }
+
+        public static string Sha256OfFile(string path)
+        {
+            using (var sha = SHA256.Create())
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                return BitConverter.ToString(sha.ComputeHash(fs)).Replace("-", "");
+        }
+
+        public static void Apply(string sourceFile, string installPath)
+        {
+            if (!File.Exists(sourceFile)) throw new FileNotFoundException("未找到下载的模型文件：" + sourceFile);
+
+            string target = GramPath(installPath);
+            Directory.CreateDirectory(Path.GetDirectoryName(target));
+
+            StopServer(installPath);
+            File.Copy(sourceFile, target, true);
+            ToggleGrammar(SchemaPath(installPath), true);
+            Deploy(installPath);
+            StartServer(installPath);
+        }
+
+        public static void Remove(string installPath)
+        {
+            string target = GramPath(installPath);
+
+            StopServer(installPath);
+            if (File.Exists(target)) File.Delete(target);
+            ToggleGrammar(SchemaPath(installPath), false);
+            Deploy(installPath);
+            StartServer(installPath);
+        }
+
+        public static void StopServer(string installPath)
+        {
+            string[] exes =
+            {
+                Path.Combine(installPath, "WeaselServer.exe"),
+                Path.Combine(installPath, "Win32", "WeaselServer.exe")
+            };
+            foreach (string exe in exes)
+            {
+                if (!File.Exists(exe)) continue;
+                try
+                {
+                    var info = new ProcessStartInfo(exe, "/quit") { UseShellExecute = false, CreateNoWindow = true };
+                    using (var process = Process.Start(info))
+                    {
+                        if (process != null) process.WaitForExit(6000);
+                    }
+                }
+                catch { }
+            }
+
+            foreach (var process in Process.GetProcessesByName("WeaselServer"))
+            {
+                try
+                {
+                    process.Kill();
+                    process.WaitForExit(4000);
+                }
+                catch { }
+            }
+        }
+
+        public static void StartServer(string installPath)
+        {
+            try
+            {
+                var info = new ProcessStartInfo("schtasks.exe", "/run /tn \"XiaoBaiT9\\WeaselServer\"")
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                using (var process = Process.Start(info))
+                {
+                    if (process != null) process.WaitForExit(8000);
+                }
+            }
+            catch { }
+
+            if (Process.GetProcessesByName("WeaselServer").Length == 0)
+            {
+                try
+                {
+                    string exe = Path.Combine(installPath, "WeaselServer.exe");
+                    if (File.Exists(exe))
+                        Process.Start(new ProcessStartInfo(exe) { UseShellExecute = true });
+                }
+                catch { }
+            }
+        }
+
+        public static void Deploy(string installPath)
+        {
+            string exe = Path.Combine(installPath, "WeaselDeployer.exe");
+            if (!File.Exists(exe)) exe = Path.Combine(installPath, "Win32", "WeaselDeployer.exe");
+            if (!File.Exists(exe)) throw new FileNotFoundException("未找到 WeaselDeployer.exe，无法重新部署。");
+
+            var info = new ProcessStartInfo(exe, "/deploy")
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WorkingDirectory = Path.GetDirectoryName(exe)
+            };
+            using (var process = Process.Start(info))
+            {
+                if (process == null) throw new Exception("启动部署程序失败。");
+                process.WaitForExit(600000);
+            }
+        }
+
+        /// <summary>
+        /// 打开/关闭 schema 里的 grammar 段。只改注释，不动缩进与行尾，保持 UTF-8 无 BOM（与仓库文件一致）。
+        /// </summary>
+        public static void ToggleGrammar(string schemaPath, bool enable)
+        {
+            if (!File.Exists(schemaPath)) throw new FileNotFoundException("未找到方案文件：" + schemaPath);
+
+            byte[] raw = File.ReadAllBytes(schemaPath);
+            bool hasBom = raw.Length >= 3 && raw[0] == 0xEF && raw[1] == 0xBB && raw[2] == 0xBF;
+            string text = new UTF8Encoding(false).GetString(raw, hasBom ? 3 : 0, raw.Length - (hasBom ? 3 : 0));
+            string newline = text.Contains("\r\n") ? "\r\n" : "\n";
+            List<string> lines = new List<string>(text.Replace("\r\n", "\n").Split('\n'));
+
+            int start = -1;
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string trimmed = lines[i].TrimStart();
+                if (trimmed.StartsWith("# grammar:", StringComparison.Ordinal) ||
+                    trimmed.StartsWith("#grammar:", StringComparison.Ordinal) ||
+                    trimmed.StartsWith("grammar:", StringComparison.Ordinal))
+                {
+                    start = i;
+                    break;
+                }
+            }
+            if (start < 0) throw new Exception("方案文件里没有 grammar 段，未做修改。");
+
+            int end = lines.Count;
+            for (int i = start + 1; i < lines.Count; i++)
+            {
+                string trimmed = lines[i].TrimStart();
+                int indent = lines[i].Length - trimmed.Length;
+                if (trimmed.Length == 0) continue;
+                if (indent == 0 && !trimmed.StartsWith("#"))
+                {
+                    end = i;
+                    break;
+                }
+            }
+
+            for (int i = start; i < end; i++)
+            {
+                string line = lines[i];
+                string trimmed = line.TrimStart();
+                int indent = line.Length - trimmed.Length;
+
+                if (enable)
+                {
+                    if (!trimmed.StartsWith("#")) continue;
+                    string content = trimmed.Substring(1).TrimStart(' ');
+                    lines[i] = content.Length == 0 ? string.Empty : new string(' ', indent) + content;
+                }
+                else
+                {
+                    if (trimmed.Length == 0 || trimmed.StartsWith("#")) continue;
+                    lines[i] = new string(' ', indent) + "#" + trimmed;
+                }
+            }
+
+            // grammar: 必须是顶格键；历史上被缩进过的文件在这里纠正
+            if (enable && lines[start].TrimStart().StartsWith("grammar:", StringComparison.Ordinal))
+                lines[start] = "grammar:";
+
+            File.WriteAllText(schemaPath, string.Join(newline, lines.ToArray()), new UTF8Encoding(hasBom));
+        }
+
+        /// <summary>以管理员身份重启自身执行模型操作，成功返回 true。</summary>
+        public static bool RelaunchElevated(params string[] arguments)
+        {
+            var builder = new StringBuilder();
+            foreach (string argument in arguments)
+            {
+                if (builder.Length > 0) builder.Append(' ');
+                builder.Append('"').Append(argument).Append('"');
+            }
+
+            var info = new ProcessStartInfo(Application.ExecutablePath, builder.ToString())
+            {
+                UseShellExecute = true,
+                Verb = "runas"
+            };
+
+            try
+            {
+                using (var process = Process.Start(info))
+                {
+                    if (process == null) return false;
+                    process.WaitForExit();
+                    return process.ExitCode == 0;
+                }
+            }
+            catch { return false; }
+        }
     }
 }

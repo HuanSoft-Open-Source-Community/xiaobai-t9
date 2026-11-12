@@ -15,7 +15,10 @@ bool ConvertKeyEvent(UINT vkey,
   if ((keyState[VK_SHIFT] & KEY_DOWN) != 0)
     result.mask |= ibus::SHIFT_MASK;
 
-  if ((keyState[VK_CAPITAL] & TOGGLED) != 0)
+  // 数字键不带 CapsLock 掩码，否则 key_binder 的 accept: 5 匹配失败，数字会被当成九键编码
+  const bool is_digit_key = (vkey >= '0' && vkey <= '9') ||
+                            (vkey >= VK_NUMPAD0 && vkey <= VK_NUMPAD9);
+  if (!is_digit_key && (keyState[VK_CAPITAL] & TOGGLED) != 0)
     result.mask |= ibus::LOCK_MASK;
 
   if ((keyState[VK_CONTROL] & KEY_DOWN) != 0)

@@ -15,7 +15,12 @@ bool ConvertKeyEvent(UINT vkey,
   if ((keyState[VK_SHIFT] & KEY_DOWN) != 0)
     result.mask |= ibus::SHIFT_MASK;
 
-  if ((keyState[VK_CAPITAL] & TOGGLED) != 0)
+  // 数字键不带 CapsLock 掩码：librime 的 ascii_composer 在 caps() 为真时只处理字母，
+  // 其余按键一律 kRejected，而 key_binder 的 accept: 5 不带掩码会匹配失败，
+  // 结果上排数字会被 speller 当成九键编码。这里对数字键剥掉该掩码，字母仍保留。
+  const bool is_digit_key = (vkey >= '0' && vkey <= '9') ||
+                            (vkey >= VK_NUMPAD0 && vkey <= VK_NUMPAD9);
+  if (!is_digit_key && (keyState[VK_CAPITAL] & TOGGLED) != 0)
     result.mask |= ibus::LOCK_MASK;
 
   if ((keyState[VK_CONTROL] & KEY_DOWN) != 0)

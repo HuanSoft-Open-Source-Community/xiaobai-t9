@@ -1256,8 +1256,10 @@
             // 
             // config
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            // 关闭自动缩放：设计尺寸即运行尺寸，卡片、网格重排才能算准
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
             this.ClientSize = new System.Drawing.Size(845, 687);
             this.Controls.Add(this.adPanel);
             this.Controls.Add(this.bmzs2);
@@ -1363,7 +1365,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "config";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Text = "小白T9输入法细节设置";
+            this.Text = "小白T9输入法 · 设置";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.adPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.qrTaobao)).EndInit();

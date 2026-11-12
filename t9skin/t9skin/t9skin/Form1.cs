@@ -62,6 +62,46 @@ namespace t9skin
             return Reverse(ToHexValue(color).Substring(ToHexValue(color).Length - 8, 8));
         }
 
+
+        /// <summary>
+        /// 统一外观：浅灰底 + 白底细边按钮；四组标题做成蓝色小标题。
+        /// 色块按钮（无文字）保持原样，避免破坏预览。
+        /// </summary>
+        private void ApplySkinTheme()
+        {
+            this.BackColor = Color.FromArgb(242, 243, 245);
+            this.Text = "小白T9输入法 · 皮肤";
+
+            Label[] groups = new Label[] { label1, label4, label8, label11 };
+            foreach (Label g in groups)
+            {
+                g.Font = new Font("Microsoft YaHei UI", 10.5F, FontStyle.Bold);
+                g.ForeColor = Color.FromArgb(37, 99, 235);
+                g.AutoSize = true;
+            }
+
+            StyleSkinButtons(this);
+        }
+
+        private void StyleSkinButtons(Control parent)
+        {
+            foreach (Control c in parent.Controls)
+            {
+                Button btn = c as Button;
+                if (btn != null && !string.IsNullOrEmpty(btn.Text))
+                {
+                    btn.UseVisualStyleBackColor = false;
+                    btn.FlatStyle = FlatStyle.Flat;
+                    btn.FlatAppearance.BorderSize = 1;
+                    btn.FlatAppearance.BorderColor = Color.FromArgb(208, 213, 221);
+                    btn.BackColor = Color.White;
+                    btn.ForeColor = Color.FromArgb(52, 64, 84);
+                    btn.Cursor = Cursors.Hand;
+                }
+                if (c.HasChildren) StyleSkinButtons(c);
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             string[] lines = ReadAllLines(yaml);
@@ -122,6 +162,8 @@ namespace t9skin
             trackBar3.Value = int.Parse(Regex.Match(track_Bar3, @"\d+").Value);
 
             SetColor();
+
+            ApplySkinTheme();
         }
 
         private void SetColor()

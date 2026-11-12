@@ -184,25 +184,31 @@ namespace helpme
             try { File.WriteAllText(_adStateFile, _adCollapsed ? "1" : "0"); } catch { }
         }
 
+        // 内容区固定宽度：窗口宽度 = 内容宽 +（展开时的）广告宽。
+        // 之前是"当前宽度 ±190"，初始若为收起状态，内容区会不断变窄。
+        private const int ContentWidth = 900;
+
         private void ApplyAdState()
         {
             int h = this.ClientSize.Height;
             int adW = adPanel.Width;
+            int targetWidth = ContentWidth + (_adCollapsed ? 0 : adW);
+
             if (_adCollapsed)
             {
                 adPanel.Location = new Point(3000, 0);
                 btnToggleAd.Text = ">";
-                this.ClientSize = new Size(this.ClientSize.Width - adW, h);
                 if (arrowOverlay != null) arrowOverlay.RightOffset = 0;
             }
             else
             {
-                adPanel.Location = new Point(this.ClientSize.Width, 0);
+                adPanel.Location = new Point(ContentWidth, 0);
                 btnToggleAd.Text = "<";
-                this.ClientSize = new Size(this.ClientSize.Width + adW, h);
                 if (arrowOverlay != null) arrowOverlay.RightOffset = adW;
             }
-            btnToggleAd.Location = new Point(this.ClientSize.Width - btnToggleAd.Width, btnToggleAd.Location.Y);
+
+            this.ClientSize = new Size(targetWidth, h);
+            btnToggleAd.Location = new Point(ContentWidth - btnToggleAd.Width, btnToggleAd.Location.Y);
             btnToggleAd.BringToFront();
         }
 
@@ -276,6 +282,7 @@ namespace helpme
         private void ShowArrow()
         {
             blinkTickCount = 0;
+            this.TopMost = true;          // 箭头期间压在所有窗口之上
             arrowOverlay.Visible = true;
             arrowOverlay.BringToFront();
             blinkTimer.Start();
@@ -284,6 +291,7 @@ namespace helpme
         private void HideArrow()
         {
             blinkTimer.Stop();
+            this.TopMost = false;
             arrowOverlay.Visible = false;
         }
 
@@ -312,7 +320,8 @@ namespace helpme
                     {
                         FileName = exePath,
                         WorkingDirectory = Path.GetDirectoryName(exePath),
-                        UseShellExecute = true
+                        UseShellExecute = true,
+                        WindowStyle = ProcessWindowStyle.Minimized
                     });
                     AppendLog("【启动】t9s2t.exe 已自动拉起。");
                     System.Threading.Thread.Sleep(2000);
@@ -330,6 +339,8 @@ namespace helpme
 
         private void btnSwitch_Click_1(object sender, EventArgs e)
         {
+            // 语音工具必须拉起：很多人插上键盘就按语音键，没进程就没反应。
+            // 但要以最小化方式启动，别抢焦点、别盖住箭头。
             EnsureT9s2tRunning();
 
             ResetRunningState();
@@ -537,7 +548,7 @@ namespace helpme
         {
             this.Font = new Font("微软雅黑", 10F);
             btnSwitch.FlatStyle = FlatStyle.Flat;
-            btnSwitch.BackColor = Color.FromArgb(0, 122, 204);
+            btnSwitch.BackColor = Color.FromArgb(37, 99, 235);
             btnSwitch.FlatAppearance.BorderSize = 0;
             btnSwitch.Cursor = Cursors.Hand;
         }
@@ -573,11 +584,27 @@ namespace helpme
                 g.DrawLine(pen, start, end);
             }
 
-            using (Font font = new Font("微软雅黑", 26f, FontStyle.Bold))
             using (Brush brush = new SolidBrush(Color.FromArgb(ArrowAlpha, 220, 20, 20)))
             {
-                string text = " \n\n右下方请选择！！\n\"小白T9输入法\"！！";
-                g.DrawString(text, font, brush, w * 0.30f, h * 0.50f);
+                // 按实际文字宽度右对齐排两行，字号自适应，保证不会被窗口边缘裁掉
+                string line1 = "右下方请选择";
+                string line2 = "「小白T9输入法」";
+                float fontSize = 18f;
+                Font font = new Font("微软雅黑", fontSize, FontStyle.Bold);
+                SizeF s1 = g.MeasureString(line1, font);
+                SizeF s2 = g.MeasureString(line2, font);
+                while (s2.Width > w - 48 && fontSize > 10f)
+                {
+                    font.Dispose();
+                    fontSize -= 1f;
+                    font = new Font("微软雅黑", fontSize, FontStyle.Bold);
+                    s2 = g.MeasureString(line2, font);
+                }
+                float right = w - 24f;
+                float top = h * 0.72f;
+                g.DrawString(line1, font, brush, right - s1.Width, top);
+                g.DrawString(line2, font, brush, right - s2.Width, top + s1.Height);
+                font.Dispose();
             }
         }
     }

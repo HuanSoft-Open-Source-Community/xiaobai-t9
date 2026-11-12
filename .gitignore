@@ -99,3 +99,13 @@ numkeyboard/numkeyboard/obj/Debug/numkeyboard.exe.config
 !arm64-patches/librime/env.bat
 
 
+
+# 本地备份与打包中间产物（不进仓库）
+/backup/
+/test/
+/predict-tool/*.db
+/predict-tool/*.txt
+/predict-tool/*.obj
+/predict-tool/*.exe
+/predict-tool/cfg/
+predict-tool/rime.dll

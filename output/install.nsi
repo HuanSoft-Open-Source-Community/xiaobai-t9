@@ -8,8 +8,10 @@
 Unicode true
 ;--------------------------------
 ; General
+; Î´Ö¸¶¨°æ±¾ºÅÊ±ÓÃµ±ÌìÈÕÆÚ£¨YYYY.MM.DD£©£º
+; Ö±½ÓË«»÷¸ùÄ¿Â¼µÄ package.bat ¾ÍÄÜ³ö°ü£¬²»ÓÃÔÙÊÖ¸Ä°æ±¾ºÅ
 !ifndef WEASEL_VERSION
-!define WEASEL_VERSION 2026.11.11
+!define /date WEASEL_VERSION "%Y.%m.%d"
 !endif
 !ifndef WEASEL_BUILD
 !define WEASEL_BUILD 0
@@ -47,40 +49,42 @@ Var HelpMeFlag
 ; Languages
 !insertmacro MUI_LANGUAGE "TradChinese"
 LangString DISPLAYNAME ${LANG_TRADCHINESE} "Ð¡°×T9ÊäÈë·¨"
-LangString LNKFORMANUAL ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÕfÃ÷•ø"
-LangString LNKFORSETTING ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿Ý”Èë·¨ÔO¶¨"
-LangString LNKFORDICT ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÓÃ‘ôÔ~µä¹ÜÀí"
-LangString LNKFORSYNC ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÓÃ‘ôÙYÁÏÍ¬²½"
-LangString LNKFORNUMKEYBOARD ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿æI±PòŒ„Ó"
-LangString LNKFORCONFIG ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿Ï¸½ÚÉèÖÃ"
-LangString LNKFORT9SKIN ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿Æ¤·ô±à¼­Æ÷"
-LangString LNKFORT9keyboard ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿Èí¼üÅÌ"
-LangString LNKFORDEPLOY ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÖØÐÂ²¿Êð"
-LangString LNKFORSERVER ${LANG_TRADCHINESE} "Ð¡°×T9ÊäÈë·¨Ëã·¨·þ„Õ"
-LangString LNKFORUSERFOLDER ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÓÃ‘ôÎÄ¼þŠA"
-LangString LNKFORAPPFOLDER ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿³ÌÐòÎÄ¼þŠA"
-LangString LNKFORUPDATER ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿™z²éÐÂ°æ±¾"
-LangString LNKFORSETUP ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿°²Ñbßxí—"
-LangString LNKFORUNINSTALL ${LANG_TRADCHINESE} "Ð¶ÝdÐ¡°×T9ÊäÈë·¨"
+LangString LNKFORMANUAL ${LANG_TRADCHINESE} "ÕfÃ÷•ø"
+LangString LNKFORSETTING ${LANG_TRADCHINESE} "Ý”Èë·¨ÔO¶¨"
+LangString LNKFORDICT ${LANG_TRADCHINESE} "ÓÃ‘ôÔ~µä¹ÜÀí"
+LangString LNKFORSYNC ${LANG_TRADCHINESE} "ÓÃ‘ôÙYÁÏÍ¬²½"
+LangString LNKFORNUMKEYBOARD ${LANG_TRADCHINESE} "æI±PòŒ„Ó"
+LangString LNKFORCONFIG ${LANG_TRADCHINESE} "ÔO¶¨"
+LangString LNKFORT9SKIN ${LANG_TRADCHINESE} "Æ¤·ô±à¼­Æ÷"
+LangString LNKFORT9keyboard ${LANG_TRADCHINESE} "Èí¼üÅÌ"
+LangString LNKFORDEPLOY ${LANG_TRADCHINESE} "ÖØÐÂ²¿Êð"
+LangString LNKFORSERVER ${LANG_TRADCHINESE} "†¢„ÓËã·¨·þ„Õ"
+LangString LNKFORUSERFOLDER ${LANG_TRADCHINESE} "ÓÃ‘ôÎÄ¼þŠA"
+LangString LNKFORAPPFOLDER ${LANG_TRADCHINESE} "³ÌÐòÎÄ¼þŠA"
+LangString LNKFORUPDATER ${LANG_TRADCHINESE} "™z²éÐÂ°æ±¾"
+LangString LNKFORSETUP ${LANG_TRADCHINESE} "°²Ñbßxí—"
+LangString LNKFORHELPME ${LANG_TRADCHINESE} "ÐÂÊÖ½ÌŒW"
+LangString LNKFORUNINSTALL ${LANG_TRADCHINESE} "Ð¶Ýd"
 LangString CONFIRMATION ${LANG_TRADCHINESE} "°²ÑbÇ°£¬ÕˆÏÈÐ¶ÝdÅf°æ±¾µÄÐ¡°×T9ÊäÈë·¨¡£$\n$\n°´ÏÂ¡¸´_¶¨¡¹ÒÆ³ýÅf°æ±¾£¬°´ÏÂ¡¸È¡Ïû¡¹·Å—‰±¾´Î°²Ñb¡£"
 LangString SYSTEMVERSIONNOTOK ${LANG_TRADCHINESE} "ÄúµÄÏµÍ³²»±»Ö§³Ö£¬×îµÍÏµ½yÒªÇó:Windows 8.1!"
 !insertmacro MUI_LANGUAGE "SimpChinese"
 LangString DISPLAYNAME ${LANG_SIMPCHINESE} "Ð¡°×T9ÊäÈë·¨"
-LangString LNKFORMANUAL ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ËµÃ÷Êé"
-LangString LNKFORSETTING ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÊäÈë·¨Éè¶¨"
-LangString LNKFORDICT ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÓÃ»§´Êµä¹ÜÀí"
-LangString LNKFORSYNC ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÓÃ»§×ÊÁÏÍ¬²½"
-LangString LNKFORNUMKEYBOARD ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿¼üÅÌÇý¶¯"
-LangString LNKFORCONFIG ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿Ï¸½ÚÉèÖÃ"
-LangString LNKFORT9SKIN ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿Æ¤·ô±à¼­Æ÷"
-LangString LNKFORT9keyboard ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿Èí¼üÅÌ"
-LangString LNKFORDEPLOY ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÖØÐÂ²¿Êð"
-LangString LNKFORSERVER ${LANG_SIMPCHINESE} "Ð¡°×T9ÊäÈë·¨Ëã·¨·þÎñ"
-LangString LNKFORUSERFOLDER ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÓÃ»§ÎÄ¼þ¼Ð"
-LangString LNKFORAPPFOLDER ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿³ÌÐòÎÄ¼þ¼Ð"
-LangString LNKFORUPDATER ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿¼ì²éÐÂ°æ±¾"
-LangString LNKFORSETUP ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿°²×°Ñ¡Ïî"
-LangString LNKFORUNINSTALL ${LANG_SIMPCHINESE} "Ð¶ÔØÐ¡°×T9ÊäÈë·¨"
+LangString LNKFORMANUAL ${LANG_SIMPCHINESE} "ËµÃ÷Êé"
+LangString LNKFORSETTING ${LANG_SIMPCHINESE} "ÊäÈë·¨Éè¶¨"
+LangString LNKFORDICT ${LANG_SIMPCHINESE} "ÓÃ»§´Êµä¹ÜÀí"
+LangString LNKFORSYNC ${LANG_SIMPCHINESE} "ÓÃ»§×ÊÁÏÍ¬²½"
+LangString LNKFORNUMKEYBOARD ${LANG_SIMPCHINESE} "¼üÅÌÇý¶¯"
+LangString LNKFORCONFIG ${LANG_SIMPCHINESE} "ÉèÖÃ"
+LangString LNKFORT9SKIN ${LANG_SIMPCHINESE} "Æ¤·ô±à¼­Æ÷"
+LangString LNKFORT9keyboard ${LANG_SIMPCHINESE} "Èí¼üÅÌ"
+LangString LNKFORDEPLOY ${LANG_SIMPCHINESE} "ÖØÐÂ²¿Êð"
+LangString LNKFORSERVER ${LANG_SIMPCHINESE} "Æô¶¯Ëã·¨·þÎñ"
+LangString LNKFORUSERFOLDER ${LANG_SIMPCHINESE} "ÓÃ»§ÎÄ¼þ¼Ð"
+LangString LNKFORAPPFOLDER ${LANG_SIMPCHINESE} "³ÌÐòÎÄ¼þ¼Ð"
+LangString LNKFORUPDATER ${LANG_SIMPCHINESE} "¼ì²éÐÂ°æ±¾"
+LangString LNKFORSETUP ${LANG_SIMPCHINESE} "°²×°Ñ¡Ïî"
+LangString LNKFORHELPME ${LANG_SIMPCHINESE} "ÐÂÊÖ½Ì³Ì"
+LangString LNKFORUNINSTALL ${LANG_SIMPCHINESE} "Ð¶ÔØ"
 LangString CONFIRMATION ${LANG_SIMPCHINESE} '°²×°Ç°£¬ÇëÏÈÐ¶ÔØ¾É°æ±¾µÄÐ¡°×T9ÊäÈë·¨¡£$\n$\nµã»÷ "È·¶¨" ÒÆ³ý¾É°æ±¾£¬»òµã»÷ "È¡Ïû" ·ÅÆú±¾´Î°²×°¡£'
 LangString SYSTEMVERSIONNOTOK ${LANG_SIMPCHINESE} "ÄúµÄÏµ½y²»±»Ö§³Ö£¬×îµÍÏµÍ³ÒªÇó:Windows 8.1!"
 
@@ -89,28 +93,29 @@ LangString SYSTEMVERSIONNOTOK ${LANG_SIMPCHINESE} "ÄúµÄÏµ½y²»±»Ö§³Ö£¬×îµÍÏµÍ³ÒªÇ
 !insertmacro MUI_LANGUAGE "English"
 
 LangString DISPLAYNAME ${LANG_ENGLISH} "xiaobaiT9"
-LangString LNKFORMANUAL ${LANG_ENGLISH} "[xiaobaiT9] Manual"
-LangString LNKFORSETTING ${LANG_ENGLISH} "[xiaobaiT9] Settings"
-LangString LNKFORDICT ${LANG_ENGLISH} "[xiaobaiT9] Dictionary Manager"
-LangString LNKFORSYNC ${LANG_ENGLISH} "[xiaobaiT9] Sync User Profile"
-LangString LNKFORNUMKEYBOARD ${LANG_ENGLISH} "[xiaobaiT9] Keyboard driver"
-LangString LNKFORCONFIG ${LANG_ENGLISH} "[xiaobaiT9] Config"
-LangString LNKFORT9SKIN ${LANG_ENGLISH} "[xiaobaiT9] T9 Skin"
-LangString LNKFORT9keyboard ${LANG_ENGLISH} "[xiaobaiT9] T9 keyboard"
-LangString LNKFORDEPLOY ${LANG_ENGLISH} "[xiaobaiT9] Deploy"
+LangString LNKFORMANUAL ${LANG_ENGLISH} "Manual"
+LangString LNKFORSETTING ${LANG_ENGLISH} "Settings"
+LangString LNKFORDICT ${LANG_ENGLISH} "Dictionary Manager"
+LangString LNKFORSYNC ${LANG_ENGLISH} "Sync User Profile"
+LangString LNKFORNUMKEYBOARD ${LANG_ENGLISH} "Keyboard driver"
+LangString LNKFORCONFIG ${LANG_ENGLISH} "Settings"
+LangString LNKFORT9SKIN ${LANG_ENGLISH} "T9 Skin"
+LangString LNKFORT9keyboard ${LANG_ENGLISH} "T9 keyboard"
+LangString LNKFORDEPLOY ${LANG_ENGLISH} "Deploy"
 LangString LNKFORSERVER ${LANG_ENGLISH} "xiaobaiT9 Server"
-LangString LNKFORUSERFOLDER ${LANG_ENGLISH} "[xiaobaiT9] User Folder"
-LangString LNKFORAPPFOLDER ${LANG_ENGLISH} "[xiaobaiT9] App Folder"
-LangString LNKFORUPDATER ${LANG_ENGLISH} "[xiaobaiT9] Check for Updates"
-LangString LNKFORSETUP ${LANG_ENGLISH} "[xiaobaiT9] Installation Preference"
-LangString LNKFORUNINSTALL ${LANG_ENGLISH} "Uninstall xiaobaiT9"
+LangString LNKFORUSERFOLDER ${LANG_ENGLISH} "User Folder"
+LangString LNKFORAPPFOLDER ${LANG_ENGLISH} "App Folder"
+LangString LNKFORUPDATER ${LANG_ENGLISH} "Check for Updates"
+LangString LNKFORSETUP ${LANG_ENGLISH} "Installation Preference"
+LangString LNKFORHELPME ${LANG_ENGLISH} "Getting Started"
+LangString LNKFORUNINSTALL ${LANG_ENGLISH} "Uninstall"
 LangString CONFIRMATION ${LANG_ENGLISH} "Before installation, please uninstall the old version of Weasel.$\n$\nPress 'OK' to remove the old version, or 'Cancel' to abort installation."
 LangString SYSTEMVERSIONNOTOK ${LANG_ENGLISH} "Your system not supported, minimium system required: Windows 8.1!"
 
 ; ==================== t9s2t ¿ì½Ý·½Ê½Ãû³Æ ====================
-LangString LNKFORT9S2T ${LANG_TRADCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÓïÒôÊäÈë¹¤¾ß"
-LangString LNKFORT9S2T ${LANG_SIMPCHINESE} "¡¾Ð¡°×T9ÊäÈë·¨¡¿ÓïÒôÊäÈë¹¤¾ß"
-LangString LNKFORT9S2T ${LANG_ENGLISH} "[xiaobaiT9] Voice Input Tool"
+LangString LNKFORT9S2T ${LANG_TRADCHINESE} "ÓïÒôÊäÈë¹¤¾ß"
+LangString LNKFORT9S2T ${LANG_SIMPCHINESE} "ÓïÒôÊäÈë¹¤¾ß"
+LangString LNKFORT9S2T ${LANG_ENGLISH} "Voice Input Tool"
 ; ============================================================
 
 ;--------------------------------
@@ -177,8 +182,8 @@ call_uninstaller:
   RMDir "$R1\data"
   RMDir "$R1"
   SetShellVarContext all
-  Delete "$SMPROGRAMS\$(DISPLAYNAME)\*.*"
-  RMDir "$SMPROGRAMS\$(DISPLAYNAME)"
+  Delete "$DESKTOP\Ð¡°×T9ÊäÈë·¨HelpMe.lnk"
+  RMDir /r "$SMPROGRAMS\$(DISPLAYNAME)"
   ; Prompt reboot
   SetRebootFlag true
   Sleep 800
@@ -227,9 +232,7 @@ program_files:
   File "7-zip-license.txt"
   File "7z.dll"
   File "7z.exe"
-  File "COPYING-curl.txt"
-  File "curl.exe"
-  File "curl-ca-bundle.crt"
+  ; curl.exe ÒÑ²»ÔÙÊ¹ÓÃ£¨ÏÂÔØ¶¼×ß .NET£©£¬²»ÔÙÍ¶·Å
   File "rime-install.bat"
   File "rime-install-config.bat"
   File "start_service.bat"
@@ -308,14 +311,24 @@ program_files:
   ; ============================================================
 
   ; shared data files
+  ; ===== ÁªÏëÊý¾Ý°ü£ºÑ¹Ëõ´æ·Å£¬°²×°Ê±½âÑ¹µ½ÓÃ»§Ä¿Â¼£¨predict ²å¼þ°´ÓÃ»§Ä¿Â¼²éÕÒ£©=====
+  SetOutPath $INSTDIR
+  File "predict.db.7z"
+  nsExec::ExecToLog '"$INSTDIR\7z.exe" x -y -o"$APPDATA\Rime" "$INSTDIR\predict.db.7z"'
+  Delete "$INSTDIR\predict.db.7z"
   SetOutPath $INSTDIR\data
-  File "data\*.yaml"
+  File /x stroke.dict.yaml /x stroke.schema.yaml "data\*.yaml"
   File /nonfatal "data\*.txt"
-  File /nonfatal "data\*.gram"
+  ; Óï·¨Ä£ÐÍ£¨wanxiang-lts-zh-hans.gram£¬Ô¼ 400MB£©²»Ëæ°ü·Ö·¢£º
+  ; ÓÉ update.exe µÄ¿ÉÑ¡ÏÂÔØ°´Ðè·Å½ø data Ä¿Â¼¡£°üÀïÃ»ÓÐ .gram£¬
+  ; ¶ø File µÄ¿ÕÍ¨Åä·û»áÈÃ makensis Ö±½ÓÊ§°Ü£¬ËùÒÔÕâÀï²»Ð´ File ÐÐ¡£
 
   ; opencc data files
   SetOutPath $INSTDIR\data\dicts
   File "data\dicts\*.yaml"
+  ; Lua ½Å±¾£¨Ñ¡´Ê¼ÇÒä / ¸Ä´Ê¼ÇÒä / ¶ÌÓï×éºÏ£©£»ÒýÇæÎÞ Lua ²å¼þÊ±ÕâÐ©×é¼þ»á±»×Ô¶¯Ìø¹ý
+  SetOutPath $INSTDIR\data\lua
+  File /nonfatal "data\lua\*.lua"
 ; 1. ¼«ÆäÖØÒª£ºÇ¿ÖÆ½«ÉÏÏÂÎÄÇÐ»Øµ±Ç°ÓÃ»§£¬È·±£ $APPDATA Ö¸Ïò AppData\Roaming
   SetShellVarContext current
 
@@ -414,29 +427,30 @@ SectionEnd
 Section "Start Menu Shortcuts"
   SetShellVarContext all
   CreateDirectory "$SMPROGRAMS\$(DISPLAYNAME)"
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORMANUAL).lnk" "$INSTDIR\README.txt"
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSETTING).lnk" "$INSTDIR\WeaselDeployer.exe" "" "$SYSDIR\shell32.dll" 21
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORDICT).lnk" "$INSTDIR\WeaselDeployer.exe" "/dict" "$SYSDIR\shell32.dll" 6
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSYNC).lnk" "$INSTDIR\WeaselDeployer.exe" "/sync" "$SYSDIR\shell32.dll" 26
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORDEPLOY).lnk" "$INSTDIR\WeaselDeployer.exe" "/deploy" "$SYSDIR\shell32.dll" 144
-  ; Ëã·¨·þÎñ¿ì½Ý·½Ê½£º¸ÄÎª´¥·¢ÒÑÅú×¼µÄ¼Æ»®ÈÎÎñ£¬Ë«»÷²»ÔÙµ¯ UAC£»·þÎñÔÚÅÜÊ±²»»áÖØ¸´Æô¶¯
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSERVER).lnk" "$SYSDIR\schtasks.exe" `/run /tn "XiaoBaiT9\WeaselServer"` "$R8" 0 SW_SHOWMINIMIZED
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORNUMKEYBOARD).lnk" "$INSTDIR\numkeyboard.exe" "" "$INSTDIR\numkeyboard.exe"
+
+  ; ===== ¶¥²ãÖ»Áô 4 Ïî£ºÉèÖÃ / Ê¹ÓÃËµÃ÷ / ÐÂÊÖ½Ì³Ì / Ð¶ÔØ =====
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORCONFIG).lnk" "$INSTDIR\t9configui.exe" "" "$INSTDIR\t9configui.exe"
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORT9SKIN).lnk" "$INSTDIR\t9skin.exe" "" "$INSTDIR\t9skin.exe"
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORt9keyboard).lnk" "$INSTDIR\t9keyboard.exe" "" "$INSTDIR\t9keyboard.exe"
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUSERFOLDER).lnk" "$R8" "/userdir" "$SYSDIR\shell32.dll" 126
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORAPPFOLDER).lnk" "$R8" "/weaseldir" "$SYSDIR\shell32.dll" 19
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUPDATER).lnk" "$R8" "/update" "$SYSDIR\shell32.dll" 13
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORSETUP).lnk" "$INSTDIR\WeaselSetup.exe" "" "$SYSDIR\shell32.dll" 162
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORMANUAL).lnk" "$INSTDIR\README.txt"
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORHELPME).lnk" "$INSTDIR\helpme.exe" "" "$INSTDIR\helpme.exe" 0
   CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORUNINSTALL).lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\$(LNKFORT9S2T).lnk" "$INSTDIR\t9s2t\t9s2t.exe" "" "$INSTDIR\t9s2t\t9s2t.exe" 0
 
+  ; ===== Î¬»¤ÀàÍ³Ò»ÊÕ½ø¡¸¸ß¼¶¹¤¾ß¡¹£¬ÆÕÍ¨ÓÃ»§²»ÐèÒª¿´¼û =====
+  CreateDirectory "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß"
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORSETTING).lnk" "$INSTDIR\WeaselDeployer.exe" "" "$SYSDIR\shell32.dll" 21
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORDICT).lnk" "$INSTDIR\WeaselDeployer.exe" "/dict" "$SYSDIR\shell32.dll" 6
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORSYNC).lnk" "$INSTDIR\WeaselDeployer.exe" "/sync" "$SYSDIR\shell32.dll" 26
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORDEPLOY).lnk" "$INSTDIR\WeaselDeployer.exe" "/deploy" "$SYSDIR\shell32.dll" 144
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORSERVER).lnk" "$SYSDIR\schtasks.exe" `/run /tn "XiaoBaiT9\WeaselServer"` "$R8" 0 SW_SHOWMINIMIZED
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORNUMKEYBOARD).lnk" "$INSTDIR\numkeyboard.exe" "" "$INSTDIR\numkeyboard.exe"
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORT9SKIN).lnk" "$INSTDIR\t9skin.exe" "" "$INSTDIR\t9skin.exe"
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORt9keyboard).lnk" "$INSTDIR\t9keyboard.exe" "" "$INSTDIR\t9keyboard.exe"
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORT9S2T).lnk" "$INSTDIR\t9s2t\t9s2t.exe" "" "$INSTDIR\t9s2t\t9s2t.exe" 0
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORSETUP).lnk" "$INSTDIR\WeaselSetup.exe" "" "$SYSDIR\shell32.dll" 162
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORUSERFOLDER).lnk" "$R8" "/userdir" "$SYSDIR\shell32.dll" 126
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORAPPFOLDER).lnk" "$R8" "/weaseldir" "$SYSDIR\shell32.dll" 19
+  CreateShortCut "$SMPROGRAMS\$(DISPLAYNAME)\¸ß¼¶¹¤¾ß\$(LNKFORUPDATER).lnk" "$R8" "/update" "$SYSDIR\shell32.dll" 13
 
-	; ´´½¨×ÀÃæ¿ì½Ý·½Ê½
-  SetShellVarContext all
-  ; ²ÎÊýËµÃ÷£º¿ì½Ý·½Ê½Â·¾¶¡¢Ä¿±ê³ÌÐò¡¢²ÎÊý¡¢Í¼±ê×ÊÔ´¡¢Í¼±êË÷Òý
-  CreateShortCut "$DESKTOP\Ð¡°×T9ÊäÈë·¨HelpMe.lnk" "$INSTDIR\helpme.exe" "" "$INSTDIR\helpme.exe" 0
+  ; ×ÀÃæ²»ÔÙ·Å HelpMe£ºÊ×´Î°²×°»á×Ô¶¯µ¯½Ì³Ì£¬Ö®ºó´Ó¡¸ÐÂÊÖ½Ì³Ì¡¹½ø
 SectionEnd
 
 ;--------------------------------
@@ -453,12 +467,10 @@ Function .onGUIEnd
   IfSilent helpme_done
   ; Ö»ÓÐ°²×°ÕæÕý³É¹¦£¨.onInstSuccess ÒÑÖ´ÐÐ£©²Åµ¯
   StrCmp $HelpMeFlag "1" 0 helpme_done
-  ; Óë´´½¨¿ì½Ý·½Ê½Ê±±£³ÖÒ»ÖÂ£º¹«¹²×ÀÃæ
-  SetShellVarContext all
-  ; ¿ì½Ý·½Ê½²»´æÔÚÔò²»Æô¶¯£¨ÀýÈç°²×°Ê±Î´¹´Ñ¡¡¸Start Menu Shortcuts¡¹£©
-  IfFileExists "$DESKTOP\Ð¡°×T9ÊäÈë·¨HelpMe.lnk" 0 helpme_done
-  ; ExecShell ×ß ShellExecute£¬¿ÉÖ±½ÓÔËÐÐ .lnk£»Exec Ö»ÄÜÔËÐÐ exe
-  ExecShell "open" "$DESKTOP\Ð¡°×T9ÊäÈë·¨HelpMe.lnk"
+  ; Ö±½ÓÆô¶¯°²×°Ä¿Â¼ÀïµÄ helpme.exe£º×ÀÃæ¿ì½Ý·½Ê½ÒÑÈ¡Ïû£¬
+  ; ²»ÄÜÔÙÒÀÀµ .lnk ÊÇ·ñ´æÔÚÀ´ÅÐ¶Ï
+  IfFileExists "$INSTDIR\helpme.exe" 0 helpme_done
+  Exec "$INSTDIR\helpme.exe"
 helpme_done:
 FunctionEnd
 
@@ -646,8 +658,8 @@ Section "Uninstall"
 
   ; É¾³ý¿ªÊ¼²Ëµ¥¿ì½Ý·½Ê½
   SetShellVarContext all
-  Delete "$SMPROGRAMS\$(DISPLAYNAME)\*.*"
-  RMDir "$SMPROGRAMS\$(DISPLAYNAME)"
+  Delete "$DESKTOP\Ð¡°×T9ÊäÈë·¨HelpMe.lnk"
+  RMDir /r "$SMPROGRAMS\$(DISPLAYNAME)"
 
   ; É¾³ý×ÀÃæ¿ì½Ý·½Ê½
   Delete "$DESKTOP\$(LNKFORSERVER).lnk"
