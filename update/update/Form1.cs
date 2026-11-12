@@ -24,6 +24,8 @@ namespace XiaobaiT9Updater
         private readonly string updateApiUrl = "https://t9.xiaobai.pro/update.json";
         private bool isCheckingForUpdate = false;
         private bool isStartupCheck = false;
+        /// <summary>安装程序调用时置真：只检查、不弹框、必须自己退出</summary>
+        public static bool InstallerMode = false;
         private bool cancelAutoExit = false;
         private bool gramBusy = false;
 
@@ -290,6 +292,12 @@ namespace XiaobaiT9Updater
                 }
 
                 // ==================== 有新版本 → 三个选项 ====================
+                if (InstallerMode)
+                {
+                    await CountdownAndExitAsync("发现新版本 " + info.version + "，可在设置里检查更新。", 4);
+                    return;
+                }
+
                 DialogResult result = MessageBox.Show(
                     $"发现新版本：{info.version}\n\n" +
                     $"当前版本：{currentVersion}\n\n" +
@@ -319,12 +327,36 @@ namespace XiaobaiT9Updater
             }
             catch (Exception ex)
             {
-                if (!isStartupCheck)
+                if (isStartupCheck)
+                {
+                    // 安装程序/开机自检都不允许挂着：明确提示 + 倒计时退出
+                    await CountdownAndExitAsync("检查更新失败（可能没联网）：" + ex.Message, InstallerMode ? 4 : 8);
+                }
+                else
+                {
                     MessageBox.Show("检查更新失败：\n" + ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
         // ==================== 两个辅助方法（必须添加） ====================
+
+        /// <summary>显示一句提示，倒计时后退出（安装流程不能被卡住）</summary>
+        private async Task CountdownAndExitAsync(string message, int seconds)
+        {
+            try
+            {
+                textBox3.Text = message + "\r\n\r\n程序即将自动关闭...(" + seconds + "s)";
+                for (int i = seconds; i > 0; i--)
+                {
+                    if (cancelAutoExit) return;
+                    if (btnCheckUpdate != null) btnCheckUpdate.Text = $"({i}s) 后自动关闭";
+                    await Task.Delay(1000);
+                }
+            }
+            catch { }
+            Application.Exit();
+        }
 
         private void OpenOfficialWebsite()
         {

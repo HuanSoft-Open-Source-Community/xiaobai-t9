@@ -418,8 +418,9 @@ program_files:
   ; Start WeaselServer (后台运行)
   Exec "$R8"
   ; 安装完成后强制检查一次更新
-  Sleep 3000
-  ExecWait '"$INSTDIR\update.exe"' $0
+Sleep 1500
+; 不等待：update.exe 带 /installer 会自己退出，卡住也不影响安装
+Exec '"$INSTDIR\update.exe" /installer'
   WriteRegStr HKCU "Software\Rime\Weasel\Updates" "CheckForUpdates" "0"
   ; 升级时提示重启
   StrCmp $0 "Upgrade" 0 +2

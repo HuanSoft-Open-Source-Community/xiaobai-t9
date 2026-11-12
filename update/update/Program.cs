@@ -36,6 +36,8 @@ namespace XiaobaiT9Updater
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            // /installer：安装程序调用，只做静默检查，几秒内必须自己退出，不能卡住安装
+            UpdateForm.InstallerMode = Array.Exists(args, a => string.Equals(a, "/installer", StringComparison.OrdinalIgnoreCase));
             Application.Run(new UpdateForm());
             return 0;
         }
